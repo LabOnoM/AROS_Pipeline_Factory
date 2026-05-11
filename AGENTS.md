@@ -23,7 +23,7 @@ When ANY agent proposes a modification to an asset listed in the Shared Asset Re
 5. **UPDATE THE REGISTRY**: After any modification or fork, `00.RawData/SHARED_ASSET_REGISTRY.md` MUST be updated to reflect the current state, including a new entry in the Change Log.
 
 ### OS Compatibility Constraint
-- **Linux/macOS ONLY**: The Shared Asset Management System (SAMS) relies heavily on POSIX symlinks. This repository MUST NOT be operated on Windows OS.
+- **Cross-Platform**: As of SAMS v1.1, the Shared Asset Management System (SAMS) relies on direct referencing instead of POSIX symlinks. This repository is fully supported on Windows, Linux, and macOS.
 
 ### Triggering Conditions
 

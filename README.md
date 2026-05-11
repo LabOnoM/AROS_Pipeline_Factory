@@ -11,8 +11,8 @@ Multiple pipelines in this factory share KIs, Skills, Policies, and Workflows. T
 
 This registry must be consulted before modifying any shared asset. If a modification creates an unresolvable conflict between pipelines, a new pipeline-specific variant must be forked rather than overwriting the shared original.
 
-**OS Compatibility Constraint**:
-- **Linux/macOS ONLY**: The Shared Asset Management System (SAMS) relies heavily on POSIX symlinks. This repository MUST NOT be operated on Windows OS.
+## ⚠️ Architecture Constraints
+**Cross-Platform Enabled (SAMS v1.1)**: This repository does not rely on POSIX symlinks. It is fully operable on Linux, macOS, and Windows. Do not re-introduce symlinks or platform-specific directory references.
 
 ## Chronological Timeline
 - **[verified] 2026-05-11 01:24**: KAKENHI pipeline KIs (e.g., e_application_system PDFs, forms) initialized.
