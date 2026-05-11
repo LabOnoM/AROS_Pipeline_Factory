@@ -1,40 +1,21 @@
----
-name: secure-html-delivery
-description: Encrypt a standalone HTML document using AES-256-GCM for secure external delivery.
-license: MIT
-skill-author: Antigravity
----
-# Secure HTML Delivery
+# Secure HTML Delivery Skill
 
-Package an HTML document into a standalone, AES-256-GCM encrypted file that decrypts in the browser via a URL hash token.
+Provides a standardized mechanism to generate AES-256 encrypted HTML reports (`build_secure_grant.py`) and generic interactive HTML reports (`generic_interactive_report.py`).
 
-## When to Use
+## Usage
 
-- Use this skill to securely package grant proposals or sensitive data for external reviewers.
-- Use this skill when you need to share results without requiring the recipient to have special software or accounts (just a browser and the URL with the token).
-
-## Key Features
-
-- Client-side decryption using WebCrypto API.
-- Generates a standalone HTML file containing ciphertext, IV, and auth tag.
-- Password/token is never sent to the server.
-
-## Dependencies
-
-- `Python`: `3.10+`
-- `cryptography`
-
-## Example Usage
-
+1. Create generic interactive HTML report:
 ```bash
-python scripts/main.py --input report.html --token "MySecretToken123" --output secure_report.html --title "Grant Proposal"
+python ~/.gemini/antigravity/skills/secure-html-delivery/generic_interactive_report.py \
+  --project-dir <path_to_project_root> \
+  --funder-profile <path_to_funder_profile_json> \
+  --output <path_to_output_html>
 ```
 
-## Parameters
-
-| Parameter | Type | Default | Required | Description |
-|-----------|------|---------|----------|-------------|
-| `--input` | string | - | Yes | Input HTML file path |
-| `--token` | string | - | Yes | Encryption token/passphrase |
-| `--output` | string | - | Yes | Output HTML file path |
-| `--title` | string | "Secure Document" | No | Title for the HTML wrapper |
+2. Encrypt the interactive report:
+```bash
+python ~/.gemini/antigravity/skills/secure-html-delivery/build_secure_grant.py \
+  --input <path_to_output_html> \
+  --output <path_to_secure_html> \
+  --token "<PROJECT_SPECIFIC_TOKEN>"
+```
