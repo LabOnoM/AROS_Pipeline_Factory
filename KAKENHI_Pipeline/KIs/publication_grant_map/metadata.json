@@ -1,0 +1,6 @@
+{
+  "name": "publication_grant_map",
+  "summary": "Generic structure and rules for the publication-to-grant attribution matrix used across all KAKENHI reporting. Contains the template format, not researcher-specific data.",
+  "updated_at": "2026-05-11",
+  "tags": ["kakenhi", "publications", "attribution", "grant-mapping"]
+}

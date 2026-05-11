@@ -1,0 +1,26 @@
+{
+  "funder_id": "nih_r01",
+  "funder_name": "NIH R01 Research Project Grant",
+  "country": "US",
+  "languages": ["en"],
+  "primary_language": "en",
+  "submission_format": "pdf",
+  "has_oral_defense": false,
+  "budget": {
+    "max_direct": null,
+    "currency": "USD",
+    "indirect_rate": "negotiated",
+    "personnel_eligible": true
+  },
+  "sections": [
+    {"id": "specific_aims", "name_en": "Specific Aims", "limit_type": "pages", "max": 1},
+    {"id": "significance", "name_en": "Significance", "limit_type": "pages", "max": 4},
+    {"id": "innovation", "name_en": "Innovation", "limit_type": "pages", "max": 2},
+    {"id": "approach", "name_en": "Approach", "limit_type": "pages", "max": 6},
+    {"id": "biosketch", "name_en": "Biosketch", "type": "cv", "format": "nih_biosketch"}
+  ],
+  "evaluation_criteria": ["significance", "innovation", "approach", "investigator", "environment"],
+  "strategic_alignment_framework": null,
+  "template_file": null,
+  "injection_script": null
+}

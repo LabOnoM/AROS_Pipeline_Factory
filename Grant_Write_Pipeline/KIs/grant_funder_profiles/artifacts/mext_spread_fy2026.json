@@ -1,0 +1,32 @@
+{
+  "funder_id": "mext_spread_fy2026",
+  "funder_name": "MEXT AI for Science SPReAD",
+  "country": "JP",
+  "languages": ["ja", "en"],
+  "primary_language": "ja",
+  "submission_format": "xlsx",
+  "has_oral_defense": true,
+  "budget": {
+    "max_direct": 5000000,
+    "currency": "JPY",
+    "indirect_rate": 0.30,
+    "personnel_eligible": false,
+    "category_threshold": {"その他": 0.90}
+  },
+  "sections": [
+    {"id": "01", "name_en": "Background", "name_local": "背景", "type": "narrative_only", "limit_type": null},
+    {"id": "02", "name_en": "Research Objectives", "name_local": "研究目的", "cell": "A3", "limit_type": "chars", "min": 80, "max": 400},
+    {"id": "03", "name_en": "Research Methods", "name_local": "研究方法", "cell": "A5", "limit_type": "chars", "min": 160, "max": 800},
+    {"id": "04", "name_en": "Expected Outcomes", "name_local": "期待される成果", "type": "narrative_only", "limit_type": null},
+    {"id": "05", "name_en": "Four Forces Alignment", "name_local": "4つの基本方針との整合性", "type": "narrative_only", "limit_type": null},
+    {"id": "06", "name_en": "AI Validity", "name_local": "AI利活用の妥当性", "cell": "A7", "limit_type": "chars", "min": 160, "max": 800},
+    {"id": "07", "name_en": "Milestones", "name_local": "達成目標", "cell": "A9", "limit_type": "chars", "min": 100, "max": 500},
+    {"id": "08", "name_en": "Know-how Sharing", "name_local": "ノウハウ共有", "cell": "A11", "limit_type": "chars", "min": 60, "max": 300},
+    {"id": "fig", "name_en": "Figure", "name_local": "図", "cell": "A13", "type": "image", "max": 1},
+    {"id": "pub", "name_en": "Publications", "name_local": "研究業績", "cell": "A15", "type": "publications", "max": 5}
+  ],
+  "evaluation_criteria": ["scientific_rigor", "ai_policy_alignment", "feasibility", "international_collaboration"],
+  "strategic_alignment_framework": "Four Basic AI Policies (①Adopt ②Create ③Trustworthiness ④Collaborate)",
+  "template_file": "様式1＿研究計画調書.xlsx",
+  "injection_script": "inject_excel.py"
+}

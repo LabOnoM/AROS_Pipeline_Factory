@@ -1,0 +1,19 @@
+{
+  "name": "grant_funder_profiles",
+  "summary": "Curated constraint profiles for scientific grant funding agencies. Each JSON artifact defines a funder's section structure, character/page limits, language requirements, budget rules, submission format, and evaluation criteria. Used by the /grant-write workflow to dynamically configure the Universal Grant Writing Pipeline for any funder (MEXT SPReAD, NIH R01, ERC, KAKENHI, etc.).",
+  "created_at": "2026-05-08T21:15:00+09:00",
+  "updated_at": "2026-05-08T21:26:00+09:00",
+  "references": [
+    {
+      "type": "conversation",
+      "id": "5444939f-aede-4daa-bcc6-253ff11a8042",
+      "title": "Universal Scientific Grant Writing Pipeline"
+    },
+    {
+      "type": "file",
+      "path": "/home/ubuntu4/Documents/GrantApplications/AI4Science/Form1_Tips.md",
+      "title": "SPReAD Form 1 constraint reference"
+    }
+  ],
+  "tags": ["grant-writing", "funder-constraints", "universal-pipeline", "compliance"]
+}
