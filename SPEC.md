@@ -275,3 +275,12 @@ This pattern ensures workflows remain portable across:
 ### 9.3 Cross-Platform Path Policy
 
 All workflow templates and scripts within `workspace_management` MUST NOT contain hardcoded absolute paths (e.g., `/home/ubuntu4/...`). File lookups MUST use paths relative to the workspace root (e.g., `./00.RawData/`). Environment variables with `os.path.expanduser("~")` fallbacks are the only acceptable method for resolving user-specific directories in Python scripts.
+
+## 10. Unified Scientific Diagramming
+
+To eliminate fragmentation and redundant logic across different pipelines, all scientific diagramming tasks MUST be routed through the unified `visualize-data` skill.
+
+### 10.1 Engine Consolidation
+- **Primary Engine**: `fireworks-tech-graph` is the canonical framework for generating high-resolution, publication-ready SVG and PNG diagrams (e.g., grant lifecycle timelines, dual-agent architecture workflows).
+- **Renderer**: `cairosvg` is the mandated cross-platform renderer for PNG conversion. The legacy dependency on system-level `librsvg2-bin` is permanently removed.
+- **Legacy Deprecation**: Narrow-scope skills such as `grant-gantt-chart-gen` and `text-to-technical-roadmap` are deprecated. Their semantic templates have been absorbed into the `/visualize-data` orchestrator's domain templates directory (`~/.gemini/skills/visualize-data/templates/`).

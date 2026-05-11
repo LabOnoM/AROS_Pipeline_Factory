@@ -62,6 +62,7 @@
 | `medical-translation` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **KAKENHI_Pipeline** (implicit) | Bilingual (EN/JP) translation used for both grant applications and KAKENHI reports. |
 | `regent-governance` | `workspace_management/Skills/` | **workspace_management** | Manages re_gent deployment health checks, `.regentignore` generation, and session exports. |
 | `md-html-docx-generator` | `workspace_management/Skills/` | **ALL PIPELINES** | Generates high-fidelity HTML/DOCX reports section-by-section to bypass LLM output token limits. |
+| `visualize-data` | `~/.gemini/skills/` | **ALL PIPELINES** | Upgraded orchestrator for all scientific diagrams (Mermaid, fireworks-tech-graph, SVG+PNG via cairosvg). Replaces legacy diagram skills. |
 
 ---
 
@@ -114,3 +115,4 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-11 | `regent-governance` & KI | Created | `workspace_management` | Integrated re_gent VCS audit layer into workspace_management workflows, added corresponding KI and governance skill. |
 | 2026-05-11 | `PIPELINE_REGISTRY.md` | Created | ALL | Replaced `INDEX.csv` with `PIPELINE_REGISTRY.md`. All workflow templates generalized for dynamic registry discovery. `project-organize` bash scripts updated. `regent_to_aros_bridge.py` cross-platform path fix applied. |
 | 2026-05-11 | `md-html-docx-generator` | Created | ALL | Added new skill to dynamically build high-fidelity interactive HTML reports (and DOCX exports) from chunked markdown, avoiding LLM token limits. |
+| 2026-05-11 | `visualize-data` | Upgraded | ALL | Consolidated all fragmented diagram skills into a unified scientific-diagram-generator using fireworks-tech-graph and cairosvg. Deprecated `text-to-technical-roadmap` and `grant-gantt-chart-gen`. |

@@ -1,10 +1,12 @@
 ---
-name: text-to-technical-roadmap
-description: Converts research text into a Mermaid technical roadmap flowchart. Use when the user provides research proposals, experiment designs, or scientific text and asks for a roadmap or flowchart.
+name: text-to-technical-roadmap (DEPRECATED)
+description: DEPRECATED - Replaced by unified /visualize-data skill. Converts research text into a Mermaid technical roadmap flowchart.
 license: MIT
 skill-author: AIPOCH
 ---
-# Text to Technical Roadmap
+# Text to Technical Roadmap (DEPRECATED)
+
+> **[DEPRECATED]**: This skill has been replaced by the unified `visualize-data` skill utilizing `fireworks-tech-graph` templates. Do not route tasks to this skill.
 
 ## When to Use
 

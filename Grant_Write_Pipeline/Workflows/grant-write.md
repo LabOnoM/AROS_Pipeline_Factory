@@ -13,7 +13,7 @@ When the user explicitly calls `/grant-write` or implicitly asks to draft a gran
 Before execution, ensure the following context is loaded via `find_helpful_ki` and `find_helpful_skills`:
 - **KIs**: `grant_funder_profiles`, `agentic_manuscript_publishing`, `markdown_first_manuscript_policy`
 - **Policies**: `output-truncation-management`, `gepa_protocol`
-- **Skills**: `grant-funding-scout`, `scientific-brainstorming`, `knowledge-consolidation`, `grant-budget-justification`, `academic-cv-generator`, `text-to-technical-roadmap`, `grant-gantt-chart-gen`, `grant-mock-reviewer`, `content-proofreading`, `semantic-consistency-auditor`, `response-relevance`, `abstract-trimmer`, `medical-translation`, `q-and-a-prep-partner`, `secure-html-delivery`, `pdf-extract-experimental-materials`, `research-proposal-generator`, `word-read-write`, `comprehensive-task-completion`.
+- **Skills**: `grant-funding-scout`, `scientific-brainstorming`, `knowledge-consolidation`, `grant-budget-justification`, `academic-cv-generator`, `visualize-data`, `grant-mock-reviewer`, `content-proofreading`, `semantic-consistency-auditor`, `response-relevance`, `abstract-trimmer`, `medical-translation`, `q-and-a-prep-partner`, `secure-html-delivery`, `pdf-extract-experimental-materials`, `research-proposal-generator`, `word-read-write`, `comprehensive-task-completion`.
 
 ---
 
@@ -26,8 +26,8 @@ Before execution, ensure the following context is loaded via `find_helpful_ki` a
 5. **Confirmation:** Stop and request user confirmation of the Funder Profile and core project data.
 
 ## Phase 2: Visual Scheme & Timeline Generation
-1. Use `text-to-technical-roadmap` to generate a technical workflow diagram (Mermaid → PNG/SVG).
-2. If the funder profile requires milestones, use `grant-gantt-chart-gen` to create a timeline visualization.
+1. Use `visualize-data` to generate a high-resolution SVG technical workflow diagram based on the research plan, utilizing `fireworks-tech-graph` templates.
+2. If the funder profile requires milestones, use `visualize-data` (specifically the Gantt chart or grant lifecycle templates) to create a timeline visualization.
 
 ## Phase 3: Structural Decomposition & Drafting Engine
 1. **Scaffold:** Parse the sections defined in `funder_profile.json.sections`. Use `research-proposal-generator` to scaffold initial evidence limits in `00.Projects/<ProjectName>/GrantDraftElements/`.

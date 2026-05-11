@@ -1,10 +1,12 @@
 ---
-name: grant-gantt-chart-gen
-description: Use grant gantt chart gen for evidence insight workflows that need structured execution, explicit assumptions, and clear output boundaries.
+name: grant-gantt-chart-gen (DEPRECATED)
+description: DEPRECATED - Replaced by unified /visualize-data skill. Use grant gantt chart gen for evidence insight workflows that need structured execution, explicit assumptions, and clear output boundaries.
 license: MIT
 skill-author: AIPOCH
 ---
-# Grant Gantt Chart Generator
+# Grant Gantt Chart Generator (DEPRECATED)
+
+> **[DEPRECATED]**: This skill has been replaced by the unified `visualize-data` skill utilizing `fireworks-tech-graph` templates. Do not route tasks to this skill.
 
 Create project timeline visualizations for grant proposals.
 

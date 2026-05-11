@@ -10,6 +10,7 @@ Welcome to the knowledge base for the AROS Pipeline Factory. This wiki catalogs 
 ## 🔒 Governance
 - [[cross_pipeline_compatibility_protocol]] — **SUPREME RULE**: The Cross-Pipeline Compatibility Protocol (CPCP)
 - [[pipeline_registry_migration]] — Migration from INDEX.csv to PIPELINE_REGISTRY.md (Dynamic Registry Discovery)
+- [[unified_diagramming]] — Standardized use of `visualize-data` for all scientific diagram generation
 - `/audit-shared-assets` — Workflow to programmatically verify CPCP compliance
 
 ## 📖 Literature Ingestion
