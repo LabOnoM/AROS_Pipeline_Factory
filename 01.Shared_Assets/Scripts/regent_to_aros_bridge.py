@@ -1,4 +1,22 @@
 #!/usr/bin/env python3
+"""
+regent_to_aros_bridge.py — re_gent-to-AROS Brain Bridge Adapter
+
+Extracts the latest AI agent session from the re_gent VCS (Directed Acyclic
+Graph) and injects it into the AROS Brain memory system via the dreamer
+module's `process_log_chunk()` function.
+
+Cross-Platform: Works on Linux, macOS, and Windows.
+Requires: `rgt` binary in PATH, AROS_ROOT environment variable (or defaults
+          to ~/GitHub/AROS).
+
+Usage:
+    python3 regent_to_aros_bridge.py           # Full ingestion
+    python3 regent_to_aros_bridge.py --dry-run  # Extract only, no DB write
+
+Part of: AROS Pipeline Factory (01.Shared_Assets/Scripts/)
+See also: workspace_management/Skills/regent-governance/SKILL.md
+"""
 import json
 import subprocess
 import sys
@@ -33,8 +51,8 @@ def ingest_to_aros(session_data):
     latest_step = session_data[0]
     step_hash = latest_step.get("hash", "unknown")
     
-    # Inject AROS root into path
-    AROS_ROOT = os.environ.get("AROS_ROOT", "/home/ubuntu4/GitHub/AROS")
+    # Resolve AROS root: prefer env var, fall back to ~/GitHub/AROS (cross-platform)
+    AROS_ROOT = os.environ.get("AROS_ROOT", os.path.join(os.path.expanduser("~"), "GitHub", "AROS"))
     sys.path.insert(0, os.path.join(AROS_ROOT, "antigravity-brain", "src"))
     
     try:

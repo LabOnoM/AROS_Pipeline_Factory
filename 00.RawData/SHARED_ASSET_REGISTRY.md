@@ -111,3 +111,4 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-11 | `audit_shared_assets.py` | Relocated | ALL | Moved from `workspace_management/Scripts/` to `01.Shared_Assets/Scripts/` as factory-level infrastructure. Fixed basename-only duplicate detection bug. |
 | 2026-05-11 | `TempScript4Testing/` | Removed | NONE | Redundant prototype scripts absorbed into `literature-ingestion` skill. |
 | 2026-05-11 | `regent-governance` & KI | Created | `workspace_management` | Integrated re_gent VCS audit layer into workspace_management workflows, added corresponding KI and governance skill. |
+| 2026-05-11 | `PIPELINE_REGISTRY.md` | Created | ALL | Replaced `INDEX.csv` with `PIPELINE_REGISTRY.md`. All workflow templates generalized for dynamic registry discovery. `project-organize` bash scripts updated. `regent_to_aros_bridge.py` cross-platform path fix applied. |

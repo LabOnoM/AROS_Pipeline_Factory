@@ -21,7 +21,9 @@ This registry must be consulted before modifying any shared asset. If a modifica
 - **[verified] 2026-05-11 18:15**: Grant_Write_Pipeline skills requirements and assets initialized.
 - **[verified] 2026-05-11 18:29**: Manuscript_Write_Pipeline assets and scripts established.
 - **[verified] 2026-05-11 18:44**: Shared Asset Registry and CPCP governance established.
-- **[verified] 2026-05-11 19:00**: Centralized Shared Asset Management System (SAMS) implemented with relative symlinks and programmatic audit tools.
+- **[verified] 2026-05-11 19:00**: Centralized Shared Asset Management System (SAMS) implemented with direct referencing and programmatic audit tools.
+- **[verified] 2026-05-11 21:00**: Dual-VCS architecture (Git + re_gent) deployed for AI agent auditability.
+- **[verified] 2026-05-11 22:00**: Replaced legacy `INDEX.csv` with `PIPELINE_REGISTRY.md`. Generalized all workflow templates for dynamic registry discovery.
 
 ## Hypothesis Evolution Table
 | Phase | Hypothesis |
@@ -33,7 +35,7 @@ This registry must be consulted before modifying any shared asset. If a modifica
 ```
 .
 ├── 00.RawData/                  # Central registry and experiment indices
-│   ├── INDEX.csv                #   Experiment registry template
+│   ├── PIPELINE_REGISTRY.md    #   Pipeline catalog (replaced INDEX.csv)
 │   ├── SHARED_ASSET_REGISTRY.md #   ⚠️ SUPREME: Cross-pipeline shared asset registry
 │   └── Literature/              #   Standardized literature storage (PDFs, Markdown, metadata)
 ├── 01.Shared_Assets/            # Canonical repository for shared KIs, Policies, Skills, Scripts

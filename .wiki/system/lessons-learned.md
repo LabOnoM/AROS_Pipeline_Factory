@@ -30,3 +30,8 @@ This page serves as a historical repository of significant bugs, architectural m
 ## 6. Dual-VCS Audit Layer (re_gent Integration)
 **Context**: As AROS capabilities expanded, it became difficult to trace the provenance of complex agent actions, making debugging and rollbacks hazardous.
 **The Fix**: AROS adopted a Dual-VCS architecture. While `git` tracks repository state, the `re_gent` VCS tracks agent activity (prompt, tool usage, file changes) in a content-addressed DAG (`.regent/`). This provides self-healing, time-travel capabilities (`rgt rewind`), and a high-fidelity audit trail.
+
+## 7. The Registry Generalization Trap (May 2026)
+**Context**: The Factory adopted `PIPELINE_REGISTRY.md` to replace `INDEX.csv`, but the initial implementation only generalized 4 of 7 workflow templates. The `/project-organize` workflow (which has actual bash scripts with `grep -q "$basename" 00.RawData/INDEX.csv`) was missed because it resided only in the global cache, not in the factory workspace.
+**The Bug**: An agent deleted `INDEX.csv` from the factory but left 11 hardcoded references in `project-organize.md` intact. Those bash scripts would silently fail (returning "NOT INDEXED" for every folder) because the `grep` target file no longer existed.
+**The Fix**: All bash scripts that reference project registries now use **Dynamic Registry Discovery** — a `if [ -f ... ]` cascade that detects whether `INDEX.csv` or `PIPELINE_REGISTRY.md` exists, falling back gracefully if neither is found. Additionally, `regent_to_aros_bridge.py` was fixed to use `os.path.expanduser("~")` instead of a hardcoded `/home/ubuntu4/` path.

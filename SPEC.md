@@ -1,6 +1,6 @@
 # AROS Pipeline Factory Specification (SPEC)
 
-> **Version**: 1.1.0
+> **Version**: 1.2.0
 > **Date**: 2026-05-11
 > **Status**: APPROVED
 > **Scope**: AROS Pipeline Factory Architecture, Governance, and Integration
@@ -243,3 +243,35 @@ To preserve performance, `re_gent` bypasses files larger than 10MB. Additionally
 ### 8.4 Known Gaps and Phase 2 Roadmap
 
 Currently, `re_gent` relies on hook integrations built for Claude Code (`.claude/settings.json`). A Phase 2 follow-up is required to build a native Antigravity IDE hook adapter that writes to `~/.gemini/settings.json`, ensuring native IDE sessions are captured transparently.
+
+## 9. Pipeline Registry & Dynamic Discovery
+
+### 9.1 Registry Architecture
+
+The AROS Pipeline Factory uses `00.RawData/PIPELINE_REGISTRY.md` as its canonical project index. This Markdown-based registry catalogs all active pipelines, their descriptions, operational status, and target workflows.
+
+> **Deprecation**: The generic `00.RawData/INDEX.csv` (designed for wet-lab biological assay tracking) was permanently removed from this factory repository. Standard laboratory projects deployed via `/science-project-onboarding` MAY still create an `INDEX.csv` if appropriate.
+
+### 9.2 Dynamic Registry Discovery
+
+Because `workspace_management` workflows are deployed globally across heterogeneous projects (biological labs, computational factories, grant management), all registry-dependent bash scripts MUST use **Dynamic Registry Discovery** to detect the appropriate registry format at runtime:
+
+```bash
+# Dynamic Registry Discovery — cross-project compatible
+if [ -f "00.RawData/INDEX.csv" ]; then
+    REGISTRY_FILE="00.RawData/INDEX.csv"
+elif [ -f "00.RawData/PIPELINE_REGISTRY.md" ]; then
+    REGISTRY_FILE="00.RawData/PIPELINE_REGISTRY.md"
+else
+    REGISTRY_FILE=""
+fi
+```
+
+This pattern ensures workflows remain portable across:
+- Standard laboratory projects (using `INDEX.csv`).
+- Computational/factory projects (using `PIPELINE_REGISTRY.md`).
+- New projects before any registry is created (graceful fallback).
+
+### 9.3 Cross-Platform Path Policy
+
+All workflow templates and scripts within `workspace_management` MUST NOT contain hardcoded absolute paths (e.g., `/home/ubuntu4/...`). File lookups MUST use paths relative to the workspace root (e.g., `./00.RawData/`). Environment variables with `os.path.expanduser("~")` fallbacks are the only acceptable method for resolving user-specific directories in Python scripts.
