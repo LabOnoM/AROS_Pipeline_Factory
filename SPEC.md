@@ -167,6 +167,14 @@ To prevent superficial single-pass drafting, all writing workflows enforce a **m
 ### 4.3 The /lab-commit Gateway
 No pipeline MAY execute isolated `git commit` commands. All version control operations MUST be delegated to the canonical `/lab-commit` workflow to ensure structured telemetry and index parity.
 
+### 4.4 Self-Healing Environment Requirements
+All workflows, skills, and KIs that depend on external CLI tools MUST implement the **three-phase Self-Healing Environment Pattern**:
+1. **Detect**: Check tool existence AND version compatibility before invocation.
+2. **Repair**: If missing or incompatible, auto-install to user-local paths (`~/.local/bin/`, `~/go/bin/`) without `sudo`.
+3. **Degrade Gracefully**: If repair fails, log `[WARN]` and skip non-critical steps. Only CRITICAL dependencies (e.g., `pandoc` for conversion, `git` for commits) may trigger a HALT.
+
+The authoritative reference for compliance is `01.Shared_Assets/Policies/self_healing_environment_policy.md`. No new workflow MAY be merged without passing the Self-Healing Compliance Checklist defined in that policy.
+
 ## 5. Quality Assurance & System Audits
 
 The system integrity SHALL be maintained via automated programmatic audits.

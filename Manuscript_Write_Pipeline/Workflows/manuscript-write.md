@@ -22,14 +22,9 @@ scientific content. Conversion to LaTeX, DOCX, and PDF is delegated to Pandoc (d
 lossless) — not to the AI agent.
 
 ## Required AROS Context
-Before execution, ensure the following context is loaded via `find_helpful_ki` and `find_helpful_skills`:
-- **KIs**: `agentic_manuscript_publishing`, `markdown_first_manuscript_policy`, `agentic_diagramming_standard`
-- **Policies**: `output-truncation-management`, `gepa_protocol`
-- **Skills (Pre-Draft)**: `literature-ingestion`, `literature-close-read`, `literature-review`, `reference-search`, `retraction-watcher`, `bgpt-paper-search`, `hypothesis-generation`
-- **Skills (Drafting)**: `abstract-summarizer`, `method-writing`, `discussion-section-architect`, `study-limitations-drafter`, `scientific-critical-thinking`, `content-proofreading`, `semantic-consistency-auditor`, `response-relevance`, `abstract-trimmer`, `word-read-write`, `comprehensive-task-completion`
-- **Skills (Stats & Viz)**: `scientific-visualization`, `statistical-analysis`, `seaborn`, `survival-analysis-km`, `volcano-plot-script`, `visualize-data`
-- **Skills (Review)**: `peer-review`, `reproducibility-check`, `result-figure-consistencycheck`
-- **Skills (Delivery)**: `md-html-docx-generator`, `secure-html-delivery`, `scientific-slides`, `lay-summary-gen`
+Before execution, load KIs via `find_helpful_ki`: `agentic_manuscript_publishing`, `markdown_first_manuscript_policy`, `agentic_diagramming_standard`.
+Policies: `output-truncation-management`, `gepa_protocol`, `self_healing_environment_policy`.
+Full skill integration list: see **COMPLETE SKILL INTEGRATION** section at the end of this workflow.
 
 ## ✅ MANDATORY AUTHORING PROTOCOL (ALL AGENTS)
 For every manuscript task, regardless of final output format, proceed as follows:
@@ -62,6 +57,12 @@ For every manuscript task, regardless of final output format, proceed as follows
 - Use the publication-grade Matplotlib defaults defined in `dual_agent_workflow_details.md`
 
 ### Phase 3: Multi-Format Conversion (Pandoc Pipeline — NEVER manual LaTeX writing)
+
+**Self-Healing Preflight** (per `self_healing_environment_policy.md` — SPEC §4.4):
+Before running conversion, the agent MUST verify `pandoc` (CRITICAL) and `tectonic` (IMPORTANT) are available.
+If missing, auto-install per the Detect→Repair→Degrade pattern in the policy. If `pandoc` cannot be installed, HALT.
+If `tectonic` cannot be installed, skip PDF compilation and proceed with DOCX output only.
+
 Run the following commands **in sequence** from `<manuscript_root>/`:
 ```bash
 # Step 1: Ensure all figures are embedded natively in manuscript.md:
@@ -77,14 +78,19 @@ pandoc <name>.md -o manuscript.tex \
   --resource-path=.:figures
 
 # Step 4: Compile LaTeX → PDF using Tectonic (self-contained, no TeX Live required)
-/tmp/tectonic manuscript.tex -o output/
+# Skip if tectonic was not available after self-healing attempt
+if command -v tectonic &> /dev/null || [ -x /tmp/tectonic ]; then
+    ${TECTONIC_BIN:-tectonic} manuscript.tex -o output/
+else
+    echo "  [WARN] Skipping PDF compilation — tectonic unavailable."
+fi
 
 # Step 5: Markdown → DOCX (for collaborator editing)
 pandoc <name>.md -o output/manuscript.docx \
   --resource-path=.:figures
 
 # Step 6: Verify — file size confirms figures are embedded (>>100KB means images present)
-ls -lh output/manuscript.pdf output/manuscript.docx
+ls -lh output/manuscript.pdf output/manuscript.docx 2>/dev/null
 
 # Step 7 (Optional): Markdown → Interactive Standalone HTML Report
 # Use when PI requests an interactive deliverable or shareable web version.
@@ -115,14 +121,8 @@ After Pandoc conversion, limited LaTeX edits are permitted via `multi_replace_fi
 - **Dependencies**: Use `numpy<1.25.0`, `scipy>1.10`, `matplotlib<3.8` to prevent binary compatibility issues.
 - **Source of Truth**: The `.md` file is ALWAYS the source of truth. The `.tex` file is a derived artifact.
 
-### ⚠️ RETIRED ANTI-PATTERN: `fix_latex.py` Figure Injection (April 2026)
-The `fix_latex.py` approach of injecting `\includegraphics` blocks via Python regex into a compiled `.tex` file **MUST NOT be used**. It fails silently because Pandoc maps Markdown `###` level-3 headers to `\subsubsection{}` — not `\section{}`. The regex never matches, no figures are injected, and the PDF compiles cleanly with zero figures. The only diagnostic is PDF file size (~80KB = no figures; >>100KB = figures present).
-
-**The correct approach is always:**
-```markdown
-![Figure caption goes here.](figures/figN.png){width=100%}
-```
-Embed this in `manuscript.md` at the prose location where the figure belongs. Pandoc handles the rest.
+### ⚠️ RETIRED: `fix_latex.py` Figure Injection (April 2026)
+**BANNED.** Use native Markdown figure embedding: `![Caption](figures/figN.png){width=100%}`. See `agentic_manuscript_publishing` KI for details.
 
 ## AGENT A -- Generator Agent
 Agent A is a scientific reasoning agent. Its job is to understand the full experimental picture, make intelligent decisions about data relevance, and produce a manuscript draft with figures.

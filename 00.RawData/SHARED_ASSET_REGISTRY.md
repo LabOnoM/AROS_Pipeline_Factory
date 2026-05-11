@@ -2,7 +2,7 @@
 
 > **GOVERNANCE AUTHORITY**: This document is the single source of truth for all shared assets across the AROS Pipeline Factory. Any asset listed here exists in multiple pipeline folders and is subject to the **Cross-Pipeline Compatibility Protocol** (see below).
 >
-> **Last Updated**: 2026-05-11
+> **Last Updated**: 2026-05-12
 
 ---
 
@@ -73,6 +73,7 @@
 |--------|---------------------|-----------|-------|
 | `gepa_protocol.md` | `01.Shared_Assets/Policies/` | **Grant_Write_Pipeline**, **workspace_management** (implicit via GEPA system) | Governs iterative agent refinement. The GEPA protocol is a factory-wide evolutionary mechanism. |
 | `output-truncation-management.md` | `01.Shared_Assets/Policies/` | **ALL PIPELINES** | Data integrity policy for handling truncated outputs. Applicable universally. |
+| `self_healing_environment_policy.md` | `01.Shared_Assets/Policies/` | **ALL PIPELINES** | MANDATORY: Three-phase Detect→Repair→Degrade pattern for all external tool dependencies. SPEC §4.4. |
 | `fact_check_policy.md` | `KAKENHI_Pipeline/Policies/` | **KAKENHI_Pipeline**, **Grant_Write_Pipeline** (implicit for publications) | Publication fact-checking. References `/wiki-build`. Relevant whenever publications are cited in grant reports. |
 
 ---
@@ -97,6 +98,7 @@ regent-governance SKL           -           -           -                ✅
 regent_integration_ref KI       -           -           -                ✅
 gepa_protocol POL               ✅          ◐           ◐               ✅
 output-truncation POL           ✅          ✅          ✅               ✅
+self-healing-env POL             ✅          ✅          ✅               ✅
 fact_check_policy POL           ◐           ✅          -                -
 
 Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consumed
@@ -119,3 +121,4 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-11 | `visualize-data` | Upgraded | ALL | Consolidated all fragmented diagram skills into a unified scientific-diagram-generator using fireworks-tech-graph and cairosvg. Deprecated `text-to-technical-roadmap` and `grant-gantt-chart-gen`. |
 | 2026-05-11 | `literature-ingestion` & Global Workflows | Upgraded | ALL | Enforced Dual-Format Extraction (Markdown+JSON). Added Citation-Before-Claim Protocol to `/manuscript-write` and `/grant-write` utilizing `literature-close-read` to eliminate hallucinations. |
 | 2026-05-12 | `/grant-write` & `/manuscript-write` (Global + Local) | Hardened | ALL | Added Phase 0.5 mandatory reference retrieval, `retraction-watcher` in pre-draft and review phases, minimum 3 review rounds with `REVIEW_LOG.md` path specified, `md-html-docx-generator` for interactive HTML output, `visualize-data` for workflow diagrams in both pipelines, graphical abstract phase (A1.5) in manuscript pipeline. Local pipeline copies synced with global via Option A. Deprecated `grant-gantt-chart-gen` and `text-to-technical-roadmap` with DEPRECATED.md markers. |
+| 2026-05-12 | `self_healing_environment_policy` + 4 workflows | Created + Hardened | ALL | New MANDATORY policy (SPEC §4.4). Fixed fragile `go install`/`pip install`/`pandoc` calls in `/wiki-update`, `/science-project-onboarding`, `/manuscript-write`, and `/proteomics-enrichment` with full Detect→Repair→Degrade pattern. Updated `AROS-POLICY-TOOL-PREFLIGHT-V1` with cross-reference. |
