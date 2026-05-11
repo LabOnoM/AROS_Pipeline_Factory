@@ -2,6 +2,35 @@
 
 This file defines the operational constraints, workflow triggers, and contextual rules for all AI agents operating within the `AROS_Pipeline_Factory` workspace.
 
+---
+
+## 🔒 LAW 0: Cross-Pipeline Compatibility Protocol (CPCP) — SUPREME RULE
+
+> **This is the highest-priority governance constraint in this repository. It takes precedence over ALL other rules.**
+
+The AROS Pipeline Factory contains multiple independent pipelines (`Grant_Write_Pipeline`, `KAKENHI_Pipeline`, `Manuscript_Write_Pipeline`, `workspace_management`) that share KIs, Skills, Policies, and Workflows. The authoritative registry of all shared assets is:
+
+📄 **`00.RawData/SHARED_ASSET_REGISTRY.md`**
+
+### Mandatory Modification Protocol
+
+When ANY agent proposes a modification to an asset listed in the Shared Asset Registry:
+
+1. **EVALUATE**: The agent MUST read the asset's usage context in ALL consuming pipelines listed in the registry's "Consumers" column.
+2. **ESTIMATE IMPACT**: The agent MUST produce a brief compatibility assessment for each consumer pipeline, identifying any breaking changes, behavioral shifts, or assumption violations.
+3. **TEST**: The agent MUST verify that the modification does not break the workflows, KIs, or Skills of any consuming pipeline (e.g., by re-running workflow logic, checking cross-references, or validating output formats).
+4. **RESOLVE OR FORK**: If a conflict cannot be resolved to satisfy all consumers, the agent **MUST NOT** overwrite the shared asset. Instead, a **new pipeline-specific variant** of the asset MUST be created (e.g., `fact_check_policy_kakenhi.md`) and registered in the consuming pipeline's own folder.
+5. **UPDATE THE REGISTRY**: After any modification or fork, `00.RawData/SHARED_ASSET_REGISTRY.md` MUST be updated to reflect the current state, including a new entry in the Change Log.
+
+### Triggering Conditions
+
+This protocol activates automatically whenever an agent:
+- Edits any file inside a `KIs/`, `Skills/`, `Policies/`, or `Workflows/` directory
+- Creates a new asset that overlaps in name or function with an existing shared asset
+- Deletes or renames an asset that is referenced by another pipeline
+
+---
+
 ## 🧠 LLM-Wiki Context Injection (Strict Grounding)
 1. **Wiki-First Resolution**: Before answering any domain-specific or project-specific questions, agents MUST search the local `.wiki/` directory. External or pre-trained knowledge should only supplement, not replace, wiki-grounded answers.
 2. **Automatic Workflow Routing**: When the user's message matches a wiki workflow pattern, automatically suggest or trigger the relevant `/wiki-*` workflow (e.g., "Research X" → `/wiki-research`, "What does the wiki say about X" → `/wiki-query`).
