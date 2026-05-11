@@ -4,6 +4,18 @@ This file defines the operational constraints, workflow triggers, and contextual
 
 ---
 
+## 🔒 LAW -1: Asset Forging & Debugging Constraints (Lessons Learned)
+
+> **This rule codifies past architectural mistakes and enforces best practices for any agent modifying AROS factory assets.**
+
+1. **The SAMS Basename Trap**: When auditing or creating Skills, agents MUST remember that skills use a directory-per-skill structure (`skill-name/SKILL.md`). Identity comparisons must use the *directory name*, not the filename, to avoid false duplicate flags.
+2. **The Symlink Ban (CPCP)**: POSIX symlinks are strictly banned for sharing assets across pipelines to ensure Windows/macOS/Linux portability. Direct path referencing to `01.Shared_Assets/` is mandatory.
+3. **The KI-Companion Pattern**: Workflow `.md` files have a hard size limit (~10KB). Heavy logic, tables, or code must be extracted into a KI and loaded at runtime via `read_ki_document()`.
+4. **Workflow Frontmatter**: All workflows MUST have YAML frontmatter with a `description` field (≤ 250 chars), or the IDE will fail to register the slash command.
+5. **Capability Hallucination Guard**: Agents MUST use `find_helpful_skills` before assuming a skill exists, preventing "No result produced" execution dead-ends.
+
+---
+
 ## 🔒 LAW 0: Cross-Pipeline Compatibility Protocol (CPCP) — SUPREME RULE
 
 > **This is the highest-priority governance constraint in this repository. It takes precedence over ALL other rules.**

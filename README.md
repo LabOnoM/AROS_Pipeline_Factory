@@ -3,6 +3,8 @@
 ## Executive Summary
 This repository serves as the central hub for AROS (Antigravity Research OS) automated pipelines. It houses the `Grant_Write_Pipeline`, `KAKENHI_Pipeline`, `Manuscript_Write_Pipeline`, and `workspace_management` module, along with their associated skills, policies, and knowledge items (KIs). It is an infrastructural project designed to enable multi-agent workflows for scientific writing and grant management.
 
+> **⚠️ Agent Warning (Asset Forging Constraints)**: This repository is a Factory for forging AROS assets. Before modifying any Skill, Policy, KI, or Workflow, you MUST read `AGENTS.md` and `SPEC.md` to understand the CPCP constraints, SAMS audit rules, known failure modes (e.g., LaTeX truncation), and directory-structure requirements.
+
 ## 🔒 Shared Asset Governance (SUPREME RULE)
 
 Multiple pipelines in this factory share KIs, Skills, Policies, and Workflows. The **Cross-Pipeline Compatibility Protocol (CPCP)** — defined in `AGENTS.md` as LAW 0 — ensures that any modification to a shared asset is evaluated, tested, and validated across ALL consuming pipelines before being committed.

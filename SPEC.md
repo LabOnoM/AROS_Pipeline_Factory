@@ -183,3 +183,19 @@ Downloaded PDFs are batch-converted using `opendataloader-pdf` in full hybrid mo
 ### 6.3 Wiki Integration
 Converted Markdown files are ingested into the `.wiki/` knowledge graph via the
 `/wiki-ingest` workflow, ensuring all literature becomes strictly grounded context.
+
+## 7. Anti-Patterns & Known Failure Modes
+
+This section documents the architectural reasoning behind our constraints based on historical post-mortems.
+
+### 7.1 Output Truncation (The LaTeX Failure)
+- **Failure Mode**: Direct LaTeX authoring causes catastrophic context truncation (e.g., a spatial transcriptomics paper truncated from 5800 words to 93 lines).
+- **Enforced Pattern**: The Markdown-first pipeline is strictly required. Agents MUST author all scientific content in Markdown (`.md`). Pandoc is the mandatory bridge to `.tex`/`.docx`/`.pdf`.
+
+### 7.2 Ad-hoc Script Proliferation
+- **Failure Mode**: Agents creating diagnostic or testing scripts in random project directories (e.g., `TempScript4Testing/` or `workspace_management/Scripts/`) pollutes the pipeline structure.
+- **Enforced Pattern**: Infrastructure tools belong in `01.Shared_Assets/Scripts/`. Temporary scratchpads or diagnostic scripts MUST go to the designated IDE scratch directory: `~/.gemini/antigravity/brain/<id>/scratch/`.
+
+### 7.3 Idempotency in Literature Retrieval
+- **Failure Mode**: Rate-limit looping bugs encountered in early paper downloaders caused infinite retries.
+- **Enforced Pattern**: Ingestion scripts MUST use bounded retries and the 6-tier cascade fallbacks. Scripts MUST be idempotent (skip previously processed DOIs).
