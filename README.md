@@ -11,11 +11,15 @@ Multiple pipelines in this factory share KIs, Skills, Policies, and Workflows. T
 
 This registry must be consulted before modifying any shared asset. If a modification creates an unresolvable conflict between pipelines, a new pipeline-specific variant must be forked rather than overwriting the shared original.
 
+**OS Compatibility Constraint**:
+- **Linux/macOS ONLY**: The Shared Asset Management System (SAMS) relies heavily on POSIX symlinks. This repository MUST NOT be operated on Windows OS.
+
 ## Chronological Timeline
 - **[verified] 2026-05-11 01:24**: KAKENHI pipeline KIs (e.g., e_application_system PDFs, forms) initialized.
 - **[verified] 2026-05-11 18:15**: Grant_Write_Pipeline skills requirements and assets initialized.
 - **[verified] 2026-05-11 18:29**: Manuscript_Write_Pipeline assets and scripts established.
 - **[verified] 2026-05-11 18:44**: Shared Asset Registry and CPCP governance established.
+- **[verified] 2026-05-11 19:00**: Centralized Shared Asset Management System (SAMS) implemented with relative symlinks and programmatic audit tools.
 
 ## Hypothesis Evolution Table
 | Phase | Hypothesis |
@@ -29,9 +33,12 @@ This registry must be consulted before modifying any shared asset. If a modifica
 ├── 00.RawData/                  # Central registry and experiment indices
 │   ├── INDEX.csv                #   Experiment registry template
 │   └── SHARED_ASSET_REGISTRY.md #   ⚠️ SUPREME: Cross-pipeline shared asset registry
+├── 01.Shared_Assets/            # Canonical repository for shared KIs, Policies, etc.
+│   ├── KIs/                     #   agentic_manuscript_publishing, markdown_first_manuscript_policy
+│   └── Policies/                #   gepa_protocol, output-truncation-management
 ├── Grant_Write_Pipeline/        # Universal Scientific Grant Writing
-│   ├── KIs/                     #   agentic_manuscript_publishing, grant_funder_profiles, markdown_first_manuscript_policy
-│   ├── Policies/                #   gepa_protocol, output-truncation-management
+│   ├── KIs/                     #   (Symlinks to 01.Shared_Assets), grant_funder_profiles
+│   ├── Policies/                #   (Symlinks to 01.Shared_Assets)
 │   ├── Skills/                  #   18 skills (grant-mock-reviewer, medical-translation, etc.)
 │   └── Workflows/               #   grant-write.md
 ├── KAKENHI_Pipeline/            # KAKENHI-specific reporting and management

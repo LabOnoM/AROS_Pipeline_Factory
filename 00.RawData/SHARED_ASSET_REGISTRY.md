@@ -25,8 +25,8 @@
 
 | KI Name | Location (Canonical) | Consumers | Notes |
 |---------|---------------------|-----------|-------|
-| `agentic_manuscript_publishing` | `Grant_Write_Pipeline/KIs/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** | Identical copies confirmed 2026-05-11. Covers dual-agent workflow, LaTeX management, AI review strategies. |
-| `markdown_first_manuscript_policy` | `Grant_Write_Pipeline/KIs/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** | Identical copies confirmed 2026-05-11. Hard institutional policy: Markdown-first authoring, no direct LaTeX. |
+| `agentic_manuscript_publishing` | `01.Shared_Assets/KIs/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** | Identical copies confirmed 2026-05-11. Covers dual-agent workflow, LaTeX management, AI review strategies. |
+| `markdown_first_manuscript_policy` | `01.Shared_Assets/KIs/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** | Identical copies confirmed 2026-05-11. Hard institutional policy: Markdown-first authoring, no direct LaTeX. |
 | `grant_funder_profiles` | `Grant_Write_Pipeline/KIs/` | **Grant_Write_Pipeline**, **KAKENHI_Pipeline** (implicit via grant workflows) | Funder constraint profiles (MEXT SPReAD, NIH R01, etc.). KAKENHI pipeline references funder-specific rules. |
 | `kakenhi_management_pipeline` | `KAKENHI_Pipeline/KIs/` | **KAKENHI_Pipeline**, **workspace_management** | SPEC.md references `/lab-commit` and cross-pipeline workflows. |
 | `publication_grant_map` | `KAKENHI_Pipeline/KIs/` | **KAKENHI_Pipeline**, **Grant_Write_Pipeline** (implicit) | Template for publication-to-grant attribution. Used in both grant reporting contexts. |
@@ -45,6 +45,7 @@
 | `/wiki-research` | `workspace_management/Workflows/` | **ALL PIPELINES** | External literature research into the wiki. |
 | `/wiki-update` | `workspace_management/Workflows/` | **ALL PIPELINES** | Wiki structural linting and synthesis. |
 | `/science-project-onboarding` | `workspace_management/Workflows/` | **ALL PIPELINES** | First-time project audit and setup. |
+| `/audit-shared-assets` | `workspace_management/Workflows/` | **ALL PIPELINES** | SAMS structural audit workflow to enforce CPCP compliance. |
 
 ---
 
@@ -64,8 +65,8 @@
 
 | Policy | Location (Canonical) | Consumers | Notes |
 |--------|---------------------|-----------|-------|
-| `gepa_protocol.md` | `Grant_Write_Pipeline/Policies/` | **Grant_Write_Pipeline**, **workspace_management** (implicit via GEPA system) | Governs iterative agent refinement. The GEPA protocol is a factory-wide evolutionary mechanism. |
-| `output-truncation-management.md` | `Grant_Write_Pipeline/Policies/` | **ALL PIPELINES** | Data integrity policy for handling truncated outputs. Applicable universally. |
+| `gepa_protocol.md` | `01.Shared_Assets/Policies/` | **Grant_Write_Pipeline**, **workspace_management** (implicit via GEPA system) | Governs iterative agent refinement. The GEPA protocol is a factory-wide evolutionary mechanism. |
+| `output-truncation-management.md` | `01.Shared_Assets/Policies/` | **ALL PIPELINES** | Data integrity policy for handling truncated outputs. Applicable universally. |
 | `fact_check_policy.md` | `KAKENHI_Pipeline/Policies/` | **KAKENHI_Pipeline**, **Grant_Write_Pipeline** (implicit for publications) | Publication fact-checking. References `/wiki-build`. Relevant whenever publications are cited in grant reports. |
 
 ---
@@ -84,6 +85,7 @@ publication_grant_map KI        ◐           ✅          -                -
 /lab-reorganize WF              ✅          ✅          ✅               ✅
 /wiki-* WFs (6 total)           ✅          ✅          ✅               ✅
 /science-project-onboarding WF  ✅          ✅          ✅               ✅
+/audit-shared-assets WF         ✅          ✅          ✅               ✅
 gepa_protocol POL               ✅          ◐           ◐               ✅
 output-truncation POL           ✅          ✅          ✅               ✅
 fact_check_policy POL           ◐           ✅          -                -
@@ -98,3 +100,4 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | Date | Asset | Action | Pipelines Affected | Outcome |
 |------|-------|--------|-------------------|---------|
 | 2026-05-11 | *Initial Registry* | Created | ALL | Baseline established. All shared assets audited and confirmed identical where duplicated. |
+| 2026-05-11 | *SAMS v1.0 Migration* | Centralized KIs/Policies | ALL | Centralized multiple KIs and Policies into `01.Shared_Assets/` replacing pipeline instances with symlinks. |

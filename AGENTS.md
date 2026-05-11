@@ -22,6 +22,9 @@ When ANY agent proposes a modification to an asset listed in the Shared Asset Re
 4. **RESOLVE OR FORK**: If a conflict cannot be resolved to satisfy all consumers, the agent **MUST NOT** overwrite the shared asset. Instead, a **new pipeline-specific variant** of the asset MUST be created (e.g., `fact_check_policy_kakenhi.md`) and registered in the consuming pipeline's own folder.
 5. **UPDATE THE REGISTRY**: After any modification or fork, `00.RawData/SHARED_ASSET_REGISTRY.md` MUST be updated to reflect the current state, including a new entry in the Change Log.
 
+### OS Compatibility Constraint
+- **Linux/macOS ONLY**: The Shared Asset Management System (SAMS) relies heavily on POSIX symlinks. This repository MUST NOT be operated on Windows OS.
+
 ### Triggering Conditions
 
 This protocol activates automatically whenever an agent:
@@ -61,6 +64,7 @@ The following commands trigger specific autonomous pipelines within this workspa
 - `/wiki-update`: Maintain, lint, and synthesize the LLM-Wiki to ensure consistency.
 
 ### System & Maintenance Workflows
+- `/audit-shared-assets`: Verifies the integrity of the Shared Asset Management System (SAMS) and enforces CPCP compliance via the audit script.
 - `/science-project-onboarding`: First-time onboarding, audit, and timeline reconstruction (Self-Evolution rule).
 - `/project-organize`: Audit and reorganize the project structure, enforce naming conventions, and maintain hierarchy.
 - `/qa-system-audit`: Trigger automated QA system audits for rigorous health checks.

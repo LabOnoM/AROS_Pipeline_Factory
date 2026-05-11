@@ -16,6 +16,16 @@ The CPCP is the supreme governance rule for the AROS Pipeline Factory. It ensure
 4. **RESOLVE OR FORK** — If conflict is unresolvable, create a pipeline-specific variant
 5. **UPDATE REGISTRY** — Record all changes in `SHARED_ASSET_REGISTRY.md`
 
+## Structural Enforcement (SAMS v1.0)
+As of 2026-05-11, the CPCP is programmatically enforced via the **Shared Asset Management System (SAMS)**:
+1. **Centralization**: All shared assets live canonically in `01.Shared_Assets/`.
+2. **Symlinking**: Pipeline-specific references to shared assets are POSIX relative symlinks, eliminating duplicate files.
+3. **Pre-Commit Hook**: A `.git/hooks/pre-commit` script blocks commits that modify `01.Shared_Assets/` without also staging updates to `SHARED_ASSET_REGISTRY.md`.
+4. **Audit Workflow**: The `/audit-shared-assets` workflow programmatically verifies the integrity of symlinks, YAML frontmatter (`cpcp_asset: true`), and the pre-commit hook.
+
+> **⚠️ OS COMPATIBILITY CONSTRAINT**
+> Because SAMS relies on POSIX symlinks, this repository **MUST NOT** be operated on Windows OS. Only Linux/macOS are supported.
+
 ## Shared Assets (Current)
 
 ### Shared KIs

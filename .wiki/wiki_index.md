@@ -9,6 +9,7 @@ Welcome to the knowledge base for the AROS Pipeline Factory. This wiki catalogs 
 
 ## 🔒 Governance
 - [[concepts/cross_pipeline_compatibility_protocol]] — **SUPREME RULE**: The Cross-Pipeline Compatibility Protocol (CPCP)
+- `/audit-shared-assets` — Workflow to programmatically verify CPCP compliance
 
 ## ⚙️ System
 - [[system/lessons-learned]]
