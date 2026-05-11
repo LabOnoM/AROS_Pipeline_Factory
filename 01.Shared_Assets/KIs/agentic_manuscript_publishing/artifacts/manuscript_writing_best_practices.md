@@ -1,3 +1,11 @@
+---
+cpcp_asset: true
+canonical_location: "01.Shared_Assets/KIs/agentic_manuscript_publishing"
+consumers:
+  - Grant_Write_Pipeline
+  - Manuscript_Write_Pipeline
+last_cpcp_review: "2026-05-11"
+---
 # Agentic Scientific Manuscript Writing: Best Practices
 
 This document summarizes the core experiences, pitfalls, and best practices derived from drafting, revising, and finalizing the `ISS Microgravity CARE/CellPose 3D` scientific manuscript intended for high-impact journals (e.g., *Cell*). 

@@ -1,3 +1,11 @@
+---
+cpcp_asset: true
+canonical_location: "01.Shared_Assets/KIs/agentic_manuscript_publishing"
+consumers:
+  - Grant_Write_Pipeline
+  - Manuscript_Write_Pipeline
+last_cpcp_review: "2026-05-11"
+---
 # Dual Agent Manuscript Pipeline - Technical Reference
 
 This document contains the required code snippets, parser mappings, and State Header formats for the `/manuscript-write` global workflow.

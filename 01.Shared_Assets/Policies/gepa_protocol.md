@@ -1,3 +1,11 @@
+---
+cpcp_asset: true
+canonical_location: "01.Shared_Assets/Policies/gepa_protocol.md"
+consumers:
+  - Grant_Write_Pipeline
+  - Manuscript_Write_Pipeline
+last_cpcp_review: "2026-05-11"
+---
 # AROS Policy: GEPA Implementation and Iterative Refinement
 
 **Policy ID:** AROS-POL-GEPA-001

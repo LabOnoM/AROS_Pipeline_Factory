@@ -1,3 +1,11 @@
+---
+cpcp_asset: true
+canonical_location: "01.Shared_Assets/KIs/markdown_first_manuscript_policy"
+consumers:
+  - Grant_Write_Pipeline
+  - Manuscript_Write_Pipeline
+last_cpcp_review: "2026-05-11"
+---
 # Markdown-First Manuscript Policy
 
 **Status:** ACTIVE HARD RULE  

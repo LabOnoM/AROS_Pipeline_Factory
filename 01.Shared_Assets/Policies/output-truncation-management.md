@@ -1,6 +1,12 @@
 ---
 name: output-truncation-management
 description: "A policy governing how AROS agents manage and communicate output truncation to ensure data integrity, user clarity, and operational reliability."
+cpcp_asset: true
+canonical_location: "01.Shared_Assets/Policies/output-truncation-management.md"
+consumers:
+  - Grant_Write_Pipeline
+  - Manuscript_Write_Pipeline
+last_cpcp_review: "2026-05-11"
 ---
 
 # AROS Policy: Output Truncation Management
