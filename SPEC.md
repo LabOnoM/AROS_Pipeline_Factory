@@ -1,7 +1,7 @@
 # AROS Pipeline Factory Specification (SPEC)
 
-> **Version**: 1.2.0
-> **Date**: 2026-05-11
+> **Version**: 1.3.0
+> **Date**: 2026-05-12
 > **Status**: APPROVED
 > **Scope**: AROS Pipeline Factory Architecture, Governance, and Integration
 
@@ -144,7 +144,27 @@ stateDiagram-v2
 ### 4.1 Strict Grounding
 When executing tasks, agents MUST prioritize information within the `.wiki/` knowledge base over pre-trained general knowledge.
 
-### 4.2 The /lab-commit Gateway
+To eliminate AI hallucinations during manuscript and grant drafting, agents MUST adhere to the **Citation-Before-Claim Protocol**:
+1. Before writing any evidence-based claim, the agent MUST use a scratchpad to verify the claim against the ingested knowledge base (`.wiki/` or `03_Parsed_Markdown/`).
+2. **Two-Tool Strategy**:
+   - Use the `literature-close-read` skill for deep, structured reading of newly ingested Markdown papers.
+   - Use the `/wiki-query` workflow for quick fact retrieval and synthesis from the established wiki.
+3. **Escalation Path**: If a claim returns `NOT_FOUND` during the grounding check, the agent MUST either trigger `/wiki-research` to locate external evidence, or flag the claim as `[UNGROUNDED]` and halt.
+
+### 4.1.1 Pre-Draft Reference Retrieval (Phase 0.5)
+All writing workflows (grant, manuscript) MUST execute a **Reference Inventory & Retrieval** phase before drafting begins:
+1. Scan ingested literature against the project's bibliography to detect gaps.
+2. Trigger `/literature-ingest` for any missing DOIs/PMIDs.
+3. Run `retraction-watcher` on the full reference list — any retracted citation causes a mandatory HALT.
+4. Only proceed to drafting once all key references exist in both `03_Parsed_Markdown/` and `04_Parsed_JSON/`.
+
+### 4.2 Minimum Review Iteration Requirement
+To prevent superficial single-pass drafting, all writing workflows enforce a **minimum of 3 review iterations**:
+- Even if the draft reaches the pass threshold (92/120 for manuscripts) before 3 rounds, Agent B MUST continue with hardening reviews targeting Citation Integrity, Methods Reproducibility, and Honest Limitations.
+- Maximum iterations: 5 (per `gepa_protocol`). If the draft still fails after 5 rounds, escalate to the PI.
+- All review rounds MUST be logged as `## Round N` sections in `REVIEW_LOG.md`.
+
+### 4.3 The /lab-commit Gateway
 No pipeline MAY execute isolated `git commit` commands. All version control operations MUST be delegated to the canonical `/lab-commit` workflow to ensure structured telemetry and index parity.
 
 ## 5. Quality Assurance & System Audits
@@ -176,9 +196,14 @@ successful PDF download. If all tiers fail, the DOI is logged to
 - T5: LibGen / Anna's Archive
 - T6: Sci-Hub
 
-### 6.2 PDF-to-Markdown Conversion
-Downloaded PDFs are batch-converted using `opendataloader-pdf` in full hybrid mode
-(formula extraction, chart description, OCR for scanned documents).
+### 6.2 Dual-Format Extraction (Markdown + JSON)
+Downloaded PDFs are batch-converted using `opendataloader-pdf` in full hybrid mode (formula extraction, chart description, OCR for scanned documents). 
+
+To balance token efficiency with structural fidelity, the pipeline enforces a **Dual-Format Output** strategy:
+- **Markdown (`03_Parsed_Markdown/`)**: Routed to `/wiki-ingest` and used for LLM context / RAG.
+- **JSON (`04_Parsed_JSON/`)**: Used for rigorous structural verification, bounding box extraction, and table auditing.
+
+This format enforcement is configured via the `"output_formats"` key in `01.Shared_Assets/Skills/literature-ingestion/config.json`.
 
 ### 6.3 Wiki Integration
 Converted Markdown files are ingested into the `.wiki/` knowledge graph via the

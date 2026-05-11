@@ -11,6 +11,7 @@ then invokes ``opendataloader-pdf`` in full hybrid mode to produce:
   - Structured JSON (bbox) → ``04_Parsed_JSON/``
 
 Configuration is loaded from ``config.json``:
+  - ``output_formats``              — list of formats (default: ["markdown", "json"])
   - ``hybrid_mode``                 — "full" | "fast" (default: full)
   - ``ocr_languages``               — comma-separated (default: en,ja)
   - ``enrich_formula``              — bool, enable LaTeX extraction
@@ -23,7 +24,7 @@ Dependencies:
 Design Notes:
   - Uses batch mode (passing all PDFs at once) to avoid cold-starting
     the JVM per file — a known performance trap warned in the official docs.
-  - Idempotent: skips PDFs whose ``.md`` output already exists.
+  - Idempotent: skips PDFs whose ``.md`` and ``.json`` outputs already exist.
 
 Cross-Platform: Pure Python, no OS-specific calls.
 """
@@ -71,7 +72,8 @@ def main() -> None:
     if pdf_dir.exists():
         for pdf_file in pdf_dir.glob("*.pdf"):
             md_file = md_dir / f"{pdf_file.stem}.md"
-            if not md_file.exists():
+            json_file = json_dir / f"{pdf_file.stem}.json"
+            if not md_file.exists() or not json_file.exists():
                 pdfs_to_convert.append(str(pdf_file))
 
     if not pdfs_to_convert:
@@ -81,11 +83,13 @@ def main() -> None:
     print(f"Found {len(pdfs_to_convert)} PDFs to convert.")
 
     # Build the opendataloader-pdf CLI command
+    formats = config.get("output_formats", ["markdown", "json"])
     cmd = [
         "opendataloader-pdf",
         "--hybrid", "docling-fast",
         "--hybrid-mode", config.get("hybrid_mode", "full"),
         "--ocr-lang", config.get("ocr_languages", "en,ja"),
+        "-f", ",".join(formats),
         "--output-dir", str(md_dir),
     ]
 

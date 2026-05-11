@@ -1,5 +1,6 @@
 {
   "output_base": "00.RawData/Literature",
+  "output_formats": ["markdown", "json"],
   "proxy_url": "",
   "unpaywall_email": "researcher@university.ac.jp",
   "semantic_scholar_api_key": "",

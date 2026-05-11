@@ -57,12 +57,13 @@
 | `antigravity-workflow-authoring` | `workspace_management/Skills/` | **ALL PIPELINES** | Meta-skill for authoring new workflows. Governs workflow creation standards across the factory. |
 | `super-scientist` | `workspace_management/Skills/` | **ALL PIPELINES** | Kosmos SuperScientist integration. Triggers research cycles applicable to any pipeline's domain. |
 | `literature-ingestion` | `01.Shared_Assets/Skills/` | **ALL PIPELINES** | Tiered PDF retrieval (OA→LibGen→Sci-Hub) + opendataloader-pdf conversion. **Replaces deprecated `research-paper-downloader`.** |
+| `retraction-watcher` | `~/.gemini/skills/` | **ALL PIPELINES** | Scans reference lists against Retraction Watch DB. MANDATORY in Phase 0.5 (pre-draft) and Phase 5 (post-review) of all writing workflows. |
 | `content-proofreading` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** (implicit) | General-purpose proofreading applicable to both grant and manuscript drafting. |
 | `scientific-brainstorming` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** (implicit) | Brainstorming skill used across research drafting contexts. |
 | `medical-translation` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **KAKENHI_Pipeline** (implicit) | Bilingual (EN/JP) translation used for both grant applications and KAKENHI reports. |
 | `regent-governance` | `workspace_management/Skills/` | **workspace_management** | Manages re_gent deployment health checks, `.regentignore` generation, and session exports. |
-| `md-html-docx-generator` | `workspace_management/Skills/` | **ALL PIPELINES** | Generates high-fidelity HTML/DOCX reports section-by-section to bypass LLM output token limits. |
-| `visualize-data` | `~/.gemini/skills/` | **ALL PIPELINES** | Upgraded orchestrator for all scientific diagrams (Mermaid, fireworks-tech-graph, SVG+PNG via cairosvg). Replaces legacy diagram skills. |
+| `md-html-docx-generator` | `workspace_management/Skills/` | **ALL PIPELINES** | Generates high-fidelity HTML/DOCX reports section-by-section to bypass LLM output token limits. Invoked in Phase 3 Step 7 (manuscript) and Phase 6 (grant). |
+| `visualize-data` | `~/.gemini/skills/` | **ALL PIPELINES** | Upgraded orchestrator for all scientific diagrams (Mermaid, fireworks-tech-graph, SVG+PNG via cairosvg). Replaces deprecated `grant-gantt-chart-gen` and `text-to-technical-roadmap`. |
 
 ---
 
@@ -116,3 +117,5 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-11 | `PIPELINE_REGISTRY.md` | Created | ALL | Replaced `INDEX.csv` with `PIPELINE_REGISTRY.md`. All workflow templates generalized for dynamic registry discovery. `project-organize` bash scripts updated. `regent_to_aros_bridge.py` cross-platform path fix applied. |
 | 2026-05-11 | `md-html-docx-generator` | Created | ALL | Added new skill to dynamically build high-fidelity interactive HTML reports (and DOCX exports) from chunked markdown, avoiding LLM token limits. |
 | 2026-05-11 | `visualize-data` | Upgraded | ALL | Consolidated all fragmented diagram skills into a unified scientific-diagram-generator using fireworks-tech-graph and cairosvg. Deprecated `text-to-technical-roadmap` and `grant-gantt-chart-gen`. |
+| 2026-05-11 | `literature-ingestion` & Global Workflows | Upgraded | ALL | Enforced Dual-Format Extraction (Markdown+JSON). Added Citation-Before-Claim Protocol to `/manuscript-write` and `/grant-write` utilizing `literature-close-read` to eliminate hallucinations. |
+| 2026-05-12 | `/grant-write` & `/manuscript-write` (Global + Local) | Hardened | ALL | Added Phase 0.5 mandatory reference retrieval, `retraction-watcher` in pre-draft and review phases, minimum 3 review rounds with `REVIEW_LOG.md` path specified, `md-html-docx-generator` for interactive HTML output, `visualize-data` for workflow diagrams in both pipelines, graphical abstract phase (A1.5) in manuscript pipeline. Local pipeline copies synced with global via Option A. Deprecated `grant-gantt-chart-gen` and `text-to-technical-roadmap` with DEPRECATED.md markers. |
