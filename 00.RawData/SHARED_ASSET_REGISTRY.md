@@ -55,6 +55,7 @@
 |------------|---------------------|-----------|-------|
 | `antigravity-workflow-authoring` | `workspace_management/Skills/` | **ALL PIPELINES** | Meta-skill for authoring new workflows. Governs workflow creation standards across the factory. |
 | `super-scientist` | `workspace_management/Skills/` | **ALL PIPELINES** | Kosmos SuperScientist integration. Triggers research cycles applicable to any pipeline's domain. |
+| `literature-ingestion` | `01.Shared_Assets/Skills/` | **ALL PIPELINES** | Tiered PDF retrieval (OA→LibGen→Sci-Hub) + opendataloader-pdf conversion. **Replaces deprecated `research-paper-downloader`.** |
 | `content-proofreading` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** (implicit) | General-purpose proofreading applicable to both grant and manuscript drafting. |
 | `scientific-brainstorming` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** (implicit) | Brainstorming skill used across research drafting contexts. |
 | `medical-translation` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **KAKENHI_Pipeline** (implicit) | Bilingual (EN/JP) translation used for both grant applications and KAKENHI reports. |
@@ -86,6 +87,7 @@ publication_grant_map KI        ◐           ✅          -                -
 /wiki-* WFs (6 total)           ✅          ✅          ✅               ✅
 /science-project-onboarding WF  ✅          ✅          ✅               ✅
 /audit-shared-assets WF         ✅          ✅          ✅               ✅
+literature-ingestion SKL        ✅          ✅          ✅               ✅
 gepa_protocol POL               ✅          ◐           ◐               ✅
 output-truncation POL           ✅          ✅          ✅               ✅
 fact_check_policy POL           ◐           ✅          -                -
@@ -101,3 +103,6 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 |------|-------|--------|-------------------|---------|
 | 2026-05-11 | *Initial Registry* | Created | ALL | Baseline established. All shared assets audited and confirmed identical where duplicated. |
 | 2026-05-11 | *SAMS v1.0 Migration* | Centralized KIs/Policies | ALL | Centralized multiple KIs and Policies into `01.Shared_Assets/` replacing pipeline instances with symlinks. |
+| 2026-05-11 | `literature-ingestion` | Created | ALL | New shared skill for automated literature retrieval and PDF-to-Markdown conversion. Replaces `research-paper-downloader`. |
+| 2026-05-11 | `audit_shared_assets.py` | Relocated | ALL | Moved from `workspace_management/Scripts/` to `01.Shared_Assets/Scripts/` as factory-level infrastructure. Fixed basename-only duplicate detection bug. |
+| 2026-05-11 | `TempScript4Testing/` | Removed | NONE | Redundant prototype scripts absorbed into `literature-ingestion` skill. |

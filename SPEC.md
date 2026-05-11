@@ -152,10 +152,34 @@ No pipeline MAY execute isolated `git commit` commands. All version control oper
 The system integrity SHALL be maintained via automated programmatic audits.
 
 ### 5.1 SAMS Audit
-The `workspace_management/Scripts/audit_shared_assets.py` script MUST be executed to verify SAMS structural compliance. It checks:
+The `01.Shared_Assets/Scripts/audit_shared_assets.py` script MUST be executed to verify SAMS structural compliance. It checks:
 - Absence of duplicate physical assets within pipeline directories.
 - Presence of CPCP YAML frontmatter (`cpcp_asset: true`) on all canonical shared assets.
 - Presence and executability of the `.git/hooks/pre-commit` script.
 
 ### 5.2 GEPA Sweep
 Iterative error reduction SHALL be executed via the GEPA protocol, harvesting system logs and producing refined policies or skills to patch persistent agent failure modes.
+
+## 6. Literature Ingestion Pipeline
+
+The factory provides a unified literature retrieval and conversion engine via the
+`literature-ingestion` shared skill (`01.Shared_Assets/Skills/literature-ingestion/`). This skill globally supersedes the legacy `research-paper-downloader` skill.
+
+### 6.1 Tiered Retrieval Cascade
+The engine attempts retrieval in priority order (T1–T6), stopping at the first
+successful PDF download. If all tiers fail, the DOI is logged to
+`00.RawData/Literature/failed_downloads.json` for human intervention.
+- T1: Semantic Scholar
+- T2: Unpaywall
+- T3: PubMed Central
+- T4: Publisher Landing Page (with optional Institutional Proxy)
+- T5: LibGen / Anna's Archive
+- T6: Sci-Hub
+
+### 6.2 PDF-to-Markdown Conversion
+Downloaded PDFs are batch-converted using `opendataloader-pdf` in full hybrid mode
+(formula extraction, chart description, OCR for scanned documents).
+
+### 6.3 Wiki Integration
+Converted Markdown files are ingested into the `.wiki/` knowledge graph via the
+`/wiki-ingest` workflow, ensuring all literature becomes strictly grounded context.

@@ -15,7 +15,11 @@ Example API Endpoint: `https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmco
 
 ## Step 2: Download Source File (Strict Grounding)
 
-Use `run_command` and `curl -L` or `wget` to save the raw JSON/Text/PDF file directly into the `Articles/01.Review&Mechanism/` directory.
+Prefer the `literature-ingestion` shared skill for paper retrieval:
+1. Add the target DOI/PMID to `00.RawData/Literature/01_Target_DOIs.txt`.
+2. Run: `python 01.Shared_Assets/Skills/literature-ingestion/scripts/fetch_and_convert.py --input 00.RawData/Literature/01_Target_DOIs.txt`
+3. The skill handles tiered OA+fallback retrieval and PDF-to-Markdown conversion automatically.
+4. If the skill reports the paper in `failed_downloads.json`, fall back to manual `curl -L`.
 
 **Rule**: You cannot simply read the abstract online and pretend it's in the wiki. You MUST download the raw representation into the local filesystem.
 

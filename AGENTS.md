@@ -57,6 +57,7 @@ The following commands trigger specific autonomous pipelines within this workspa
 - `/kakenhi-annual-report`: KAKENHI grant lifecycle pipeline (report generation, figure integration, dual-agent review).
 
 ### LLM-Wiki & Knowledge Workflows
+- `/literature-ingest`: Centralized pipeline for retrieving academic PDFs via tiered cascade (OA → LibGen → Sci-Hub) and batch-converting to Markdown/JSON using full-performance hybrid mode.
 - `/wiki-research`: **(CRITICAL)** Automatically trigger when the AI detects gaps in the local `.wiki/` knowledge base to perform literature research while adhering to Strict Grounding.
 - `/wiki-ingest`: Ingest new experimental results, papers, or data into the project's LLM-Wiki.
 - `/wiki-query`: Query the LLM-Wiki to synthesize answers or find specific facts based strictly on the ingested knowledge base.

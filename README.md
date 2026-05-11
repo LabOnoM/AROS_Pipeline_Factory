@@ -32,17 +32,20 @@ This registry must be consulted before modifying any shared asset. If a modifica
 .
 ├── 00.RawData/                  # Central registry and experiment indices
 │   ├── INDEX.csv                #   Experiment registry template
-│   └── SHARED_ASSET_REGISTRY.md #   ⚠️ SUPREME: Cross-pipeline shared asset registry
-├── 01.Shared_Assets/            # Canonical repository for shared KIs, Policies, etc.
+│   ├── SHARED_ASSET_REGISTRY.md #   ⚠️ SUPREME: Cross-pipeline shared asset registry
+│   └── Literature/              #   Standardized literature storage (PDFs, Markdown, metadata)
+├── 01.Shared_Assets/            # Canonical repository for shared KIs, Policies, Skills, Scripts
 │   ├── KIs/                     #   agentic_manuscript_publishing, markdown_first_manuscript_policy
-│   └── Policies/                #   gepa_protocol, output-truncation-management
+│   ├── Policies/                #   gepa_protocol, output-truncation-management
+│   ├── Skills/                  #   literature-ingestion (tiered PDF retrieval + conversion)
+│   └── Scripts/                 #   Factory-level infrastructure tools (audit_shared_assets.py)
 ├── Grant_Write_Pipeline/        # Universal Scientific Grant Writing
-│   ├── KIs/                     #   (Symlinks to 01.Shared_Assets), grant_funder_profiles
-│   ├── Policies/                #   (Symlinks to 01.Shared_Assets)
+│   ├── KIs/                     #   grant_funder_profiles
+│   ├── Policies/                #   (references 01.Shared_Assets)
 │   ├── Skills/                  #   18 skills (grant-mock-reviewer, medical-translation, etc.)
 │   └── Workflows/               #   grant-write.md
 ├── KAKENHI_Pipeline/            # KAKENHI-specific reporting and management
-│   ├── KIs/                     #   kakenhi_e_application_system, kakenhi_report_forms, kakenhi_management_pipeline, publication_grant_map
+│   ├── KIs/                     #   kakenhi_e_application_system, kakenhi_report_forms, etc.
 │   ├── Policies/                #   fact_check_policy, grant_report_policy
 │   ├── Skills/                  #   3 skills (kakenhi-form-completion, etc.)
 │   └── Workflows/               #   kakenhi-annual-report.md
@@ -54,10 +57,10 @@ This registry must be consulted before modifying any shared asset. If a modifica
 ├── workspace_management/        # Cross-pipeline infrastructure
 │   ├── KIs/                     #   AROS architecture references
 │   ├── Skills/                  #   workflow-authoring, super-scientist
-│   └── Workflows/               #   lab-commit, lab-reorganize, wiki-*, science-project-onboarding
-├── TempScript4Testing/          # Diagnostic and ad-hoc scripts
+│   └── Workflows/               #   lab-commit, lab-reorganize, wiki-*, literature-ingest, etc.
 ├── .wiki/                       # LLM-Wiki knowledge base
 ├── AGENTS.md                    # Agent operational rules (includes CPCP as LAW 0)
+├── SPEC.md                      # Architectural specification
 └── README.md                    # This document
 ```
 

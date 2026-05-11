@@ -15,7 +15,7 @@
 // turbo
 Execute the programmatic Python audit:
 ```bash
-python3 workspace_management/Scripts/audit_shared_assets.py
+python3 01.Shared_Assets/Scripts/audit_shared_assets.py
 ```
 
 ## Step 2: Remediate Findings

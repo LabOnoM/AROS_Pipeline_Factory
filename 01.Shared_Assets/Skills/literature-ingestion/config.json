@@ -1,0 +1,24 @@
+{
+  "output_base": "00.RawData/Literature",
+  "proxy_url": "",
+  "unpaywall_email": "researcher@university.ac.jp",
+  "semantic_scholar_api_key": "",
+  "ocr_languages": "en,ja",
+  "hybrid_mode": "full",
+  "enrich_formula": true,
+  "enrich_picture_description": true,
+  "max_retries": 3,
+  "retry_backoff_base": 2,
+  "timeout_seconds": 30,
+  "rate_limit_delay": 3,
+  "sci_hub_mirrors": [
+    "https://sci-hub.se",
+    "https://sci-hub.st",
+    "https://sci-hub.ru"
+  ],
+  "libgen_mirrors": [
+    "https://libgen.is",
+    "https://libgen.li",
+    "https://libgen.rs"
+  ]
+}
