@@ -1,5 +1,5 @@
 ---
-description: The single, gated, transactional workflow to safely apply, validate, and commit file changes. This is the CANONICAL commit gateway for every workflow, especially after collecting new experimental data (qPCR run, Western blot, imaging session, etc.), ensuring a consistent commit format and index-update logic across the entire project. All other workflows MUST delegate their final commit step to this workflow instead of implementing inline `git add / git commit` commands, including specific logic for committing new experimental data to the local Git repository.
+description: The single, gated, transactional workflow to safely apply, validate, and commit file changes.
 ---
 
 # Gated File Commit Workflow (`/lab-commit`)
@@ -8,14 +8,14 @@ description: The single, gated, transactional workflow to safely apply, validate
 
 > **WARNING: FUNDAMENTAL SYSTEM CONSTRAINT**
 >
-> All agents operate in a strict I/O sandbox. **YOU CANNOT WRITE TO FILES DIRECTLY.** Any plan that includes a direct `modify`, `edit`, `write`, `sed -i`, or `echo >` command will be rejected. This workflow is the **ONLY** sanctioned method for persisting changes, whether for individual files or for Git repository updates.
+> All agents operate in a strict I/O sandbox. **YOU CANNOT WRITE TO FILES.** Any plan that includes a direct `modify`, `edit`, `write`, `sed -i`, or `echo >` command will be rejected. This workflow is the **ONLY** sanctioned method for persisting changes.
 
 ---
-## 1. Mandatory Usage Pattern for Other Agents (Single File Update)
+## 1. Mandatory Usage Pattern
 
-To modify any single file, your plan **MUST** follow this exact three-task structure. Do not attempt to combine these steps. This pattern delegates the actual file writing to the `/lab-commit` workflow.
+To modify any file, your plan **MUST** follow this exact three-task structure. Do not attempt to combine these steps.
 
-### **✅ Required Plan Template (Copy & Adapt This Template)**
+### **✅ Required Plan Structure (Copy & Adapt This Template)**
 
 ```yaml
 # -------------------- ✅ REQUIRED PLAN TEMPLATE ✅ --------------------
@@ -38,11 +38,11 @@ To modify any single file, your plan **MUST** follow this exact three-task struc
 ```
 
 ---
-## 2. Flags & Automation (for Single File Update Mode)
+## 2. Flags & Automation
 
-This mode of the workflow can operate in two sub-modes: interactive (default) or forced (for automation).
+This workflow can operate in two modes: interactive (default) or forced (for automation).
 
-*   `--target="<path>"`: (Required) The path to the existing file you want to overwrite, or a new file to create.
+*   `--target="<path>"`: (Required) The path to the existing file you want to overwrite.
 *   `--content_artifact="<path>"`: (Required) The path to the artifact file containing the new content.
 *   `--force`: (Optional) Skips the interactive `diff` review and confirmation prompt. Use this flag for fully automated workflows where no human user is present to provide confirmation. **If this flag is omitted, the workflow will HALT and wait for user input.**
 
@@ -51,7 +51,48 @@ This mode of the workflow can operate in two sub-modes: interactive (default) or
 
 Your execution begins *after* another agent has invoked you with the required arguments.
 
-### **Phase 1: Invocation & Direct File Application Gates**
+### **Phase 1: Validation Gates**
 
 1.  **Argument Parsing:**
-    - Parse `--target`, `--content_artifa
+    - Parse `--target`, `--content_artifact`, and `--force` flags.
+
+2.  **Invocation Check:** Verify the command includes both `--target` and `--content_artifact`.
+    - **HALT:** If missing, fail with error: "Commit Aborted: Invalid request. Both --target and --content_artifact arguments are mandatory."
+
+3.  **Artifact Check:** Verify the content artifact file exists and is not empty (`test -s "$content_artifact"`).
+    - **HALT:** If missing or empty, fail with error: "Commit Aborted: The content artifact '$content_artifact' is missing or empty."
+
+4.  **Target Check:** Verify the target file exists (`test -f "$target"`). This workflow only modifies existing files.
+    - **HALT:** If it does not exist, fail with error: "Commit Aborted: The target file '$target' does not exist. Use a file creation workflow instead."
+
+### **Phase 2: Confirmation & Execution**
+
+5.  **Difference Analysis (HITL or Force Gate):**
+    - **If `--force` is NOT provided:**
+        - **Action:** Perform a `diff -u "$target" "$content_artifact"` to show proposed changes.
+        - **Gate:** Report the `diff` output and HALT, awaiting explicit user confirmation. State clearly: "PROPOSED CHANGES for `$target` are shown above. Apply these changes? Respond with `confirm` to proceed or `abort` to cancel."
+    - **If `--force` IS provided:**
+        - **Action:** Log a message: "Skipping interactive confirmation due to --force flag."
+
+6.  **Apply Change:** Upon receiving `confirm` or if `--force` was used, overwrite the target file.
+    - **Command:** `cp "$content_artifact" "$target"`
+
+7.  **Verify Staging:** Run `git status` to confirm the change is detected.
+    - **HALT:** If `$target` is not listed as modified, fail with error: "Commit Failed: I/O error or no changes detected. The file on disk was not modified."
+
+8.  **Commit with Rollback:** Stage changes and commit with a standardized message. The command is wrapped to ensure any commit failure triggers an immediate rollback.
+    ```bash
+    git add . && git commit -m "[System] [Workflow] [$(date +'%Y-%m-%d')] Applying changes via /lab-commit" || {
+      echo "CRITICAL: COMMIT FAILED. Rolling back changes to prevent repository corruption." >&2
+      git reset --hard HEAD
+      exit 1 # Halt with a non-zero exit code
+    }
+    ```
+
+### **Phase 3: Finalization**
+
+9.  **Post-Commit Hook:** Run the symlink failsafe for repository tooling.
+    - **Command:** `ln -sfn .wiki Wiki`
+
+10. **Final Report:** Announce completion.
+    - **Message:** "Commit successful. The changes to `$target` have been applied and committed."

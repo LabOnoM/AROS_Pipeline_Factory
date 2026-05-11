@@ -95,7 +95,7 @@ Embed this in `manuscript.md` at the prose location where the figure belongs. Pa
 Agent A is a scientific reasoning agent. Its job is to understand the full experimental picture, make intelligent decisions about data relevance, and produce a manuscript draft with figures.
 
 ### Phase A1: Wiki-First File Discovery
-1. **Check Project Knowledge**: Read `<PROJECT_ROOT>/.wiki/overview.md`, `.wiki/entities/*.md`, and `00.RawData/INDEX.csv`.
+1. **Check Project Knowledge**: Read `<PROJECT_ROOT>/.wiki/overview.md`, `.wiki/entities/*.md`, and the Project Registry (e.g., `00.RawData/INDEX.csv` or `00.RawData/PIPELINE_REGISTRY.md`).
 2. **File Sweep**: Agent A runs recursive file discovery to locate raw data (`.pzfx`, `.xlsx`, `.czi`, `.fcs`, etc.) matching the wiki entities.
 3. **Reasoning**: Write a brief scientific understanding in `DATA_AUDIT.md`.
 

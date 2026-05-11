@@ -61,10 +61,12 @@ Use this workflow the first time you encounter a new or inherited scientific pro
    - Critical notes and caveats (data integrity observations)
    - Methods and tools inventory
 
-8. **Create `00.RawData/INDEX.csv`** — a machine-readable experiment registry:
-   ```csv
-   Folder,Date,Phase,Assay,Conditions,CellLine,Status,Notes
-   ```
+8. **Create a Project Registry** — a machine-readable tracking mechanism in `00.RawData/`. 
+   - For standard laboratory projects, create `00.RawData/INDEX.csv`:
+     ```csv
+     Folder,Date,Phase,Assay,Conditions,CellLine,Status,Notes
+     ```
+   - For computational or factory-level projects, create `00.RawData/PIPELINE_REGISTRY.md` with appropriate Markdown table headers (e.g., Pipeline, Description, Target Workflows).
 
 ## Phase 3: Version Control Setup
 
@@ -193,5 +195,5 @@ Use this workflow the first time you encounter a new or inherited scientific pro
 
 21. From this point forward, use the `lab-commit` workflow for daily experiment commits.
 22. Use `git mv` (via `lab-reorganize` workflow) for any file moves to preserve history.
-23. Update `INDEX.csv` when adding new experiment folders.
+23. Update the Project Registry (e.g., `INDEX.csv` or `PIPELINE_REGISTRY.md`) when adding new folders.
 24. **Compounding Knowledge**: Run `/wiki-update` weekly to resolve orphans and link new experiment results to established biological entities.

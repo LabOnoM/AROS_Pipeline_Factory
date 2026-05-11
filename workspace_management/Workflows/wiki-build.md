@@ -33,4 +33,4 @@ The agent will output the final document as an Artifact (`.md` or `.docx` format
 
 ## Step 6: Auto-Commit
 
-Delegate to the canonical `/lab-commit` workflow. Do NOT write inline `git add` / `git commit` commands here — the lab-commit workflow handles staging, Obsidian symlink verification, INDEX.csv updates, and commit message formatting automatically.
+Delegate to the canonical `/lab-commit` workflow. Do NOT write inline `git add` / `git commit` commands here — the lab-commit workflow handles staging, Obsidian symlink verification, project registry updates (e.g., INDEX.csv or PIPELINE_REGISTRY.md), and commit message formatting automatically.

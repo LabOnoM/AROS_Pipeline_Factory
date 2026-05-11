@@ -38,7 +38,7 @@ Run this procedure whenever experimental folders need to be merged, renamed, or 
    done
    ```
 
-4. **Auto-Commit:** Delegate to the canonical `/lab-commit` workflow. Do NOT write inline `git add` / `git commit` commands here — the lab-commit workflow handles staging, Obsidian symlink verification, INDEX.csv updates, and commit message formatting automatically.
+4. **Auto-Commit:** Delegate to the canonical `/lab-commit` workflow. Do NOT write inline `git add` / `git commit` commands here — the lab-commit workflow handles staging, Obsidian symlink verification, project registry updates (e.g., INDEX.csv or PIPELINE_REGISTRY.md), and commit message formatting automatically.
 
 5. Verify files are still tracked:
    ```bash
@@ -49,7 +49,7 @@ Run this procedure whenever experimental folders need to be merged, renamed, or 
 
 - **Never use plain `mv` or drag-and-drop in a file manager** — git will see this as a delete + create, losing history.
 - **Never reorganize and edit in the same commit** — do the move first, commit, then edit content separately. This keeps `git log --follow` clean.
-- **Update INDEX.csv** if experiment folders were moved.
+- **Update Project Registry (e.g., INDEX.csv or PIPELINE_REGISTRY.md)** if folders were moved.
 - **Update README.md** repository structure section if the folder map changed.
 
 ## Common Reorganization Tasks for This Project
