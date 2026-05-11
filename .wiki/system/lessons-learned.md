@@ -26,3 +26,7 @@ This page serves as a historical repository of significant bugs, architectural m
 **Context**: Agents embedded massive lookup tables and logic scripts directly into workflow markdown files.
 **The Bug**: The workflows exceeded the IDE's ~10KB file size limit, causing loading errors and slow UI rendering.
 **The Fix**: The **KI-Companion Pattern**. Heavy assets must be extracted into Knowledge Items (`KIs/`) and loaded dynamically at runtime via `mcp_antigravity-brain_read_ki_document`.
+
+## 6. Dual-VCS Audit Layer (re_gent Integration)
+**Context**: As AROS capabilities expanded, it became difficult to trace the provenance of complex agent actions, making debugging and rollbacks hazardous.
+**The Fix**: AROS adopted a Dual-VCS architecture. While `git` tracks repository state, the `re_gent` VCS tracks agent activity (prompt, tool usage, file changes) in a content-addressed DAG (`.regent/`). This provides self-healing, time-travel capabilities (`rgt rewind`), and a high-fidelity audit trail.

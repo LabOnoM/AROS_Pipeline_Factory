@@ -91,11 +91,86 @@ Use this workflow the first time you encounter a new or inherited scientific pro
     git commit -m "Initial snapshot: project as-found on [DATE]"
     ```
 
+## Phase 4: Agent Version Control (re_gent)
+
+14. **Check and Initialize re_gent**. Ensure all AI agent activity is auditable via the `re_gent` version control system.
+    ```bash
+    # // turbo
+    if ! command -v rgt &> /dev/null; then
+        echo "Installing re_gent..."
+        go install github.com/regent-vcs/regent/cmd/rgt@latest
+    fi
+    rgt init --skip-hook
+    ```
+
+15. **Generate `.regentignore`**. Ensure large scientific data formats are ignored by the agent audit layer to maintain performance.
+    ```bash
+    # // turbo
+    cat << 'EOF' > .regentignore
+    # === re_gent defaults ===
+    node_modules/
+    .git/
+    .regent/
+    __pycache__/
+    *.pyc
+    .venv/
+    venv/
+    target/
+    dist/
+    build/
+    .next/
+    .cache/
+
+    # === Scientific data exclusions ===
+    *.tif
+    *.tiff
+    *.czi
+    *.nd2
+    *.lif
+    *.ome.tif
+    *.svs
+    *.fastq
+    *.fastq.gz
+    *.bam
+    *.sam
+    *.bcf
+    *.vcf.gz
+    *.raw
+    *.mzML
+    *.mzXML
+    *.h5
+    *.hdf5
+    *.pkl
+    *.pt
+    *.pth
+    *.onnx
+
+    # Office & presentation binaries (tracked by Git LFS)
+    *.pptx
+    *.xlsx
+    *.docx
+    *.pzfx
+    *.prism
+
+    # OS junk
+    .DS_Store
+    Thumbs.db
+    ._*
+    ~$*
+    EOF
+    ```
+
+16. **Ignore `.regent` in Git**.
+    ```bash
+    # // turbo
+    echo ".regent/" >> .gitignore
+    ```
+
 ## Phase 5: Agentic Setup
 
-14. **Seed the LLM-Wiki**. Use the `/wiki-ingest` workflow to process the project `README.md` and any critical "Executive Summary" or "Final Report" PDFs identified in Phase 1. This establishes the initial Knowledge Graph.
+17. **Seed the LLM-Wiki**. Use the `/wiki-ingest` workflow to process the project `README.md` and any critical "Executive Summary" or "Final Report" PDFs identified in Phase 1. This establishes the initial Knowledge Graph.
 
-15. **Generate Project-Specific Rules**. **After** the LLM-Wiki is seeded, the agent shall automatically generate or update the `AGENTS.md` file at the root. 
+18. **Generate Project-Specific Rules**. **After** the LLM-Wiki is seeded, the agent shall automatically generate or update the `AGENTS.md` file at the root. 
     - The `AGENTS.md` must contain explicit trigger rules for *every* workflow found in `~/.gemini/antigravity/global_workflows/`.
     - Critically, ensure the `/wiki-research` workflow is registered to trigger when the AI detects gaps in the local `.wiki/` knowledge base, maintaining strict grounding.
     - Importantly, the `/manuscript-write` global workflow MUST be explicitly linked so that the user can ask the agent to automatically extract all experimental data, generate figures, and iteratively write the paper.
@@ -106,9 +181,9 @@ Use this workflow the first time you encounter a new or inherited scientific pro
     - The rule generation must be based on the established LLM-Wiki. (e.g., If the wiki defines "RNA-Seq" as a core methodology, create a trigger for RNA-Seq data commits).
     - Ensure it includes the "Self-Evolution" rules (`/science-project-onboarding`, etc.).
 
-16. **Initialize the Lessons Learned Log**. Create `.wiki/system/lessons-learned.md` to track the evolution of project rules and operational logic.
+19. **Initialize the Lessons Learned Log**. Create `.wiki/system/lessons-learned.md` to track the evolution of project rules and operational logic.
 
-17. **Obsidian Compatibility Verification**. Obsidian natively ignores dot-prefixed folders (like `.wiki`). To ensure researchers can access their knowledge base directly from Obsidian's graphical File Explorer, you MUST create a visible symbolic link at the project root pointing to the `.wiki` folder:
+20. **Obsidian Compatibility Verification**. Obsidian natively ignores dot-prefixed folders (like `.wiki`). To ensure researchers can access their knowledge base directly from Obsidian's graphical File Explorer, you MUST create a visible symbolic link at the project root pointing to the `.wiki` folder:
     ```bash
     # // turbo
     ln -sfn .wiki Wiki
@@ -116,7 +191,7 @@ Use this workflow the first time you encounter a new or inherited scientific pro
 
 ## Phase 6: Ongoing Maintenance
 
-17. From this point forward, use the `lab-commit` workflow for daily experiment commits.
-18. Use `git mv` (via `lab-reorganize` workflow) for any file moves to preserve history.
-19. Update `INDEX.csv` when adding new experiment folders.
-20. **Compounding Knowledge**: Run `/wiki-update` weekly to resolve orphans and link new experiment results to established biological entities.
+21. From this point forward, use the `lab-commit` workflow for daily experiment commits.
+22. Use `git mv` (via `lab-reorganize` workflow) for any file moves to preserve history.
+23. Update `INDEX.csv` when adding new experiment folders.
+24. **Compounding Knowledge**: Run `/wiki-update` weekly to resolve orphans and link new experiment results to established biological entities.

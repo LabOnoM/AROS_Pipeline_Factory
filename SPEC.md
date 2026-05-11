@@ -199,3 +199,47 @@ This section documents the architectural reasoning behind our constraints based 
 ### 7.3 Idempotency in Literature Retrieval
 - **Failure Mode**: Rate-limit looping bugs encountered in early paper downloaders caused infinite retries.
 - **Enforced Pattern**: Ingestion scripts MUST use bounded retries and the 6-tier cascade fallbacks. Scripts MUST be idempotent (skip previously processed DOIs).
+
+## 8. Agent Version Control (re_gent)
+
+To ensure full auditability, high-fidelity provenance tracking, and self-healing rollbacks, AROS Pipeline Factory utilizes the `re_gent` version control system alongside Git.
+
+### 8.1 Dual-VCS Architecture
+
+Git and re_gent serve distinct, complementary purposes:
+- **Git** tracks the *state* of the repository (what changed).
+- **re_gent** tracks the *activity* of AI agents (why and how it changed).
+
+By maintaining `.regent/` alongside `.git/`, AROS ensures that every AI action, tool use, and conversational context is permanently recorded in a content-addressed Directed Acyclic Graph (DAG). 
+
+```mermaid
+graph LR
+    classDef git fill:#f97316,stroke:#fff,color:#fff
+    classDef rgt fill:#8b5cf6,stroke:#fff,color:#fff
+    classDef aros fill:#06b6d4,stroke:#fff,color:#fff
+
+    subgraph "Dual VCS Architecture"
+        Git["Git (.git/)"]:::git
+        Regent["re_gent (.regent/)"]:::rgt
+    end
+
+    Git -->|"Tracks"| RepoState["Repository State<br/>(what changed)"]
+    Regent -->|"Tracks"| AgentActivity["Agent Activity<br/>(why & how)"]
+
+    Regent -->|"Session Export"| AROS["AROS Brain<br/>(brain.db)"]:::aros
+    AROS -->|"Cross-Workspace<br/>Knowledge Transfer"| NewWorkspace["New Workspace<br/>Onboarding"]
+```
+
+### 8.2 Deployment and Self-Healing
+
+The `re_gent` audit layer is mandatory for all workspaces.
+- **New Workspaces**: Automatically deployed during Phase 4 of the `/science-project-onboarding` workflow.
+- **Legacy Workspaces**: Automatically retrofitted during Step 1.5 of the periodic `/wiki-update` workflow (Self-Healing).
+
+### 8.3 Scientific Data Exclusion Policy (`.regentignore`)
+
+To preserve performance, `re_gent` bypasses files larger than 10MB. Additionally, a standardized `.regentignore` file is generated upon initialization to exclude common massive scientific formats (e.g., `*.tif`, `*.fastq`, `*.mzML`, `*.h5`) and Office binaries (which are managed by Git LFS instead).
+
+### 8.4 Known Gaps and Phase 2 Roadmap
+
+Currently, `re_gent` relies on hook integrations built for Claude Code (`.claude/settings.json`). A Phase 2 follow-up is required to build a native Antigravity IDE hook adapter that writes to `~/.gemini/settings.json`, ensuring native IDE sessions are captured transparently.

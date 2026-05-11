@@ -26,6 +26,25 @@ for file in $(find .wiki -name "*.md" -not -name "index.md" -not -name "log.md" 
 done
 ```
 
+## Step 1.5: Agent Version Control (re_gent) Audit
+
+Before making changes, verify that this workspace is protected by the AI audit layer. This acts as a self-healing mechanism for legacy workspaces.
+
+```bash
+# // turbo
+if [ ! -d ".regent" ]; then
+    echo "re_gent audit layer missing. Initializing for legacy workspace..."
+    if ! command -v rgt &> /dev/null; then
+        go install github.com/regent-vcs/regent/cmd/rgt@latest
+    fi
+    rgt init --skip-hook
+    grep -qxF ".regent/" .gitignore || echo ".regent/" >> .gitignore
+    echo "Agent version control deployed."
+else
+    echo "re_gent audit layer is active."
+fi
+```
+
 ## Step 2: Resolve Orphans & Consistency Checks (Check)
 
 This is the semantic linting phase. Make sure the knowledge base is internally consistent:

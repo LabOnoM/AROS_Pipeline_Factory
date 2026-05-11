@@ -30,6 +30,7 @@
 | `grant_funder_profiles` | `Grant_Write_Pipeline/KIs/` | **Grant_Write_Pipeline**, **KAKENHI_Pipeline** (implicit via grant workflows) | Funder constraint profiles (MEXT SPReAD, NIH R01, etc.). KAKENHI pipeline references funder-specific rules. |
 | `kakenhi_management_pipeline` | `KAKENHI_Pipeline/KIs/` | **KAKENHI_Pipeline**, **workspace_management** | SPEC.md references `/lab-commit` and cross-pipeline workflows. |
 | `publication_grant_map` | `KAKENHI_Pipeline/KIs/` | **KAKENHI_Pipeline**, **Grant_Write_Pipeline** (implicit) | Template for publication-to-grant attribution. Used in both grant reporting contexts. |
+| `regent_integration_reference` | `workspace_management/KIs/` | **workspace_management** | Reference guide for the re_gent VCS audit layer, CLI commands, and hook protocols. |
 
 ---
 
@@ -59,6 +60,7 @@
 | `content-proofreading` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** (implicit) | General-purpose proofreading applicable to both grant and manuscript drafting. |
 | `scientific-brainstorming` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **Manuscript_Write_Pipeline** (implicit) | Brainstorming skill used across research drafting contexts. |
 | `medical-translation` | `Grant_Write_Pipeline/Skills/` | **Grant_Write_Pipeline**, **KAKENHI_Pipeline** (implicit) | Bilingual (EN/JP) translation used for both grant applications and KAKENHI reports. |
+| `regent-governance` | `workspace_management/Skills/` | **workspace_management** | Manages re_gent deployment health checks, `.regentignore` generation, and session exports. |
 
 ---
 
@@ -88,6 +90,8 @@ publication_grant_map KI        ◐           ✅          -                -
 /science-project-onboarding WF  ✅          ✅          ✅               ✅
 /audit-shared-assets WF         ✅          ✅          ✅               ✅
 literature-ingestion SKL        ✅          ✅          ✅               ✅
+regent-governance SKL           -           -           -                ✅
+regent_integration_ref KI       -           -           -                ✅
 gepa_protocol POL               ✅          ◐           ◐               ✅
 output-truncation POL           ✅          ✅          ✅               ✅
 fact_check_policy POL           ◐           ✅          -                -
@@ -106,3 +110,4 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-11 | `literature-ingestion` | Created | ALL | New shared skill for automated literature retrieval and PDF-to-Markdown conversion. Replaces `research-paper-downloader`. |
 | 2026-05-11 | `audit_shared_assets.py` | Relocated | ALL | Moved from `workspace_management/Scripts/` to `01.Shared_Assets/Scripts/` as factory-level infrastructure. Fixed basename-only duplicate detection bug. |
 | 2026-05-11 | `TempScript4Testing/` | Removed | NONE | Redundant prototype scripts absorbed into `literature-ingestion` skill. |
+| 2026-05-11 | `regent-governance` & KI | Created | `workspace_management` | Integrated re_gent VCS audit layer into workspace_management workflows, added corresponding KI and governance skill. |

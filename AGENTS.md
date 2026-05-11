@@ -4,6 +4,16 @@ This file defines the operational constraints, workflow triggers, and contextual
 
 ---
 
+## 🔒 LAW -2: Agent Version Control Awareness
+
+> **This rule enforces the integrity of the re_gent audit layer, ensuring high-fidelity provenance for all AI actions.**
+
+1. **Audit Layer Protection**: Agents MUST NOT modify the contents of the `.regent/` directory directly. The `rgt` binary is the only authorized interface to the version control store.
+2. **Filesystem Awareness**: Agents MUST check for the presence of the `.regent/` directory before executing heavy filesystem operations or moving large batches of files.
+3. **Session Context**: The agent's conversation and tool usage are automatically recorded via the hook system. Agents should assume their actions are continuously audited and traceable to their specific prompts.
+
+---
+
 ## 🔒 LAW -1: Asset Forging & Debugging Constraints (Lessons Learned)
 
 > **This rule codifies past architectural mistakes and enforces best practices for any agent modifying AROS factory assets.**
