@@ -28,20 +28,64 @@ done
 
 ## Step 1.5: Agent Version Control (re_gent) Audit
 
-Before making changes, verify that this workspace is protected by the AI audit layer. This acts as a self-healing mechanism for legacy workspaces.
+Before making changes, verify that this workspace is protected by the AI audit layer.
+This step implements the **Conda-Gated Self-Healing Pattern** (L0→L1→L2) per SPEC §4.4.
 
 ```bash
 # // turbo
-if [ ! -d ".regent" ]; then
-    echo "re_gent audit layer missing. Initializing for legacy workspace..."
-    if ! command -v rgt &> /dev/null; then
-        go install github.com/regent-vcs/regent/cmd/rgt@latest
+
+# --- L0: Ensure Conda ---
+if ! command -v conda &> /dev/null; then
+    if [ -f "$HOME/miniconda3/bin/conda" ]; then
+        eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
+    elif [ -f "$HOME/anaconda3/bin/conda" ]; then
+        eval "$($HOME/anaconda3/bin/conda shell.bash hook)"
+    else
+        echo "  [WARN] Conda not found. Bootstrapping Miniconda3..."
+        curl -fsSL --max-time 120 "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-$(uname -m).sh" \
+            -o /tmp/miniconda.sh && bash /tmp/miniconda.sh -b -u -p "$HOME/miniconda3" && \
+            eval "$($HOME/miniconda3/bin/conda shell.bash hook)" && rm -f /tmp/miniconda.sh
     fi
-    rgt init --skip-hook
-    grep -qxF ".regent/" .gitignore || echo ".regent/" >> .gitignore
-    echo "Agent version control deployed."
+fi
+
+# --- L1: Activate aros-base ---
+if command -v conda &> /dev/null; then
+    eval "$(conda shell.bash hook)"
+    if ! conda activate aros-base 2>/dev/null; then
+        CMD=$(command -v mamba &>/dev/null && echo "mamba" || echo "conda")
+        AROS_YML="01.Shared_Assets/Environments/aros-base.yml"
+        [ ! -f "$AROS_YML" ] && AROS_YML="$(find ~ -maxdepth 4 -name 'aros-base.yml' -print -quit 2>/dev/null)"
+        if [ -n "$AROS_YML" ]; then
+            $CMD env create -f "$AROS_YML" -y && conda activate aros-base
+        else
+            $CMD create -n aros-base python=3.11 git pandoc go -c conda-forge -y && conda activate aros-base
+        fi
+    fi
+fi
+
+# --- L2: re_gent deployment ---
+if [ -d ".regent" ]; then
+    echo "✅ re_gent audit layer is active."
 else
-    echo "re_gent audit layer is active."
+    echo "re_gent audit layer missing. Attempting deployment..."
+    RGT_BIN=""
+    command -v rgt &> /dev/null && RGT_BIN="$(command -v rgt)"
+    [ -z "$RGT_BIN" ] && [ -x "$HOME/go/bin/rgt" ] && RGT_BIN="$HOME/go/bin/rgt"
+
+    if [ -z "$RGT_BIN" ] && command -v go &> /dev/null; then
+        GOBIN="${CONDA_PREFIX:-$HOME/.local}/bin" go install github.com/regent-vcs/regent/cmd/rgt@latest 2>/dev/null && \
+            RGT_BIN="${CONDA_PREFIX:-$HOME/.local}/bin/rgt" || \
+            echo "  [WARN] rgt compilation failed. Continuing without re_gent."
+    fi
+
+    if [ -n "$RGT_BIN" ]; then
+        "$RGT_BIN" init --skip-hook 2>/dev/null && {
+            grep -qxF ".regent/" .gitignore 2>/dev/null || echo ".regent/" >> .gitignore
+            echo "✅ Agent version control deployed."
+        } || echo "  [WARN] rgt init failed. Continuing without re_gent."
+    else
+        echo "  [SKIP] re_gent deployment deferred — Go not available."
+    fi
 fi
 ```
 

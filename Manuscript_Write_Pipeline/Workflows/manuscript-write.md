@@ -42,7 +42,7 @@ Skill list: see **COMPLETE SKILL INTEGRATION** at end of this workflow.
 
 ### Phase 3: Multi-Format Conversion (Pandoc — NEVER manual LaTeX)
 
-**Self-Healing Preflight** (SPEC §4.4): Verify `pandoc` (CRITICAL), `tectonic` (IMPORTANT).
+**Conda-Gated Preflight** (SPEC §4.4): Activate `aros-base` env (L0→L1). Verify `pandoc` (CRITICAL), `tectonic` (IMPORTANT) via `conda list -n aros-base`.
 
 ```bash
 python3 figures/generate_figures.py

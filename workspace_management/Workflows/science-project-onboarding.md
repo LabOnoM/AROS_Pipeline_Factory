@@ -26,16 +26,7 @@ Use this workflow the first time you encounter a new or inherited scientific pro
      -printf '%TY-%Tm-%Td %TH:%TM  %s  %p\n' | sort
    ```
 
-3. **Extract document contents.** Read every `.docx` (via Python zipfile XML extraction), text file, and small spreadsheet. For PDFs, use `pdftotext`. Never trust file names alone — read the actual content.
-   ```python
-   # For .docx files:
-   import zipfile, xml.etree.ElementTree as ET
-   def read_docx(path):
-       with zipfile.ZipFile(path) as z:
-           tree = ET.fromstring(z.read("word/document.xml"))
-           ns = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
-           return "".join([t.text for t in tree.findall(".//w:t", ns) if t.text])
-   ```
+3. **Extract document contents.** Read every `.docx` (via Python `zipfile` XML extraction or `python-docx`), text file, and small spreadsheet. For PDFs, use `pdftotext`. Never trust file names alone — read the actual content.
 
 4. **Read raw data spreadsheets.** Use `openpyxl` (install via conda if needed: `conda run -n base python3 -c "import openpyxl"`) to read every `.xlsx` file's sheet names, headers, and first 20 rows. This reveals the actual experimental conditions, sample names, and measurements.
 
@@ -95,93 +86,95 @@ Use this workflow the first time you encounter a new or inherited scientific pro
 
 ## Phase 4: Agent Version Control (re_gent)
 
-14. **Check and Initialize re_gent**. Ensure all AI agent activity is auditable via the `re_gent` version control system.
+14. **Check and Initialize re_gent**. Ensure all AI agent activity is auditable via the `re_gent` version control system. This step implements the **Conda-Gated Self-Healing Pattern** (L0→L1→L2) per SPEC §4.4.
     ```bash
     # // turbo
-    if ! command -v rgt &> /dev/null; then
-        echo "Installing re_gent..."
-        go install github.com/regent-vcs/regent/cmd/rgt@latest
+
+    # --- L0: Ensure Conda ---
+    if ! command -v conda &> /dev/null; then
+        if [ -f "$HOME/miniconda3/bin/conda" ]; then
+            eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
+        elif [ -f "$HOME/anaconda3/bin/conda" ]; then
+            eval "$($HOME/anaconda3/bin/conda shell.bash hook)"
+        else
+            echo "  [WARN] Conda not found. Bootstrapping Miniconda3..."
+            curl -fsSL --max-time 120 "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-$(uname -m).sh" \
+                -o /tmp/miniconda.sh && bash /tmp/miniconda.sh -b -u -p "$HOME/miniconda3" && \
+                eval "$($HOME/miniconda3/bin/conda shell.bash hook)" && rm -f /tmp/miniconda.sh
+        fi
     fi
-    rgt init --skip-hook
+
+    # --- L1: Activate aros-base ---
+    if command -v conda &> /dev/null; then
+        eval "$(conda shell.bash hook)"
+        if ! conda activate aros-base 2>/dev/null; then
+            CMD=$(command -v mamba &>/dev/null && echo "mamba" || echo "conda")
+            AROS_YML="01.Shared_Assets/Environments/aros-base.yml"
+            [ ! -f "$AROS_YML" ] && AROS_YML="$(find ~ -maxdepth 4 -name 'aros-base.yml' -print -quit 2>/dev/null)"
+            if [ -n "$AROS_YML" ]; then
+                $CMD env create -f "$AROS_YML" -y && conda activate aros-base
+            else
+                $CMD create -n aros-base python=3.11 git pandoc go -c conda-forge -y && conda activate aros-base
+            fi
+        fi
+    fi
+
+    # --- L2: re_gent deployment ---
+    RGT_BIN=""
+    command -v rgt &> /dev/null && RGT_BIN="$(command -v rgt)"
+    [ -z "$RGT_BIN" ] && [ -x "$HOME/go/bin/rgt" ] && RGT_BIN="$HOME/go/bin/rgt"
+
+    if [ -z "$RGT_BIN" ] && command -v go &> /dev/null; then
+        GOBIN="${CONDA_PREFIX:-$HOME/.local}/bin" go install github.com/regent-vcs/regent/cmd/rgt@latest 2>/dev/null && \
+            RGT_BIN="${CONDA_PREFIX:-$HOME/.local}/bin/rgt" || \
+            echo "  [WARN] rgt compilation failed. Skipping re_gent."
+    fi
+
+    if [ -n "$RGT_BIN" ]; then
+        "$RGT_BIN" init --skip-hook 2>/dev/null && \
+            echo "✅ re_gent initialized." || \
+            echo "  [WARN] rgt init failed. Continuing without re_gent."
+    fi
     ```
 
-15. **Generate `.regentignore`**. Ensure large scientific data formats are ignored by the agent audit layer to maintain performance.
+15. **Generate `.regentignore` and update `.gitignore`**. Use the `regent-governance` skill to generate the `.regentignore` file (excludes scientific data, OS junk, and build artifacts from the audit layer). Then add `.regent/` to `.gitignore`.
     ```bash
     # // turbo
-    cat << 'EOF' > .regentignore
-    # === re_gent defaults ===
-    node_modules/
-    .git/
-    .regent/
-    __pycache__/
-    *.pyc
-    .venv/
-    venv/
-    target/
-    dist/
-    build/
-    .next/
-    .cache/
-
-    # === Scientific data exclusions ===
-    *.tif
-    *.tiff
-    *.czi
-    *.nd2
-    *.lif
-    *.ome.tif
-    *.svs
-    *.fastq
-    *.fastq.gz
-    *.bam
-    *.sam
-    *.bcf
-    *.vcf.gz
-    *.raw
-    *.mzML
-    *.mzXML
-    *.h5
-    *.hdf5
-    *.pkl
-    *.pt
-    *.pth
-    *.onnx
-
-    # Office & presentation binaries (tracked by Git LFS)
-    *.pptx
-    *.xlsx
-    *.docx
-    *.pzfx
-    *.prism
-
-    # OS junk
-    .DS_Store
-    Thumbs.db
-    ._*
-    ~$*
-    EOF
-    ```
-
-16. **Ignore `.regent` in Git**.
-    ```bash
-    # // turbo
-    echo ".regent/" >> .gitignore
+    [ ! -f .regentignore ] && echo "node_modules/
+.git/
+.regent/
+__pycache__/
+*.pyc
+*.tif
+*.tiff
+*.czi
+*.nd2
+*.bam
+*.fastq.gz
+*.raw
+*.mzML
+*.h5
+*.hdf5
+*.pptx
+*.xlsx
+*.docx
+.DS_Store
+Thumbs.db
+._*
+~\$*" > .regentignore
+    grep -qxF ".regent/" .gitignore 2>/dev/null || echo ".regent/" >> .gitignore
     ```
 
 ## Phase 5: Agentic Setup
 
 17. **Seed the LLM-Wiki**. Use the `/wiki-ingest` workflow to process the project `README.md` and any critical "Executive Summary" or "Final Report" PDFs identified in Phase 1. This establishes the initial Knowledge Graph.
 
-18. **Generate Project-Specific Rules**. **After** the LLM-Wiki is seeded, the agent shall automatically generate or update the `AGENTS.md` file at the root. 
-    - The `AGENTS.md` must contain explicit trigger rules for *every* workflow found in `~/.gemini/antigravity/global_workflows/`.
-    - Critically, ensure the `/wiki-research` workflow is registered to trigger when the AI detects gaps in the local `.wiki/` knowledge base, maintaining strict grounding.
-    - Importantly, the `/manuscript-write` global workflow MUST be explicitly linked so that the user can ask the agent to automatically extract all experimental data, generate figures, and iteratively write the paper.
-    - Enforce **Workspace Hygiene**: Instruct agents that diagnostic, ad-hoc, or one-off scratch scripts MUST NOT be generated in the root project directory, but instead strictly isolated to the designated IDE scratch directory (`~/.gemini/antigravity/brain/<id>/scratch/`).
-    - Explicitly add an "LLM-Wiki Context Injection" section to the generated `AGENTS.md` that enforces:
-      1. **Wiki-First Resolution**: Before answering domain-specific questions, agents MUST search the local `.wiki/` directory. External knowledge should only supplement, not replace, wiki-grounded answers.
-      2. **Automatic Workflow Routing**: When the user's message matches a wiki workflow pattern, automatically suggest the relevant `/wiki-*` workflow (e.g., "Research X" → `/wiki-research`, "What does the wiki say about X" → `/wiki-query`).
-    - The rule generation must be based on the established LLM-Wiki. (e.g., If the wiki defines "RNA-Seq" as a core methodology, create a trigger for RNA-Seq data commits).
-    - Ensure it includes the "Self-Evolution" rules (`/science-project-onboarding`, etc.).
+18. **Generate Project-Specific Rules**. **After** the LLM-Wiki is seeded, generate/update the `AGENTS.md` file at the project root.
+    - Register all global workflows from `~/.gemini/antigravity/global_workflows/`
+    - Link `/wiki-research` for gap detection, `/manuscript-write` for paper generation
+    - Enforce **Workspace Hygiene**: scratch scripts → `~/.gemini/antigravity/brain/<id>/scratch/`
+    - Add **Wiki-First Resolution** and **Automatic Workflow Routing** rules
+    - Include Self-Evolution rules (`/science-project-onboarding`, etc.)
 
 19. **Initialize the Lessons Learned Log**. Create `.wiki/system/lessons-learned.md` to track the evolution of project rules and operational logic.
 
