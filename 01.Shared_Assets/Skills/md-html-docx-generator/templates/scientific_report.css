@@ -1,0 +1,319 @@
+/* scientific_report.css */
+/* Huashu-inspired Design System for Scientific Reports */
+
+:root {
+  /* Core Colors */
+  --bg-color: #ffffff;
+  --text-color: #2c3e50;
+  --text-muted: #5c6c7d;
+  --border-color: #e2e8f0;
+  
+  /* Accents */
+  --accent-primary: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-light: #eff6ff;
+  
+  /* Sidebar */
+  --sidebar-bg: #f8fafc;
+  --sidebar-border: #e2e8f0;
+  
+  /* Alerts */
+  --alert-note-bg: #e0f2fe;
+  --alert-note-border: #bae6fd;
+  --alert-note-text: #0369a1;
+  --alert-tip-bg: #dcfce7;
+  --alert-tip-border: #bbf7d0;
+  --alert-tip-text: #15803d;
+  --alert-warning-bg: #fef9c3;
+  --alert-warning-border: #fef08a;
+  --alert-warning-text: #a16207;
+  --alert-caution-bg: #fee2e2;
+  --alert-caution-border: #fecaca;
+  --alert-caution-text: #b91c1c;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #0f172a;
+    --text-color: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    
+    --accent-primary: #60a5fa;
+    --accent-hover: #3b82f6;
+    --accent-light: #1e3a8a;
+    
+    --sidebar-bg: #1e293b;
+    --sidebar-border: #334155;
+
+    --alert-note-bg: rgba(14, 165, 233, 0.1);
+    --alert-note-border: rgba(14, 165, 233, 0.3);
+    --alert-note-text: #7dd3fc;
+    --alert-tip-bg: rgba(34, 197, 94, 0.1);
+    --alert-tip-border: rgba(34, 197, 94, 0.3);
+    --alert-tip-text: #86efac;
+    --alert-warning-bg: rgba(234, 179, 8, 0.1);
+    --alert-warning-border: rgba(234, 179, 8, 0.3);
+    --alert-warning-text: #fde047;
+    --alert-caution-bg: rgba(239, 68, 68, 0.1);
+    --alert-caution-border: rgba(239, 68, 68, 0.3);
+    --alert-caution-text: #fca5a5;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Layout */
+.sidebar {
+  width: 300px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  padding: 2rem 1.5rem;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 3rem 4rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Sidebar TOC */
+.sidebar h3 {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-list li {
+  margin-bottom: 0.5rem;
+}
+
+.toc-list a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  display: block;
+  padding: 0.25rem 0;
+  transition: color 0.2s;
+}
+
+.toc-list a:hover {
+  color: var(--accent-primary);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; margin-top: 0; }
+h2 { font-size: 1.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+h3 { font-size: 1.4rem; }
+
+.report-meta {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+p {
+  margin-bottom: 1.25rem;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Code & Pre */
+code {
+  font-family: var(--font-mono);
+  background-color: var(--sidebar-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+pre {
+  background-color: var(--sidebar-bg);
+  border: 1px solid var(--sidebar-border);
+  padding: 1.25rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9em;
+}
+
+/* Tables */
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--sidebar-bg);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+tr:hover {
+  background-color: var(--sidebar-bg);
+}
+
+/* Figures & Images */
+figure {
+  margin: 2rem 0;
+  padding: 0;
+  text-align: center;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Alerts (GitHub style) */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+  border-left: 4px solid;
+  margin-bottom: 1.5rem;
+}
+
+.alert-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alert-note {
+  background-color: var(--alert-note-bg);
+  border-color: var(--alert-note-border);
+  color: var(--text-color);
+}
+.alert-note .alert-title { color: var(--alert-note-text); }
+
+.alert-tip {
+  background-color: var(--alert-tip-bg);
+  border-color: var(--alert-tip-border);
+  color: var(--text-color);
+}
+.alert-tip .alert-title { color: var(--alert-tip-text); }
+
+.alert-warning {
+  background-color: var(--alert-warning-bg);
+  border-color: var(--alert-warning-border);
+  color: var(--text-color);
+}
+.alert-warning .alert-title { color: var(--alert-warning-text); }
+
+.alert-caution {
+  background-color: var(--alert-caution-bg);
+  border-color: var(--alert-caution-border);
+  color: var(--text-color);
+}
+.alert-caution .alert-title { color: var(--alert-caution-text); }
+
+
+/* Print Styles */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+    display: block;
+  }
+  
+  .sidebar {
+    display: none;
+  }
+  
+  .main-content {
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  @page {
+    margin: 2cm;
+  }
+  
+  h2, h3 {
+    page-break-after: avoid;
+  }
+  
+  figure, pre, table {
+    page-break-inside: avoid;
+  }
+}

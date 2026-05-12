@@ -1,0 +1,18 @@
+{
+  "summary": "Policy for AI agents executing data visualization. Specifies when to use Markdown-based inline fencing (Mermaid, PlantUML, Vega) for rapid UI exploration versus using the fireworks-tech-graph Python framework with rsvg-convert for creating high-resolution publication-ready SVGs/PNGs.",
+  "original_sources": [
+    "https://github.com/yizhiyanhua-ai/fireworks-tech-graph",
+    "https://github.com/markdown-viewer/skills"
+  ],
+  "ki_name": "Agentic Diagramming Standard (SVG vs Markdown)",
+  "domain_tags": [
+    "mermaid",
+    "based",
+    "data",
+    "using",
+    "agentic",
+    "graph",
+    "standard",
+    "vega"
+  ]
+}

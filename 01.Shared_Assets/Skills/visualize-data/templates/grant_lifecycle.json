@@ -1,0 +1,24 @@
+{
+  "nodes": [
+    {"id": "literature", "label": "Literature Review", "shape": "document", "group": "preparation"},
+    {"id": "brainstorm", "label": "Scientific Brainstorming", "shape": "hexagon", "group": "preparation"},
+    {"id": "scaffold", "label": "Proposal Scaffold", "shape": "rect", "group": "drafting"},
+    {"id": "draft_sections", "label": "Draft Sections", "shape": "rect", "group": "drafting"},
+    {"id": "translation", "label": "Translation", "shape": "hexagon", "group": "drafting"},
+    {"id": "mock_review", "label": "Mock Peer Review", "shape": "shield", "group": "validation"},
+    {"id": "quality_gates", "label": "Quality Gates", "shape": "diamond", "group": "validation"},
+    {"id": "assembly", "label": "Final Assembly", "shape": "rect", "group": "delivery"},
+    {"id": "submission", "label": "Submission", "shape": "cylinder", "group": "delivery"}
+  ],
+  "edges": [
+    {"source": "literature", "target": "brainstorm", "type": "read"},
+    {"source": "brainstorm", "target": "scaffold", "type": "write"},
+    {"source": "scaffold", "target": "draft_sections", "type": "write"},
+    {"source": "draft_sections", "target": "translation", "type": "async"},
+    {"source": "translation", "target": "mock_review", "type": "write"},
+    {"source": "mock_review", "target": "quality_gates", "type": "write"},
+    {"source": "quality_gates", "target": "draft_sections", "type": "loop", "label": "Revise"},
+    {"source": "quality_gates", "target": "assembly", "type": "write", "label": "Pass"},
+    {"source": "assembly", "target": "submission", "type": "write"}
+  ]
+}

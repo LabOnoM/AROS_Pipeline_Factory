@@ -1,0 +1,20 @@
+{
+  "nodes": [
+    {"id": "draft_manuscript", "label": "Draft Manuscript", "shape": "document", "group": "writer"},
+    {"id": "writer_agent", "label": "Writer Agent", "shape": "hexagon", "group": "writer"},
+    {"id": "reviewer_agent", "label": "Reviewer Agent", "shape": "hexagon", "group": "reviewer"},
+    {"id": "critique_report", "label": "Critique Report", "shape": "document", "group": "reviewer"},
+    {"id": "revision", "label": "Revision Integration", "shape": "rect", "group": "writer"},
+    {"id": "editor_gate", "label": "Editor Gate", "shape": "shield", "group": "validation"}
+  ],
+  "edges": [
+    {"source": "writer_agent", "target": "draft_manuscript", "type": "write"},
+    {"source": "draft_manuscript", "target": "reviewer_agent", "type": "read"},
+    {"source": "reviewer_agent", "target": "critique_report", "type": "write"},
+    {"source": "critique_report", "target": "revision", "type": "read"},
+    {"source": "revision", "target": "draft_manuscript", "type": "write"},
+    {"source": "draft_manuscript", "target": "editor_gate", "type": "write"},
+    {"source": "editor_gate", "target": "writer_agent", "type": "loop", "label": "Reject"},
+    {"source": "editor_gate", "target": "submission", "type": "write", "label": "Accept"}
+  ]
+}
