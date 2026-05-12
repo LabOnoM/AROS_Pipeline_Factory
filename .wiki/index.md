@@ -1,33 +1,28 @@
-# AROS Pipeline Factory - Wiki Index
+# AROS Pipeline Factory: Knowledge Graph
+Welcome to the central knowledge base for the AROS Pipeline Factory. This wiki documents the architecture, workflows, and governance of the AROS ecosystem.
 
-Welcome to the knowledge base for the AROS Pipeline Factory. This wiki catalogs all multi-agent writing workflows and factory assets.
+## 🗺️ Pipeline Directory
+### Core Scientific Pipelines
+- [[Bioinformatics_Pipeline]]: Genomic and proteomic tools.
+- [[Image_Processing_Pipeline]]: CV and microscopy workflows.
+- [[Data_Analysis_Pipeline]]: Statistics and visualization.
 
-## 📚 Domains
-- [[Grant_Write_Pipeline]] — Universal Scientific Grant Writing
-- [[KAKENHI_Pipeline]] — JSPS KAKENHI Grant Lifecycle
-- [[Manuscript_Write_Pipeline]] — Dual-Agent Manuscript Authoring
+### Academic & Grant Pipelines
+- [[Writing_Publishing_Pipeline]]: Manuscript authoring (Markdown-first).
+- [[Grant_Write_Pipeline]]: Universal grant writing (MEXT/KAKENHI).
+- [[KAKENHI_Pipeline]]: JSPS-specific grant lifecycle.
 
-## 🔒 Governance & Policies
-- [[cross_pipeline_compatibility_protocol]] — **SUPREME RULE**: The Cross-Pipeline Compatibility Protocol (CPCP)
-- [[aros_asset_deployment]] — **MANDATORY**: Canonical directory mapping and deploy script (SPEC §4.5)
-- [[citation_before_claim_protocol]] — **MANDATORY**: Strict Grounding to prevent AI hallucinations
-- [[self_healing_environment_policy]] — **MANDATORY**: Conda-gated Detect→Repair→Degrade pattern
-- [[conda_environment_standard]] — `aros-base` conda architecture
-- [[pipeline_registry_migration]] — Migration to `PIPELINE_REGISTRY.md`
-- [[unified_diagramming]] — Standardized use of `visualize-data`
+### Infrastructure Pipelines
+- [[Software_Engineering_Pipeline]]: DevTools and CI/CD.
+- [[System_Admin_Pipeline]]: Deployment and OS management.
+- [[Web_Scraping_API_Pipeline]]: Data retrieval.
 
-## 🛠️ Factory Skills
-- [[secure_html_delivery]] — AES-256 encrypted interactive report generation
-- [[excel_injection]] — Automated markdown-to-excel injection
-- `literature-ingestion` — Tiered PDF retrieval and conversion
+## ⚖️ Governance & Laws
+- [[LAW_0_CPCP]]: Cross-Pipeline Compatibility Protocol.
+- [[LAW_1_Deployment]]: Canonical routing to AROS runtime.
+- [[SAMS_Standard]]: Shared Asset Management System.
 
-## 📖 Workflows
-- `/grant-write` — Universal Grant Writing Pipeline
-- `/kakenhi-annual-report` — KAKENHI Lifecycle
-- `/manuscript-write` — Manuscript Authoring
-- `/literature-ingest` — Automated Literature Ingestion
-- `/audit-shared-assets` — CPCP Compliance Verification
-
-## ⚙️ System
-- [[lessons-learned]] — Post-Mortems & Operational Wisdom
-- `deploy_to_aros.sh` — Canonical asset deployment script (SPEC §4.5, AGENTS.md LAW 1)
+## 🛠️ Infrastructure Tools
+- [[deploy_to_aros.sh]]: Production sync tool.
+- [[audit_shared_assets.py]]: SAMS compliance auditor.
+- [[execute_migration.py]]: Repository restructuring engine.
