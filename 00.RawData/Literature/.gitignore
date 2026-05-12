@@ -1,0 +1,13 @@
+# Ignore everything in the subdirectories
+02_Raw_PDFs/*
+!02_Raw_PDFs/.gitkeep
+03_Parsed_Markdown/*
+!03_Parsed_Markdown/.gitkeep
+04_Parsed_JSON/*
+!04_Parsed_JSON/.gitkeep
+05_Metadata/*
+!05_Metadata/.gitkeep
+
+# Ignore dynamic files
+01_Target_DOIs.txt
+failed_downloads.json
