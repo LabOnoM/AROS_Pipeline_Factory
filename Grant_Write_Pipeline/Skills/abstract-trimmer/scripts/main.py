@@ -11,17 +11,17 @@ class AbstractTrimmer:
     """Trims abstracts to meet word limits."""
     
     def trim(self, abstract: str, target_words: int, strategy: str = "balanced") -> dict:
-        """Trim abstract to target word count.
+        """Trim abstract to target character count (Excel LEN logic).
         
         Args:
             abstract: Input abstract text
-            target_words: Target word count
+            target_words: Target character count
             strategy: Trimming strategy (conservative/balanced/aggressive)
             
         Returns:
             Dictionary with trimmed abstract and statistics
         """
-        original_words = len(abstract.split())
+        original_words = len(abstract)
         
         # Remove redundant phrases based on strategy
         trimmed = abstract
@@ -55,22 +55,24 @@ class AbstractTrimmer:
         # Clean up extra spaces
         trimmed = re.sub(r'\s+', ' ', trimmed).strip()
         
-        words = trimmed.split()
-        if len(words) > target_words:
-            # Keep first and last sentences, trim middle
-            sentences = trimmed.split('. ')
+        if len(trimmed) > target_words:
+            sep = '。' if '。' in trimmed else '. '
+            sentences = trimmed.split(sep)
+            
             if len(sentences) > 2:
-                middle_start = target_words // 3
-                middle_end = target_words - len(sentences[0].split()) - len(sentences[-1].split()) - 5
-                if middle_end > middle_start:
-                    middle_words = words[middle_start:middle_end]
-                    trimmed = f"{sentences[0]}. {' '.join(middle_words)}... {sentences[-1]}"
+                head = sentences[0] + sep
+                tail = sentences[-1]
+                remaining_len = target_words - len(head) - len(tail) - 5
+                if remaining_len > 0:
+                    mid_start = len(head)
+                    mid = trimmed[mid_start:-len(tail) if len(tail) > 0 else None]
+                    trimmed = head + mid[:remaining_len] + "..." + tail
                 else:
-                    trimmed = ' '.join(words[:target_words])
+                    trimmed = trimmed[:target_words]
             else:
-                trimmed = ' '.join(words[:target_words])
+                trimmed = trimmed[:target_words]
         
-        final_words = len(trimmed.split())
+        final_words = len(trimmed)
         
         return {
             "trimmed_abstract": trimmed,
@@ -80,8 +82,8 @@ class AbstractTrimmer:
         }
     
     def count_words(self, text: str) -> int:
-        """Count words in text."""
-        return len(text.split())
+        """Count characters in text (Excel LEN logic)."""
+        return len(text)
 
 
 def main():
