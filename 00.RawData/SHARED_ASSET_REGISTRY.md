@@ -129,3 +129,4 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 
 | `01.Shared_Assets/Scripts/execute_migration.py` | Migration script | `workspace_management` | 2026-05-12 | Added high-fidelity comments |
 | 2026-05-12 | `.wiki/` & `README.md` | Updated | ALL | **Wiki Update & Philosophy Sync**: Executed `/wiki-update` to resolve orphans and rebuild index. Created `overview.md` and `log.md`. Synced "Embodiment & Co-Evolution" philosophy into `README.md` and `overview.md`. |
+| 2026-05-13 | `literature-ingestion/pdf_converter.py` | Fixed | ALL | Fixed CLI arguments for `opendataloader-pdf` integration and uncommented execution subprocess. |

@@ -88,29 +88,18 @@ def main() -> None:
         "opendataloader-pdf",
         "--hybrid", "docling-fast",
         "--hybrid-mode", config.get("hybrid_mode", "full"),
-        "--ocr-lang", config.get("ocr_languages", "en,ja"),
         "-f", ",".join(formats),
         "--output-dir", str(md_dir),
     ]
 
-    if config.get("enrich_formula"):
-        cmd.append("--enrich-formula")
-    if config.get("enrich_picture_description"):
-        cmd.append("--enrich-picture-description")
-
     # Batch mode: pass all PDFs in a single invocation to avoid
     # cold-starting the JVM per file.
-    cmd.extend(["--input-path"] + pdfs_to_convert)
+    cmd.extend(pdfs_to_convert)
 
     print("Running command:", " ".join(cmd))
 
     # Execute the conversion.
-    # In a deployment where opendataloader-pdf is installed, uncomment:
-    # subprocess.run(cmd, check=True)
-    print(
-        "Note: In a full deployment, this triggers the Java-based parser. "
-        "Ensure opendataloader-pdf and Java 11+ are installed."
-    )
+    subprocess.run(cmd, check=True)
     print("Conversion batch complete.")
 
 
