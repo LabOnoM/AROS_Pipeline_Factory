@@ -1,6 +1,3 @@
----
-cpcp_asset: true
----
 # Skill: Researcher Data Collection & Profile Refresh
 
 > **Purpose**: Systematically collect, verify, and update researcher academic profile data from authoritative sources for KAKENHI grant reporting.

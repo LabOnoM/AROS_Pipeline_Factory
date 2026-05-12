@@ -23,11 +23,19 @@ Assets located in \`01.Shared_Assets/\` are governed by SAMS. These are common u
 ### 3.1 LAW 0: CPCP (Cross-Pipeline Compatibility Protocol)
 Any modification to a shared asset REQUIRES:
 1. Impact assessment across all consumer pipelines.
-2. Logging in \`00.RawData/SHARED_ASSET_REGISTRY.md\`.
+2. Logging in `00.RawData/SHARED_ASSET_REGISTRY.md`.
 3. Forking if a breaking change is required for a specific pipeline.
 
-### 3.2 LAW 1: Asset Deployment
-All production deployments MUST use \`01.Shared_Assets/Scripts/deploy_to_aros.sh\`. Manual file movement to \`~/.gemini/\` is prohibited.
+### 3.2 LAW 1: Asset Deployment & Bidirectional Sync
+All production deployments and synchronization operations MUST use `01.Shared_Assets/Scripts/sync_with_aros.sh`. Manual file movement between the Factory and `~/.gemini/` is prohibited. The `deploy_to_aros.sh` script is maintained as a legacy wrapper for `sync_with_aros.sh push`.
 
-## 4. Self-Healing Environment (SHE)
-The repository implements a SHE pattern using shell-based audits (\`audit_shared_assets.py\`) to ensure metadata integrity and path consistency.
+## 4. Systems Integration
+### 4.4 Self-Healing Environment (SHE)
+The repository implements a SHE pattern using shell-based audits (`audit_shared_assets.py`) to ensure metadata integrity and path consistency.
+
+### 4.5 AROS Runtime Directory Mapping
+The canonical mapping between Factory structures and the live AROS runtime is:
+- **Skills**: `~/.gemini/skills/<skill-name>/SKILL.md`
+- **Knowledge Items**: `~/.gemini/antigravity/knowledge/<ki-name>/artifacts/`
+- **Policies**: `~/.gemini/antigravity/policies/<policy-name>.md`
+- **Workflows**: `~/.gemini/antigravity/global_workflows/<workflow-name>.md`

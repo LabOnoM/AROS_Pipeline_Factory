@@ -15,28 +15,30 @@ The AROS Pipeline Factory uses a **source-of-truth → runtime deployment** mode
 
 ## Deployment Mechanism
 
-The canonical deployment tool is `01.Shared_Assets/Scripts/deploy_to_aros.sh`.
+The canonical synchronization tool is `01.Shared_Assets/Scripts/sync_with_aros.sh`. It handles bidirectional sync to ensure that autonomous GEPA (Generative Error-Patching Agent) mutations occurring in the Runtime are not overwritten, but instead pulled back into the Git-tracked Factory.
 
 ### Usage
 ```bash
-# Full deployment (all asset types)
-./01.Shared_Assets/Scripts/deploy_to_aros.sh
+# 1. Status Check (Always run this first to detect GEPA mutations)
+./01.Shared_Assets/Scripts/sync_with_aros.sh status
 
-# Preview without modifying files
-./01.Shared_Assets/Scripts/deploy_to_aros.sh --dry-run
+# 2. Push (Deploy Factory → Runtime)
+./01.Shared_Assets/Scripts/sync_with_aros.sh push
 
-# Selective deployment
-./01.Shared_Assets/Scripts/deploy_to_aros.sh --skills
-./01.Shared_Assets/Scripts/deploy_to_aros.sh --kis
-./01.Shared_Assets/Scripts/deploy_to_aros.sh --policies
-./01.Shared_Assets/Scripts/deploy_to_aros.sh --workflows
+# 3. Pull (Import GEPA mutations Runtime → Factory)
+./01.Shared_Assets/Scripts/sync_with_aros.sh pull
+
+# 4. Diff (Show diverged changes)
+./01.Shared_Assets/Scripts/sync_with_aros.sh diff <type> <name>
 ```
+
+*(Note: `deploy_to_aros.sh` is maintained as a legacy wrapper for `sync_with_aros.sh push` to ensure backward compatibility).*
 
 ### How It Works
 1. Scans all pipeline directories (Grant_Write_Pipeline, Manuscript_Write_Pipeline, KAKENHI_Pipeline, workspace_management, 01.Shared_Assets) for assets.
-2. Uses idempotent `rsync` for directories and `cp` for flat files.
-3. Handles legacy formats (flat `*_SKILL.md` files, flat `.md` KI files) by converting to the canonical directory structure.
-4. Reports deployment counts and errors in a summary table.
+2. Uses content-based SHA-256 checksums (not mtime) to detect staleness and divergence.
+3. Automatically routes pulled assets to their originating Pipeline directory in the Factory.
+4. Handles legacy formats (flat `*_SKILL.md` files) by warning the user during pulls, preventing structural corruption.
 
 ## Path Enforcement Rules
 
@@ -49,8 +51,8 @@ Assets placed in wrong directories are **invisible** to AROS:
 
 ## Governance
 
-- **SPEC §4.5**: Defines the directory map and deployment protocol.
-- **AGENTS.md LAW 1**: Mandates use of `deploy_to_aros.sh` for all deployments.
+- **SPEC §4.5**: Defines the directory map and bidirectional sync architecture.
+- **AGENTS.md LAW 1**: Mandates use of `sync_with_aros.sh` for all deployments.
 - **CPCP (LAW 0)**: Shared assets must still follow the Cross-Pipeline Compatibility Protocol before modification.
 
 ## Related

@@ -1,11 +1,8 @@
 ---
-cpcp_asset: true
 name: word-read-write
 description: Create and read Microsoft Word (.docx) documents. Use this skill when you need to generate reports/letters/templates as .docx or extract readable text from existing .docx files.
 license: MIT
 skill-author: AIPOCH
-
-cpcp_asset: true
 ---
 
 ## When to Use

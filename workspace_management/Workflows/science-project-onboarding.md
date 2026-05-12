@@ -175,6 +175,7 @@ Thumbs.db
     - Enforce **Workspace Hygiene**: scratch scripts → `~/.gemini/antigravity/brain/<id>/scratch/`
     - Add **Wiki-First Resolution** and **Automatic Workflow Routing** rules
     - Include Self-Evolution rules (`/science-project-onboarding`, etc.)
+    - **Enforce Large Artifact Generation Rules**: Explicitly state that generating massive markdown files, HTML reports, or documents exceeding 3000 words must use a programmatic intermediary (e.g. Python scripts) rather than direct LLM generation.
 
 19. **Initialize the Lessons Learned Log**. Create `.wiki/system/lessons-learned.md` to track the evolution of project rules and operational logic.
 

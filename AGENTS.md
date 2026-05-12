@@ -71,11 +71,10 @@ This protocol activates automatically whenever an agent:
 
 ### Deployment Rules
 
-1. **Deploy Script is MANDATORY**: All deployments from the AROS Pipeline Factory to the AROS runtime MUST use `01.Shared_Assets/Scripts/deploy_to_aros.sh`. Manual `cp` or `rsync` commands are NOT RECOMMENDED.
-2. **Dry Run First**: Before any deployment, agents SHOULD execute `deploy_to_aros.sh --dry-run` to preview changes.
+1. **Sync Script is MANDATORY**: All deployments and synchronizations between the AROS Pipeline Factory and the AROS runtime MUST use `01.Shared_Assets/Scripts/sync_with_aros.sh`. Manual `cp` or `rsync` commands are PROHIBITED. (The legacy `deploy_to_aros.sh` is maintained as a wrapper).
+2. **Status Check First**: Before any sync, agents SHOULD execute `sync_with_aros.sh status` to check for GEPA mutations in the runtime that require pulling.
 3. **No Cross-Type Placement**: An asset MUST be placed in its corresponding type directory. Skills MUST NOT go to `knowledge/`, KIs MUST NOT go to `skills/`, etc. Misplaced assets are invisible to AROS indexers.
 4. **Post-Deployment Verification**: After deployment, the agent SHOULD invoke `find_helpful_skills` or `find_helpful_ki` to confirm the asset is discoverable.
-
 ---
 
 ## 🧠 LLM-Wiki Context Injection (Strict Grounding)
