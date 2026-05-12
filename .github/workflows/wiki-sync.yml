@@ -1,0 +1,41 @@
+name: Sync Local Wiki to GitHub Wiki
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - '.wiki/**'
+  workflow_dispatch:
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Sync Wiki
+        uses: Andrew-Chen-Wang/github-wiki-action@v4
+        with:
+          path: .wiki
+          ignore: index.md
+        env:
+          WIKI_PUSH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Set Home.md (Landing Page)
+        run: |
+          # The above action syncs the folder. We now need to manually ensure index.md becomes Home.md in the wiki repo
+          # To do this safely, we will clone the wiki locally, copy index.md to Home.md, and push
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki-repo
+          cd wiki-repo
+          cp ../.wiki/index.md Home.md
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Home.md
+          # Only commit if there are changes
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto-sync index.md to Home.md"
+            git push origin master
+          fi
