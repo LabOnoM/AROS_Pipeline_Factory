@@ -35,3 +35,11 @@ This page serves as a historical repository of significant bugs, architectural m
 **Context**: The Factory adopted `PIPELINE_REGISTRY.md` to replace `INDEX.csv`, but the initial implementation only generalized 4 of 7 workflow templates. The `/project-organize` workflow (which has actual bash scripts with `grep -q "$basename" 00.RawData/INDEX.csv`) was missed because it resided only in the global cache, not in the factory workspace.
 **The Bug**: An agent deleted `INDEX.csv` from the factory but left 11 hardcoded references in `project-organize.md` intact. Those bash scripts would silently fail (returning "NOT INDEXED" for every folder) because the `grep` target file no longer existed.
 **The Fix**: All bash scripts that reference project registries now use **Dynamic Registry Discovery** — a `if [ -f ... ]` cascade that detects whether `INDEX.csv` or `PIPELINE_REGISTRY.md` exists, falling back gracefully if neither is found. Additionally, `regent_to_aros_bridge.py` was fixed to use `os.path.expanduser("~")` instead of a hardcoded `/home/ubuntu4/` path.
+
+## 8. Grant Writing Pipeline Hallucination & Structural Failure (May 2026)
+**Context**: The `/grant-write` pipeline was producing hallucinated deployment URLs and inconsistent file structures when applied to new projects.
+**The Bug**: The pipeline lacked explicit verification gates and relied on project-specific, hardcoded build scripts (`build_interactive_report.py`, `inject_excel.py`) that were not portable.
+**The Fix**:
+- **Phase 0 (Output Manifest)**: Mandated the generation of a `GRANT_OUTPUT_MANIFEST.md` to define expected outputs before drafting.
+- **Phase Completion Gates**: Inserted mandatory verification steps (using `find`, `wc -l`) after critical drafting and assembly phases to prevent silent failures.
+- **Parameterized Skills**: Bespoke build logic was refactored into generalized, reusable AROS skills (`secure-html-delivery`, `excel-injection`) located in `~/.gemini/antigravity/skills/`, ensuring portability across all future grant applications.
