@@ -1,6 +1,6 @@
 # AROS Pipeline Factory Specification (SPEC)
 
-> **Version**: 1.3.0
+> **Version**: 1.4.0
 > **Date**: 2026-05-12
 > **Status**: APPROVED
 > **Scope**: AROS Pipeline Factory Architecture, Governance, and Integration
@@ -167,13 +167,13 @@ To prevent superficial single-pass drafting, all writing workflows enforce a **m
 ### 4.3 The /lab-commit Gateway
 No pipeline MAY execute isolated `git commit` commands. All version control operations MUST be delegated to the canonical `/lab-commit` workflow to ensure structured telemetry and index parity.
 
-### 4.4 Self-Healing Environment Requirements
-All workflows, skills, and KIs that depend on external CLI tools MUST implement the **three-phase Self-Healing Environment Pattern**:
-1. **Detect**: Check tool existence AND version compatibility before invocation.
-2. **Repair**: If missing or incompatible, auto-install to user-local paths (`~/.local/bin/`, `~/go/bin/`) without `sudo`.
-3. **Degrade Gracefully**: If repair fails, log `[WARN]` and skip non-critical steps. Only CRITICAL dependencies (e.g., `pandoc` for conversion, `git` for commits) may trigger a HALT.
+### 4.4 Self-Healing Environment Requirements (Conda-Gated)
+All workflows, skills, and KIs that depend on external CLI tools MUST implement the **Conda-Gated Self-Healing Environment Pattern**:
+1. **L0 (Bootstrap)**: Ensure `conda` or `miniconda` exists. If absent, auto-install Miniconda3 silently to `$HOME/miniconda3/` without `sudo`.
+2. **L1 (Detect + Repair via Conda)**: Activate the `aros-base` conda environment; if it does not exist, create it from `01.Shared_Assets/Environments/aros-base.yml`. Prefer `mamba` over `conda` for speed. No bare `pip install`, `go install`, or `curl` downloads.
+3. **L2 (Degrade Gracefully)**: If conda repair fails (network, package unavailable), log `[WARN]` and skip non-critical steps. Only CRITICAL dependencies (e.g., `pandoc`, `git`) may trigger a HALT.
 
-The authoritative reference for compliance is `01.Shared_Assets/Policies/self_healing_environment_policy.md`. No new workflow MAY be merged without passing the Self-Healing Compliance Checklist defined in that policy.
+Minimum versions: Conda ≥ 23.0, Mamba ≥ 1.0 (RECOMMENDED). The canonical environment definition is `01.Shared_Assets/Environments/aros-base.yml`. The authoritative compliance reference is `01.Shared_Assets/Policies/self_healing_environment_policy.md`. No new workflow MAY be merged without passing the Self-Healing Compliance Checklist defined in that policy.
 
 ## 5. Quality Assurance & System Audits
 

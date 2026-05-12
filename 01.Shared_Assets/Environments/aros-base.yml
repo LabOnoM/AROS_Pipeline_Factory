@@ -1,0 +1,43 @@
+# ==============================================================================
+# AROS Pipeline Factory — Base Environment Definition
+# ==============================================================================
+# This is the canonical environment specification for all AROS workflows.
+# Referenced by: SPEC.md §4.4, self_healing_environment_policy.md §2.6
+#
+# Usage:
+#   mamba env create -f aros-base.yml          # first-time creation
+#   mamba env update -f aros-base.yml --prune  # update existing environment
+#   conda activate aros-base                   # activate before workflow
+#
+# CPCP: This is a shared asset consumed by ALL pipelines.
+# ==============================================================================
+
+name: aros-base
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  # --- Core Infrastructure ---
+  - python>=3.10,<3.13
+  - git>=2.30
+  - pandoc>=3.1
+  - go>=1.22
+  - nodejs>=18
+
+  # --- Scientific Python (common across pipelines) ---
+  - numpy>=1.24
+  - scipy>=1.10
+  - matplotlib>=3.7
+  - seaborn>=0.12
+  - pandas>=2.0
+  - openpyxl>=3.1
+
+  # --- Document Generation ---
+  - python-docx>=0.8
+  - tectonic                   # LaTeX compilation (IMPORTANT, not CRITICAL)
+
+  # --- Pip-only packages (not on conda-forge) ---
+  - pip:
+    - cairosvg>=2.7            # SVG→PNG rendering for visualize-data
+    - fireworks-tech-graph     # Scientific diagram engine

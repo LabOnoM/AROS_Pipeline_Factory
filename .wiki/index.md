@@ -10,7 +10,8 @@ Welcome to the knowledge base for the AROS Pipeline Factory. This wiki catalogs 
 ## 🔒 Governance
 - [[cross_pipeline_compatibility_protocol]] — **SUPREME RULE**: The Cross-Pipeline Compatibility Protocol (CPCP)
 - [[citation_before_claim_protocol]] — **MANDATORY**: Strict Grounding to prevent AI hallucinations during drafting
-- [[self_healing_environment_policy]] — **MANDATORY**: Three-phase Detect→Repair→Degrade pattern for all external tool dependencies (SPEC §4.4)
+- [[self_healing_environment_policy]] — **MANDATORY**: Conda-gated Detect→Repair→Degrade pattern for all external tool dependencies (SPEC §4.4, v2.0)
+- [[conda_environment_standard]] — The `aros-base` conda environment specification and L0/L1/L2 architecture
 - [[pipeline_registry_migration]] — Migration from INDEX.csv to PIPELINE_REGISTRY.md (Dynamic Registry Discovery)
 - [[unified_diagramming]] — Standardized use of `visualize-data` for all scientific diagram generation
 - `/audit-shared-assets` — Workflow to programmatically verify CPCP compliance
