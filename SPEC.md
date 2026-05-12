@@ -1,6 +1,6 @@
 # AROS Pipeline Factory Specification (SPEC)
 
-> **Version**: 1.4.0
+> **Version**: 1.5.0
 > **Date**: 2026-05-12
 > **Status**: APPROVED
 > **Scope**: AROS Pipeline Factory Architecture, Governance, and Integration
@@ -174,6 +174,33 @@ All workflows, skills, and KIs that depend on external CLI tools MUST implement 
 3. **L2 (Degrade Gracefully)**: If conda repair fails (network, package unavailable), log `[WARN]` and skip non-critical steps. Only CRITICAL dependencies (e.g., `pandoc`, `git`) may trigger a HALT.
 
 Minimum versions: Conda ≥ 23.0, Mamba ≥ 1.0 (RECOMMENDED). The canonical environment definition is `01.Shared_Assets/Environments/aros-base.yml`. The authoritative compliance reference is `01.Shared_Assets/Policies/self_healing_environment_policy.md`. No new workflow MAY be merged without passing the Self-Healing Compliance Checklist defined in that policy.
+
+### 4.5 AROS Runtime Directory Mapping
+
+All pipeline assets MUST be deployed to the canonical AROS runtime directories to be discoverable by the `antigravity-brain` MCP server. The following table defines the ONLY valid deployment targets:
+
+| Asset Type | Factory Source Location | AROS Runtime Target | Indexed By |
+|------------|------------------------|--------------------|-----------|
+| **Skills** | `<Pipeline>/Skills/<skill-name>/SKILL.md` | `~/.gemini/skills/<skill-name>/SKILL.md` | `ki_workflow_index.py`, `sync.py` |
+| **Knowledge Items** | `<Pipeline>/KIs/<ki-name>/` | `~/.gemini/antigravity/knowledge/<ki-name>/` | `ki_workflow_index.py`, `sync.py` |
+| **Policies** | `<Pipeline>/Policies/<policy>.md` | `~/.gemini/antigravity/policies/<policy>.md` | `batch_evolver.py` (GEPA mutations) |
+| **Workflows** | `<Pipeline>/Workflows/<workflow>.md` | `~/.gemini/antigravity/global_workflows/<workflow>.md` | `ki_workflow_index.py`, IDE slash commands |
+
+The authoritative deployment mechanism is `01.Shared_Assets/Scripts/deploy_to_aros.sh`. Manual file copying to `~/.gemini/` is NOT RECOMMENDED — all deployments SHOULD use the deploy script to prevent path misrouting.
+
+#### 4.5.1 Deployment Protocol
+
+1. **Pre-deploy Verification**: Run `deploy_to_aros.sh --dry-run` to preview all changes.
+2. **Full Deployment**: Execute `deploy_to_aros.sh` from the factory root.
+3. **Selective Deployment**: Use `--skills`, `--kis`, `--policies`, or `--workflows` flags for targeted updates.
+4. **Post-deploy Validation**: The `antigravity-brain` MCP server indexes assets lazily on next query. No restart is required.
+
+#### 4.5.2 Path Enforcement
+
+Assets placed outside the canonical directories WILL NOT be discoverable by AROS agents. Specifically:
+- Skills placed in `~/.gemini/antigravity/knowledge/` will NOT be found by skill lookups.
+- KIs placed in `~/.gemini/skills/` will NOT be found by KI queries.
+- Policies placed in `~/.gemini/antigravity/global_workflows/` will NOT be eligible for GEPA mutation.
 
 ## 5. Quality Assurance & System Audits
 

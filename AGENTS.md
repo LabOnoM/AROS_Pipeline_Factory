@@ -56,6 +56,28 @@ This protocol activates automatically whenever an agent:
 
 ---
 
+## 🔒 LAW 1: AROS Asset Deployment Protocol
+
+> **This rule enforces correct asset routing from the factory repository to the AROS runtime, preventing path misrouting that causes skills, KIs, policies, or workflows to become invisible to the antigravity-brain MCP.**
+
+### Canonical AROS Runtime Directory Map (SPEC §4.5)
+
+| Asset Type | AROS Runtime Target |
+|------------|---------------------|
+| **Skills** | `~/.gemini/skills/<skill-name>/SKILL.md` |
+| **Knowledge Items** | `~/.gemini/antigravity/knowledge/<ki-name>/` |
+| **Policies** | `~/.gemini/antigravity/policies/<policy>.md` |
+| **Workflows** | `~/.gemini/antigravity/global_workflows/<workflow>.md` |
+
+### Deployment Rules
+
+1. **Deploy Script is MANDATORY**: All deployments from the AROS Pipeline Factory to the AROS runtime MUST use `01.Shared_Assets/Scripts/deploy_to_aros.sh`. Manual `cp` or `rsync` commands are NOT RECOMMENDED.
+2. **Dry Run First**: Before any deployment, agents SHOULD execute `deploy_to_aros.sh --dry-run` to preview changes.
+3. **No Cross-Type Placement**: An asset MUST be placed in its corresponding type directory. Skills MUST NOT go to `knowledge/`, KIs MUST NOT go to `skills/`, etc. Misplaced assets are invisible to AROS indexers.
+4. **Post-Deployment Verification**: After deployment, the agent SHOULD invoke `find_helpful_skills` or `find_helpful_ki` to confirm the asset is discoverable.
+
+---
+
 ## 🧠 LLM-Wiki Context Injection (Strict Grounding)
 1. **Wiki-First Resolution**: Before answering any domain-specific or project-specific questions, agents MUST search the local `.wiki/` directory. External or pre-trained knowledge should only supplement, not replace, wiki-grounded answers.
 2. **Automatic Workflow Routing**: When the user's message matches a wiki workflow pattern, automatically suggest or trigger the relevant `/wiki-*` workflow (e.g., "Research X" → `/wiki-research`, "What does the wiki say about X" → `/wiki-query`).

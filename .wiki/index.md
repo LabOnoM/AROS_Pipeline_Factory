@@ -9,6 +9,7 @@ Welcome to the knowledge base for the AROS Pipeline Factory. This wiki catalogs 
 
 ## 🔒 Governance & Policies
 - [[cross_pipeline_compatibility_protocol]] — **SUPREME RULE**: The Cross-Pipeline Compatibility Protocol (CPCP)
+- [[aros_asset_deployment]] — **MANDATORY**: Canonical directory mapping and deploy script (SPEC §4.5)
 - [[citation_before_claim_protocol]] — **MANDATORY**: Strict Grounding to prevent AI hallucinations
 - [[self_healing_environment_policy]] — **MANDATORY**: Conda-gated Detect→Repair→Degrade pattern
 - [[conda_environment_standard]] — `aros-base` conda architecture
@@ -29,3 +30,4 @@ Welcome to the knowledge base for the AROS Pipeline Factory. This wiki catalogs 
 
 ## ⚙️ System
 - [[lessons-learned]] — Post-Mortems & Operational Wisdom
+- `deploy_to_aros.sh` — Canonical asset deployment script (SPEC §4.5, AGENTS.md LAW 1)
