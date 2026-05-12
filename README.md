@@ -94,6 +94,12 @@ As these artifacts are deployed and refined across the AROS ecosystem, the AI's 
 
 The principle is therefore both simple and profound: **as long as we can successfully decompose our complex, embodied intelligence into highly detailed, step-by-step cognitive maps — and inject the stochastic, physically grounded corrections that only embodied beings can provide — we can outsource the execution of that decomposed intelligence to AI systems.** The intelligence that *generates* the decomposition — the embodied, thermodynamically coupled, analog human mind — remains irreplaceable. The execution of the decomposed steps, enriched by the accumulated grounding of human embodied experience, is where AI excels.
 
+#### 3c. Memory Transfer Learning: The Mechanism of Cross-Domain Evolution
+
+The translation of embodied human experience into stable AI capabilities is not a siloed process. As demonstrated by recent research in **Memory Transfer Learning (MTL)** ([Kangsan Kim et al., arXiv:2604.14004](https://arxiv.org/abs/2604.14004)), the most effective way for coding agents to self-evolve is by harnessing a unified memory pool across heterogeneous domains. Rather than transferring rigid, low-level task traces (which often cause negative transfer due to excessive specificity), MTL proves that *high-level abstract insights and meta-knowledge* (such as validation routines and problem-solving architectures) generalize across domains. 
+
+In the AROS ecosystem, this is exactly what our shared asset layer (Skills, KIs, Policies) achieves. By extracting the "meta-knowledge" from a specific human-AI correction in one domain (e.g., bioinformatics) and distilling it into an abstract, reusable policy or workflow, we enable cross-domain memory transfer. The human acts as the entropy injector to create the initial insight, and the AROS Memory Transfer Learning architecture ensures that this insight elevates the reasoning capacity of the entire ecosystem.
+
 ---
 
 ## 📦 Architecture
