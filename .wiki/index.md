@@ -2,6 +2,8 @@
 
 Welcome to the central knowledge base for the AROS Pipeline Factory. This wiki documents the architecture, workflows, and governance of the AROS ecosystem.
 
+Read the [[overview]] for a high-level summary of the mission and philosophy.
+
 ## 🗺️ Pipeline Directory
 
 ### Core Scientific Pipelines
