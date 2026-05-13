@@ -57,6 +57,26 @@ def check_dependency_and_install():
             return False
     return True
 
+def ensure_hybrid_server():
+    """Ensure the hybrid server is running before attempting conversion."""
+    import urllib.request
+    import time
+    try:
+        # docling fast server exposes health or docs at root usually, or we just check if port is listening
+        urllib.request.urlopen("http://127.0.0.1:5002/docs", timeout=1)
+        print("[INFO] Hybrid server is already running.")
+    except Exception:
+        print("[INFO] Hybrid server is not running. Starting opendataloader-pdf-hybrid in background...")
+        # Start in background, ignoring output to not clutter
+        subprocess.Popen(
+            ["opendataloader-pdf-hybrid", "--port", "5002"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            start_new_session=True
+        )
+        print("[INFO] Waiting for hybrid server to initialize...")
+        time.sleep(7)
+
 def fallback_convert_pdfs(pdfs_to_convert: list[str], md_dir: Path):
     """Gracefully degrade to pdftotext if opendataloader-pdf is unavailable."""
     print("[INFO] Executing fallback conversion via pdftotext...")
@@ -122,6 +142,7 @@ def main() -> None:
     can_use_opendataloader = check_dependency_and_install()
 
     if can_use_opendataloader:
+        ensure_hybrid_server()
         # Build the opendataloader-pdf CLI command
         formats = config.get("output_formats", ["markdown", "json"])
         cmd = [
