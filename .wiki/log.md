@@ -15,3 +15,7 @@
 - **Gap Analysis**: Completed comprehensive 8-dimension evaluation of AROS vs. MTL/SkillOS paradigms. Identified 3 critical gaps and 4 competitive advantages.
 - **Roadmap Definition**: Established 5-phase integration roadmap (Insight Memory → Full Lifecycle → Curator Decoupling → RL Training → Agentic Retrieval).
 - **Wiki Synthesis**: Updated `overview.md` with SkillOS philosophy pillar and Self-Evolution Roadmap section.
+## [2026-05-13] - Wiki Audit & Maintenance
+- **Structural Audit**: Verified zero orphan pages.
+- **Agent Audit**: Confirmed re_gent integrity.
+- **Policy Evolution**: Executed RL-informed evolution cycle (CURATION_POLICY v1.0.1 candidate generated).
