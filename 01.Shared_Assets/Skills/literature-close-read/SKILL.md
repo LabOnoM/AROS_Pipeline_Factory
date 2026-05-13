@@ -36,14 +36,15 @@ cpcp_asset: true
 
 ## Dependencies
 
-- `pdf-extract` (version: not specified) — used only when the source is PDF and must be converted to Markdown first.
+- `literature-ingestion` (shared skill) — MANDATORY. Used to fetch and convert PDFs into the canonical 4-artifact set. No direct use of `pdf-extract` or `pdftotext` is permitted.
 
 ## Example Usage
 
 ```bash
-# 1) (Optional) Convert PDF to Markdown if you only have a PDF
-# Note: exact command/options depend on your local pdf-extract installation.
-pdf-extract paper.pdf > paper.md
+# 1) Download and convert the full-text PDF into the canonical 4-artifact set
+# MANDATORY: To comply with AROS LAW 3 (Universal PDF Processing Mandate), you must use the shared skill:
+# Make sure the target DOIs/PMIDs are in the 01_Target_DOIs.txt file.
+python <PROJECT_ROOT>/01.Shared_Assets/Skills/literature-ingestion/scripts/fetch_and_convert.py --input <PROJECT_ROOT>/00.RawData/Literature/01_Target_DOIs.txt --base-dir <PROJECT_ROOT>
 
 # 2) Run the close-reading process (manual or via your orchestration tool):
 # Input: paper.md (full text converted from PDF, may include `## Page XX` and images)

@@ -22,7 +22,7 @@ Before execution, ensure the following context is loaded via `find_helpful_ki` a
 
 1. **Inventory**: Scan `<PROJECT_ROOT>/.wiki/` and `00.RawData/Literature/03_Parsed_Markdown/` to identify all currently ingested papers.
 2. **Gap Detection**: Cross-reference the project's bibliography (e.g., `References/` folder, `.wiki/entities/`, or a user-provided DOI list) against ingested papers. Identify any DOIs/PMIDs that are referenced but NOT yet downloaded.
-3. **Auto-Retrieval**: If gaps are found, trigger `/literature-ingest` with the missing identifiers and wait for completion before proceeding.
+3. **Auto-Retrieval**: If gaps are found, trigger `/literature-ingest` with the missing identifiers and wait for completion before proceeding. (Ensure you pass `--base-dir <PROJECT_ROOT>` to route artifacts locally per the Universal PDF Processing Mandate).
 4. **Retraction Scan**: Run `retraction-watcher` on the full reference list. Any retracted citation triggers a **mandatory HALT** — inform the PI and require a replacement citation before continuing.
 5. **Verification Gate**: Confirm that ALL key cited papers exist in both `03_Parsed_Markdown/` (for LLM context) and `04_Parsed_JSON/` (for structural validation). If any remain missing after retrieval, notify the PI and proceed only with available evidence, flagging missing citations explicitly.
 

@@ -170,6 +170,12 @@ Search existing scientific literature to ground hypotheses in current evidence. 
 - Search for established theories, mechanisms, or frameworks
 - Identify gaps in current understanding
 
+**Mandatory Strict Grounding (Full-Text Download)**:
+- **CRITICAL RULE**: To comply with the AROS Universal PDF Processing Mandate (LAW 3), you MUST NOT rely solely on abstracts or APIs when analyzing prior literature for hypothesis generation.
+- For all core papers, save their DOIs/PMIDs to `<PROJECT_ROOT>/00.RawData/Literature/01_Target_DOIs.txt`.
+- Execute the shared ingestion skill: `python 01.Shared_Assets/Skills/literature-ingestion/scripts/fetch_and_convert.py --input <PROJECT_ROOT>/00.RawData/Literature/01_Target_DOIs.txt --base-dir <PROJECT_ROOT>`
+- Verify the canonical 4-artifact set is created. Use the generated Markdown/JSON files for your detailed evidence synthesis.
+
 **Search strategy:**
 - Begin with broad searches to understand the landscape
 - Narrow to specific mechanisms, pathways, or theories
