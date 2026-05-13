@@ -57,25 +57,47 @@ def check_dependency_and_install():
             return False
     return True
 
-def ensure_hybrid_server():
-    """Ensure the hybrid server is running before attempting conversion."""
+def get_free_port() -> int:
+    import socket
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(('', 0))
+        return s.getsockname()[1]
+
+def ensure_hybrid_server() -> int:
+    """Ensure the hybrid server is running before attempting conversion. Returns the active port."""
     import urllib.request
     import time
+    
+    # 1) Check if default server is already running
     try:
-        # docling fast server exposes health or docs at root usually, or we just check if port is listening
         urllib.request.urlopen("http://127.0.0.1:5002/docs", timeout=1)
-        print("[INFO] Hybrid server is already running.")
+        print("[INFO] Default hybrid server is already running on port 5002.")
+        return 5002
     except Exception:
-        print("[INFO] Hybrid server is not running. Starting opendataloader-pdf-hybrid in background...")
-        # Start in background, ignoring output to not clutter
-        subprocess.Popen(
-            ["opendataloader-pdf-hybrid", "--port", "5002"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            start_new_session=True
-        )
-        print("[INFO] Waiting for hybrid server to initialize...")
-        time.sleep(7)
+        pass
+
+    # 2) Spin up an ephemeral server on a free port
+    port = get_free_port()
+    print(f"[INFO] Hybrid server is not running on 5002. Starting ephemeral opendataloader-pdf-hybrid on port {port}...")
+    
+    subprocess.Popen(
+        ["opendataloader-pdf-hybrid", "--port", str(port)],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        start_new_session=True
+    )
+    
+    print(f"[INFO] Waiting for ephemeral hybrid server to initialize on port {port}...")
+    for _ in range(15):
+        try:
+            urllib.request.urlopen(f"http://127.0.0.1:{port}/docs", timeout=1)
+            print("[INFO] Ephemeral hybrid server is healthy.")
+            return port
+        except Exception:
+            time.sleep(1)
+            
+    print("[WARN] Ephemeral server didn't respond to health check in time, proceeding anyway...")
+    return port
 
 def fallback_convert_pdfs(pdfs_to_convert: list[str], md_dir: Path):
     """Gracefully degrade to pdftotext if opendataloader-pdf is unavailable."""
@@ -154,13 +176,14 @@ def main() -> None:
     can_use_opendataloader = check_dependency_and_install()
 
     if can_use_opendataloader:
-        ensure_hybrid_server()
+        port = ensure_hybrid_server()
         # Build the opendataloader-pdf CLI command
         formats = config.get("output_formats", ["markdown", "json"])
         cmd = [
             "opendataloader-pdf",
             "--hybrid", "docling-fast",
             "--hybrid-mode", config.get("hybrid_mode", "full"),
+            "--hybrid-url", f"http://127.0.0.1:{port}",
             "-f", ",".join(formats),
             "--output-dir", str(md_dir),
         ]
