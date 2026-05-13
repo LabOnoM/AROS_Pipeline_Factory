@@ -39,9 +39,22 @@ Is this the FINAL year of the grant?
   NO  → Generate F-6-1 + F-7-1
 ```
 
+## Step 1.5: Index Announcement Rule PDFs
+
+> **LAW 3 Enforcement**: Before extracting budget rules, all `Announcement_Rules/` PDFs must be processed.
+
+1. Scan `{GRANT_FOLDER}/Announcement_Rules/` for any unindexed `.pdf` files.
+2. Copy them to `00.RawData/Literature/02_Raw_PDFs/`.
+3. Route them through the canonical parser:
+   ```bash
+   # // turbo
+   python3 01.Shared_Assets/Skills/literature-ingestion/scripts/pdf_converter.py
+   ```
+4. Proceed to Step 2, reading from the parsed files in `03_Parsed_Markdown/`.
+
 ## Step 2: Extract Budget & Rules
 
-From `{GRANT_FOLDER}/Announcement_Rules/`: extract budget by category (物品費, 旅費, 人件費・謝金, その他), indirect cost rate (30%), and special conditions. See **KI Reference §1** for detailed table format.
+From the resulting Markdown files in `00.RawData/Literature/03_Parsed_Markdown/` (originating from `{GRANT_FOLDER}/Announcement_Rules/`): extract budget by category (物品費, 旅費, 人件費・謝金, その他), indirect cost rate (30%), and special conditions. See **KI Reference §1** for detailed table format.
 
 ## Step 3: Collect Publications
 

@@ -26,7 +26,7 @@ Use this workflow the first time you encounter a new or inherited scientific pro
      -printf '%TY-%Tm-%Td %TH:%TM  %s  %p\n' | sort
    ```
 
-3. **Extract document contents.** Read every `.docx` (via Python `zipfile` XML extraction or `python-docx`), text file, and small spreadsheet. For PDFs, use `pdftotext`. Never trust file names alone — read the actual content.
+3. **Extract document contents.** Read every `.docx` (via Python `zipfile` XML extraction or `python-docx`), text file, and small spreadsheet. Never trust file names alone — read the actual content. (Note: PDF extraction is strictly handled in Phase 1.5 per LAW 3).
 
 4. **Read raw data spreadsheets.** Use `openpyxl` (install via conda if needed: `conda run -n base python3 -c "import openpyxl"`) to read every `.xlsx` file's sheet names, headers, and first 20 rows. This reveals the actual experimental conditions, sample names, and measurements.
 
@@ -40,6 +40,19 @@ Use this workflow the first time you encounter a new or inherited scientific pro
    - Results described in abstracts but no matching raw data folder?
    - Raw data folders with no corresponding mention in any presentation?
    - Dates in presentations that don't match file timestamps?
+
+## Phase 1.5: PDF Indexing & Parsing (MANDATORY)
+
+> **LAW 3 Enforcement**: All PDFs must be routed through the `literature-ingestion` pipeline before their content is consumed.
+
+7. **Index and Parse all PDFs**:
+   1. Scan the entire workspace for all `.pdf` files.
+   2. For each PDF, check if a corresponding `.md` exists in `00.RawData/Literature/03_Parsed_Markdown/`. If not, copy the raw PDF to `02_Raw_PDFs/`.
+   3. Run the conversion script (which handles its own dependency installation and self-healing):
+      ```bash
+      # // turbo
+      python3 01.Shared_Assets/Skills/literature-ingestion/scripts/pdf_converter.py
+      ```
 
 ## Phase 2: Documentation
 
@@ -167,7 +180,7 @@ Thumbs.db
 
 ## Phase 5: Agentic Setup
 
-17. **Seed the LLM-Wiki**. Use the `/wiki-ingest` workflow to process the project `README.md` and any critical "Executive Summary" or "Final Report" PDFs identified in Phase 1. This establishes the initial Knowledge Graph.
+17. **Seed the LLM-Wiki**. Use the `/wiki-ingest` workflow to process the project `README.md` and ALL parsed PDFs generated from Phase 1.5. This establishes the initial Knowledge Graph.
 
 18. **Generate Project-Specific Rules**. **After** the LLM-Wiki is seeded, generate/update the `AGENTS.md` file at the project root.
     - Register all global workflows from `~/.gemini/antigravity/global_workflows/`

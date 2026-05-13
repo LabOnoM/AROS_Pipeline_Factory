@@ -75,6 +75,7 @@
 | `output-truncation-management.md` | `01.Shared_Assets/Policies/` | **ALL PIPELINES** | Data integrity policy for handling truncated outputs. Applicable universally. |
 | `self_healing_environment_policy.md` | `01.Shared_Assets/Policies/` | **ALL PIPELINES** | MANDATORY: Three-phase Detect→Repair→Degrade pattern for all external tool dependencies. SPEC §4.4. |
 | `fact_check_policy.md` | `KAKENHI_Pipeline/Policies/` | **KAKENHI_Pipeline**, **Grant_Write_Pipeline** (implicit for publications) | Publication fact-checking. References `/wiki-build`. Relevant whenever publications are cited in grant reports. |
+| `pdf-processing-mandate.md` | `01.Shared_Assets/Policies/` | **ALL PIPELINES** | MANDATORY: Universal PDF Processing Mandate. All PDFs must be processed via `literature-ingestion`. |
 
 ---
 
@@ -131,3 +132,4 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-12 | `.wiki/` & `README.md` | Updated | ALL | **Wiki Update & Philosophy Sync**: Executed `/wiki-update` to resolve orphans and rebuild index. Created `overview.md` and `log.md`. Synced "Embodiment & Co-Evolution" philosophy into `README.md` and `overview.md`. |
 | 2026-05-13 | `literature-ingestion/pdf_converter.py` | Fixed | ALL | Fixed CLI arguments for `opendataloader-pdf` integration and uncommented execution subprocess. |
 | 2026-05-13 | `sync_with_aros.sh` | Created | ALL | **Bidirectional Sync Architecture**: Replaced unidirectional deploy logic with SHA-256 based bidirectional sync to capture GEPA mutations from the runtime. Refactored `deploy_to_aros.sh` into a backward-compatible wrapper. |
+| 2026-05-13 | `pdf-processing-mandate.md` & Workflows | Created & Enforced | ALL | **Universal PDF Processing**: Enforced that all PDFs across all workflows must be processed via the `literature-ingestion` skill. Updated `/science-project-onboarding`, `/wiki-update`, and `/kakenhi-annual-report` with PDF indexing steps. Added self-healing dependency installation to `pdf_converter.py`. |

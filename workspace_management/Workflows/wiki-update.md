@@ -8,6 +8,19 @@ description: Maintain, lint, and synthesize the LLM-Wiki to ensure consistency a
 
 Run this workflow periodically (e.g., once a week, or after a massive batch of `/wiki-ingest` operations) to ensure the `.wiki/` knowledge base remains structurally sound and conceptually coherent.
 
+## Step 0.5: PDF Drift Detection (MANDATORY)
+
+> **LAW 3 Enforcement**: Catch any PDFs added to the workspace outside of formal AROS workflows.
+
+1. Scan the workspace for `.pdf` files not yet indexed in `00.RawData/Literature/02_Raw_PDFs/`.
+2. For each unindexed PDF, copy it to `02_Raw_PDFs/`.
+3. Run the canonical ingestion parser (which auto-installs missing dependencies):
+   ```bash
+   # // turbo
+   python3 01.Shared_Assets/Skills/literature-ingestion/scripts/pdf_converter.py
+   ```
+4. For all newly parsed PDFs in `03_Parsed_Markdown/`, trigger the `/wiki-ingest` Step 1.5 logic to ensure they are added to the Wiki.
+
 ## Step 1: Structural Audit (Linting)
 
 Run the following command in the bash terminal to check for basic structural issues in the `.wiki/` directory.

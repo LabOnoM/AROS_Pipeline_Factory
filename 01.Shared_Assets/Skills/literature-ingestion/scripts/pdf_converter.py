@@ -44,6 +44,43 @@ def load_config(config_path: str) -> dict:
         return json.load(f)
 
 
+def check_dependency_and_install():
+    """Check for opendataloader-pdf and try to install it if missing."""
+    import shutil
+    if shutil.which("opendataloader-pdf") is None:
+        print("[WARN] opendataloader-pdf not found in PATH. Attempting to install...")
+        try:
+            subprocess.run(["pip", "install", "opendataloader-pdf[hybrid]"], check=True)
+            print("[INFO] Successfully installed opendataloader-pdf.")
+        except subprocess.CalledProcessError:
+            print("[ERROR] Failed to install opendataloader-pdf. Will fallback to pdftotext.")
+            return False
+    return True
+
+def fallback_convert_pdfs(pdfs_to_convert: list[str], md_dir: Path):
+    """Gracefully degrade to pdftotext if opendataloader-pdf is unavailable."""
+    print("[INFO] Executing fallback conversion via pdftotext...")
+    import shutil
+    has_pdftotext = shutil.which("pdftotext") is not None
+    
+    for pdf_file in pdfs_to_convert:
+        pdf_path = Path(pdf_file)
+        md_file = md_dir / f"{pdf_path.stem}.md"
+        
+        if has_pdftotext:
+            print(f"Fallback processing {pdf_path.name} via pdftotext...")
+            try:
+                # pdftotext outputs to stdout if '-' is passed
+                result = subprocess.run(["pdftotext", str(pdf_path), "-"], capture_output=True, text=True, check=True)
+                md_content = f"# {pdf_path.name}\n\n```text\n{result.stdout}\n```\n"
+                md_file.write_text(md_content)
+                print(f"Successfully generated basic fallback markdown for {pdf_path.name}.")
+            except subprocess.CalledProcessError as e:
+                print(f"[ERROR] pdftotext failed for {pdf_path.name}: {e}")
+        else:
+            print(f"[WARN] pdftotext is also unavailable. Creating placeholder for {pdf_path.name} to avoid dead-end loop.")
+            md_file.write_text(f"# {pdf_path.name}\n\n> [!WARNING]\n> Auto-conversion failed. Missing opendataloader-pdf and pdftotext.\n")
+
 # ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
@@ -72,8 +109,8 @@ def main() -> None:
     if pdf_dir.exists():
         for pdf_file in pdf_dir.glob("*.pdf"):
             md_file = md_dir / f"{pdf_file.stem}.md"
-            json_file = json_dir / f"{pdf_file.stem}.json"
-            if not md_file.exists() or not json_file.exists():
+            # Even if we only generate Markdown in fallback, we check for it
+            if not md_file.exists():
                 pdfs_to_convert.append(str(pdf_file))
 
     if not pdfs_to_convert:
@@ -82,25 +119,36 @@ def main() -> None:
 
     print(f"Found {len(pdfs_to_convert)} PDFs to convert.")
 
-    # Build the opendataloader-pdf CLI command
-    formats = config.get("output_formats", ["markdown", "json"])
-    cmd = [
-        "opendataloader-pdf",
-        "--hybrid", "docling-fast",
-        "--hybrid-mode", config.get("hybrid_mode", "full"),
-        "-f", ",".join(formats),
-        "--output-dir", str(md_dir),
-    ]
+    can_use_opendataloader = check_dependency_and_install()
 
-    # Batch mode: pass all PDFs in a single invocation to avoid
-    # cold-starting the JVM per file.
-    cmd.extend(pdfs_to_convert)
+    if can_use_opendataloader:
+        # Build the opendataloader-pdf CLI command
+        formats = config.get("output_formats", ["markdown", "json"])
+        cmd = [
+            "opendataloader-pdf",
+            "--hybrid", "docling-fast",
+            "--hybrid-mode", config.get("hybrid_mode", "full"),
+            "-f", ",".join(formats),
+            "--output-dir", str(md_dir),
+        ]
 
-    print("Running command:", " ".join(cmd))
+        # Batch mode: pass all PDFs in a single invocation
+        cmd.extend(pdfs_to_convert)
 
-    # Execute the conversion.
-    subprocess.run(cmd, check=True)
-    print("Conversion batch complete.")
+        print("Running command:", " ".join(cmd))
+
+        try:
+            # Execute the conversion.
+            subprocess.run(cmd, check=True)
+            print("Conversion batch complete.")
+        except subprocess.CalledProcessError as e:
+            print(f"[ERROR] opendataloader-pdf execution failed: {e}")
+            fallback_convert_pdfs(pdfs_to_convert, md_dir)
+        except FileNotFoundError:
+            print("[ERROR] opendataloader-pdf not found despite checks.")
+            fallback_convert_pdfs(pdfs_to_convert, md_dir)
+    else:
+        fallback_convert_pdfs(pdfs_to_convert, md_dir)
 
 
 if __name__ == "__main__":
