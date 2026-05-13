@@ -1,0 +1,4 @@
+# Regent temporary files
+*.backup
+rewound-*.jsonl
+log/
