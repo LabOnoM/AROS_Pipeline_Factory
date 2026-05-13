@@ -1,6 +1,12 @@
 {
   "name": "kakenhi_management_pipeline",
-  "summary": "Core specification (SPEC.md), README, Templates, and Tools for the KAKENHI_Pipeline v2.0.0 — a universal, researcher-agnostic JSPS KAKENHI grant lifecycle management system. Contains runtime variable reference, grant folder canonical architecture, component contracts, cross-platform compatibility rules, and AROS integration map.",
+  "summary": "Core specification (SPEC.md), README, Templates, and Tools for the KAKENHI_Pipeline v2.0.0 \u2014 a universal, researcher-agnostic JSPS KAKENHI grant lifecycle management system. Contains runtime variable reference, grant folder canonical architecture, component contracts, cross-platform compatibility rules, and AROS integration map.",
   "updated_at": "2026-05-11",
-  "tags": ["kakenhi", "pipeline", "spec", "grant-management", "aros"]
+  "tags": [
+    "kakenhi",
+    "pipeline",
+    "spec",
+    "grant-management",
+    "aros"
+  ]
 }

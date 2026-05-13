@@ -2,5 +2,11 @@
   "name": "kakenhi_report_forms",
   "summary": "Quick-reference for all JSPS KAKENHI post-award form codes, reporting timeline, submission decision trees, and the official F-19-1 Word template (cf-19.docx).",
   "updated_at": "2026-05-11",
-  "tags": ["kakenhi", "forms", "cf-19", "f-19-1", "reporting"]
+  "tags": [
+    "kakenhi",
+    "forms",
+    "cf-19",
+    "f-19-1",
+    "reporting"
+  ]
 }

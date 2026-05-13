@@ -123,6 +123,16 @@ Ensure `.wiki/index.md` acts as a complete table of contents.
 Prompt the agent:
 > "Rebuild `.wiki/index.md` so that it categorizes and links to every file within the `.wiki/` directory."
 
+## Step 4.5: AROS Policy Evolution (Phase 4)
+
+Trigger the RL-Informed Context Evolution loop to analyze recent curator rewards and propose updates to `CURATION_POLICY.md`.
+Run the following python script via the terminal. It checks the DB lock internally to ensure it doesn't collide with the dashboard daemon.
+
+```bash
+# // turbo
+python3 -c "import sys; import os; sys.path.insert(0, os.path.expanduser('~/.gemini/antigravity/antigravity-evolution/src')); from antigravity_evolution.policy_evolver import propose_policy_update; from antigravity_evolution.policy_analyst import generate_performance_report; report = generate_performance_report(); propose_policy_update(report) if 'error' not in report and report.get('status') != 'insufficient_data' else print('No evolution required: ' + str(report))"
+```
+
 ## Step 5: Auto-Commit
 
 Delegate to the canonical `/lab-commit` workflow. Do NOT write inline `git add` / `git commit` commands here — the lab-commit workflow handles staging, Obsidian symlink verification, project registry updates (e.g., INDEX.csv or PIPELINE_REGISTRY.md), and commit message formatting automatically.

@@ -2,5 +2,11 @@
   "name": "kakenhi_e_application_system",
   "summary": "Comprehensive operational guide for the JSPS KAKENHI e-Application System, covering all post-award procedures for researchers including F-6/F-7, F-19-1, and budget change requests.",
   "updated_at": "2026-05-11",
-  "tags": ["kakenhi", "e-rad", "jsps", "grant-reporting", "application-system"]
+  "tags": [
+    "kakenhi",
+    "e-rad",
+    "jsps",
+    "grant-reporting",
+    "application-system"
+  ]
 }
