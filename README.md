@@ -291,14 +291,12 @@ This repository is a **Factory for forging AROS assets**. Before modifying any S
 | 2026-05-11 22:00 | Replaced legacy `INDEX.csv` with `PIPELINE_REGISTRY.md`; generalized workflow templates |
 | 2026-05-12 00:00 | 12-domain pipeline restructuring completed; SPEC v2.0 published |
 | 2026-05-13 00:00 | Repository made public; MIT license added; multi-language READMEs created |
+| 2026-05-13 12:50 | Finalized Email Draft #3 to Dr. Takano; integrated 'Freemium-to-Federation' business model & Cognitive Decomposition ideology into core docs |
 
 ### 🔬 Hypothesis Evolution Table
 
-| Phase | Hypothesis |
-|-------|------------|
-| H1 | Developing modular pipelines and agents for different writing tasks (grants, manuscripts, KAKENHI) significantly streamlines the academic drafting and submission process. |
-| H2 | Shared assets across pipelines (KIs, policies, workflows) must be governed by a central registry and compatibility protocol to prevent cross-pipeline regressions. |
 | H3 | Making the AROS Pipeline Factory public requires a dual-audience README architecture: human-readable introduction at the top, AI-agent operational context at the bottom. |
+| H4 | Transitioning from local-only cognitive decomposition to a Cloud Federation model enables metered monetization of LLM-orchestrated scientific workflows via a centralized intelligence hub. |
 
 ### 📂 Canonical Runtime Deployment Map
 

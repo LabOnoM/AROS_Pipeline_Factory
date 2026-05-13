@@ -9,6 +9,7 @@ This index categorizes and links to every file within the `.wiki/` directory.
 
 ## Generated Pages
 - [[aros_asset_deployment]]
+- [[business_model_federation]]
 - [[citation_before_claim_protocol]]
 - [[conda_environment_standard]]
 - [[cross_pipeline_compatibility_protocol]]
