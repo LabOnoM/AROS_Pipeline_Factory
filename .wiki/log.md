@@ -10,3 +10,8 @@
 - **Skill Hardening**: Remediated `pdf_converter.py` CLI arguments for `opendataloader-pdf` compatibility.
 - **Philosophy Expansion**: Integrated the MTL hypothesis into the core project philosophy (READMEs and Wiki Overview).
 - **CPCP Registry Update**: Documented infrastructure fixes in `SHARED_ASSET_REGISTRY.md`.
+## [2026-05-13] - SkillOS Evaluation & Self-Evolution Roadmap
+- **Ingest Research**: Processed arXiv:2605.06614 (SkillOS: RL-trained Skill Curation for Self-Evolving Agents) via CPCP pipeline.
+- **Gap Analysis**: Completed comprehensive 8-dimension evaluation of AROS vs. MTL/SkillOS paradigms. Identified 3 critical gaps and 4 competitive advantages.
+- **Roadmap Definition**: Established 5-phase integration roadmap (Insight Memory → Full Lifecycle → Curator Decoupling → RL Training → Agentic Retrieval).
+- **Wiki Synthesis**: Updated `overview.md` with SkillOS philosophy pillar and Self-Evolution Roadmap section.
