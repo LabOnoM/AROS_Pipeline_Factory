@@ -120,9 +120,11 @@ def main() -> None:
     pdf_dir = output_base / "02_Raw_PDFs"
     md_dir = output_base / "03_Parsed_Markdown"
     json_dir = output_base / "04_Parsed_JSON"
+    meta_dir = output_base / "05_Metadata"
 
     md_dir.mkdir(parents=True, exist_ok=True)
     json_dir.mkdir(parents=True, exist_ok=True)
+    meta_dir.mkdir(parents=True, exist_ok=True)
 
     # Identify PDFs that have NOT yet been converted (idempotency guard)
     pdfs_to_convert: list[str] = []
@@ -162,6 +164,34 @@ def main() -> None:
             # Execute the conversion.
             subprocess.run(cmd, check=True)
             print("Conversion batch complete.")
+            
+            import shutil
+            for pdf_file in pdfs_to_convert:
+                stem = Path(pdf_file).stem
+                generated_json = md_dir / f"{stem}.json"
+                if generated_json.exists():
+                    try:
+                        with open(generated_json, "r", encoding="utf-8") as f:
+                            data = json.load(f)
+                            meta = {
+                                "file name": data.get("file name"),
+                                "number of pages": data.get("number of pages"),
+                                "author": data.get("author"),
+                                "title": data.get("title"),
+                                "creation date": data.get("creation date"),
+                                "modification date": data.get("modification date")
+                            }
+                        meta_file = meta_dir / f"{stem}_metadata.json"
+                        with open(meta_file, "w", encoding="utf-8") as f:
+                            json.dump(meta, f, indent=2)
+                        print(f"Generated metadata for {stem}")
+                    except Exception as e:
+                        print(f"[WARN] Failed to extract metadata from {stem}.json: {e}")
+                    
+                    target_json = json_dir / f"{stem}.json"
+                    shutil.move(str(generated_json), str(target_json))
+                    print(f"Moved {stem}.json to {json_dir.name}/")
+                    
         except subprocess.CalledProcessError as e:
             print(f"[ERROR] opendataloader-pdf execution failed: {e}")
             fallback_convert_pdfs(pdfs_to_convert, md_dir)
