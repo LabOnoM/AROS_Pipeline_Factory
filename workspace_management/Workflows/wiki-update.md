@@ -133,6 +133,16 @@ Run the following python script via the terminal. It checks the DB lock internal
 python3 -c "import sys; import os; sys.path.insert(0, os.path.expanduser('~/.gemini/antigravity/antigravity-evolution/src')); from antigravity_evolution.policy_evolver import propose_policy_update; from antigravity_evolution.policy_analyst import generate_performance_report; report = generate_performance_report(); propose_policy_update(report) if 'error' not in report and report.get('status') != 'insufficient_data' else print('No evolution required: ' + str(report))"
 ```
 
+## Step 4.6: Daemon Health Verification
+
+Ensure that the core AROS background daemons (including the `mutation_sweeper` and `dreamer`) are executing properly without silent failures.
+
+```bash
+# // turbo
+python3 -c "import os, sqlite3, time; db_path = os.environ.get('BRAIN_DB_PATH', os.path.expanduser('~/.gemini/antigravity/brain.db')); db = sqlite3.connect(db_path); failed_jobs = db.execute(\"SELECT id, agent_role, created_at, status FROM swarm_jobs WHERE status = 'failed' AND created_at > datetime('now', '-24 hours')\").fetchall(); print(f'\\n=== Daemon Health Report ===\\nFailed Jobs (Last 24h): {len(failed_jobs)}'); [print(f'- {j[1]} (ID: {j[0]}) at {j[2]}') for j in failed_jobs]; db.close()"
+```
+If this health report shows recent failures for system daemons, check the SwarmDoctor logs in `~/.gemini/antigravity/logs/` to verify auto-healing was engaged.
+
 ## Step 5: Auto-Commit
 
 Delegate to the canonical `/lab-commit` workflow. Do NOT write inline `git add` / `git commit` commands here — the lab-commit workflow handles staging, Obsidian symlink verification, project registry updates (e.g., INDEX.csv or PIPELINE_REGISTRY.md), and commit message formatting automatically.
