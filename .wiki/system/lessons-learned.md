@@ -43,3 +43,8 @@ This page serves as a historical repository of significant bugs, architectural m
 - **Phase 0 (Output Manifest)**: Mandated the generation of a `GRANT_OUTPUT_MANIFEST.md` to define expected outputs before drafting.
 - **Phase Completion Gates**: Inserted mandatory verification steps (using `find`, `wc -l`) after critical drafting and assembly phases to prevent silent failures.
 - **Parameterized Skills**: Bespoke build logic was refactored into generalized, reusable AROS skills (`secure-html-delivery`, `excel-injection`) located in `~/.gemini/antigravity/skills/`, ensuring portability across all future grant applications.
+
+## 9. FastAPI SessionLocal Patching in Pytest (May 2026)
+**Context**: Implementing tests for the Stripe Webhook handler and LLM Gateway billing telemetry in the AROS Cloud Federation project.
+**The Bug**: `TestClient` dependency overrides (`app.dependency_overrides[get_db]`) correctly patched `SessionLocal` for HTTP endpoints. However, `background_tasks.add_task()` in the LLM Gateway and the standalone webhook handler imported `SessionLocal` directly at the module or function level, bypassing the FastAPI dependency injection. Consequently, tests interacted with the development database instead of the in-memory SQLite test database, leading to assertion failures (`assert 'active' == 'cancelled'`).
+**The Fix**: In `conftest.py`, `SessionLocal` must be explicitly patched via `unittest.mock.patch.object` on the specific router modules (`webhooks_router` and `auth_middleware`) AND the root `aros_cloud.db.base` to intercept lazy imports inside background functions.
