@@ -130,7 +130,7 @@ Run the following python script via the terminal. It checks the DB lock internal
 
 ```bash
 # // turbo
-python3 -c "import sys; import os; sys.path.insert(0, os.path.expanduser('~/.gemini/antigravity/antigravity-evolution/src')); from antigravity_evolution.policy_evolver import propose_policy_update; from antigravity_evolution.policy_analyst import generate_performance_report; report = generate_performance_report(); propose_policy_update(report) if 'error' not in report and report.get('status') != 'insufficient_data' else print('No evolution required: ' + str(report))"
+python3 -c "import sys; import os; sys.path.insert(0, '/home/ubuntu4/GitHub/AROS/antigravity-evolution/src'); from antigravity_evolution.policy_evolver import propose_policy_update; from antigravity_evolution.policy_analyst import generate_performance_report; report = generate_performance_report(); propose_policy_update(report) if 'error' not in report and report.get('status') != 'insufficient_data' else print('No evolution required: ' + str(report))"
 ```
 
 ## Step 4.6: Daemon Health Verification

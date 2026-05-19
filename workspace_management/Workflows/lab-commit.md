@@ -65,6 +65,12 @@ Your execution begins *after* another agent has invoked you with the required ar
 4.  **Target Check:** Verify the target file exists (`test -f "$target"`). This workflow only modifies existing files.
     - **HALT:** If it does not exist, fail with error: "Commit Aborted: The target file '$target' does not exist. Use a file creation workflow instead."
 
+4.5 **Pointer Tag Check (Advisory — Boy Scout Rule):**
+    - If the target file has a `.py`, `.ts`, `.js`, or `.tsx` extension:
+      - Check whether the file contains `AROS SPEC:` or `BDD Feature:` in its first 10 lines.
+      - If MISSING: Log a **WARNING** (not a HALT): "Advisory: File '$target' is missing Pointer Tag headers (AROS SPEC / BDD Feature). Per the Boy Scout Rule, consider adding them while you are modifying this file."
+    - This check is advisory-only and MUST NOT block the commit. It serves as a nudge for agents to maintain traceability. Urgent hotfixes MUST be able to proceed without Pointer Tags.
+
 ### **Phase 2: Confirmation & Execution**
 
 5.  **Difference Analysis (HITL or Force Gate):**
