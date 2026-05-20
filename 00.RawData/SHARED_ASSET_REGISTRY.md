@@ -137,4 +137,7 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-13 | `literature-ingestion` | Modified | ALL | Updated `pdf_converter.py` to auto-start `opendataloader-pdf-hybrid` daemon to fix timeout failures. |
 | 2026-05-13 | `literature-ingestion` | Modified | ALL | Updated `pdf_converter.py` to extract metadata and move structural JSON to `04_Parsed_JSON/` and `05_Metadata/` respectively to enforce LAW 3 canonical artifacts. |
 | 2026-05-20 | `sync_with_aros.sh` | Upgraded | ALL | **Antigravity V2 split path support**: Updated sync scripts to resolve and handle dual-path Knowledge Item storage in the new V2 IDE layout (`antigravity-ide/knowledge/`) while preserving compatibility with standard AROS. |
+| 2026-05-20 | `SHARED_ASSETS` CPCP compliance | Audit Fixes | ALL | Applied CPCP frontmatter metadata and removed duplicate skill directories to satisfy SAMS compliance. |
+| 2026-05-20 | `sync_with_aros.sh` | Upgraded | ALL | **Concurrency Locking & Rsync Fallback**: Implemented flock/mkdir cross-platform concurrency locking (`knowledge.lock`) and fallback copy mechanism to handle environments without `rsync` tool (e.g. Windows Git Bash). |
+
 

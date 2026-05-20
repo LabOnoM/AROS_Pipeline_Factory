@@ -49,6 +49,15 @@ PIPELINE_DIRS=(
     "${FACTORY_ROOT}/Manuscript_Write_Pipeline"
     "${FACTORY_ROOT}/KAKENHI_Pipeline"
     "${FACTORY_ROOT}/workspace_management"
+    "${FACTORY_ROOT}/Bioinformatics_Pipeline"
+    "${FACTORY_ROOT}/Data_Analysis_Pipeline"
+    "${FACTORY_ROOT}/Software_Engineering_Pipeline"
+    "${FACTORY_ROOT}/System_Admin_Pipeline"
+    "${FACTORY_ROOT}/UI_Development_Pipeline"
+    "${FACTORY_ROOT}/Web_Scraping_API_Pipeline"
+    "${FACTORY_ROOT}/Writing_Publishing_Pipeline"
+    "${FACTORY_ROOT}/Project_Management_Pipeline"
+    "${FACTORY_ROOT}/Uncategorized_Orphan_Pipeline"
 )
 
 # ── Colors ───────────────────────────────────────────────────────────────────
@@ -120,13 +129,53 @@ log_warn()  { echo -e "${YELLOW}[WARN]${NC}  $1"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 log_dry()   { echo -e "${CYAN}[DRY]${NC}   $1"; }
 
+# ── Concurrency Lock (SPEC §4.5) ─────────────────────────────────────────────
+LOCK_FILE="${HOME}/.gemini/knowledge.lock"
+
+acquire_lock() {
+    log_info "Acquiring concurrency lock (${LOCK_FILE})..."
+    mkdir -p "$(dirname "$LOCK_FILE")"
+    if command -v flock >/dev/null 2>&1; then
+        touch "$LOCK_FILE"
+        exec 99>"$LOCK_FILE"
+        flock -x 99
+    else
+        log_warn "flock not available. Falling back to mkdir-based lock."
+        local lock_dir="/tmp/aros_knowledge.lock.dir"
+        local max_attempts=30
+        local attempt=0
+        while ! mkdir "$lock_dir" 2>/dev/null; do
+            attempt=$((attempt + 1))
+            if [ "$attempt" -ge "$max_attempts" ]; then
+                log_error "Lock acquisition timed out."
+                exit 1
+            fi
+            sleep 1
+        done
+    fi
+    trap release_lock EXIT INT TERM
+}
+
+release_lock() {
+    if command -v flock >/dev/null 2>&1; then
+        flock -u 99 2>/dev/null || true
+        exec 99>&- 2>/dev/null || true
+    else
+        local lock_dir="/tmp/aros_knowledge.lock.dir"
+        rm -rf "$lock_dir" 2>/dev/null || true
+    fi
+    trap - EXIT INT TERM
+    log_info "Lock released."
+}
+
+
 get_sha256() {
     local target="$1"
     if [ -f "$target" ]; then
         sha256sum "$target" | cut -d' ' -f1
     elif [ -d "$target" ]; then
-        # For directories, hash the content of all files inside sorted. Use relative paths!
-        (cd "$target" && find . -type f -exec sha256sum {} + | sort | sha256sum | cut -d' ' -f1)
+        # For directories, hash the content of all files inside sorted (ignoring machine-local metadata).
+        (cd "$target" && find . -type f -not -name "timestamps.json" -exec sha256sum {} + | sort | sha256sum | cut -d' ' -f1)
     else
         echo "MISSING"
     fi
@@ -203,8 +252,8 @@ discover_skills() {
             name=$(basename "$skill_dir")
             local f_path="${skill_dir}SKILL.md"
             [ -f "$f_path" ] || continue
-            local r_path="${AROS_SKILLS_DIR}/${name}/SKILL.md"
-            compare_assets "${type_id}:${name}" "$f_path" "$r_path" "false"
+            local r_path="${AROS_SKILLS_DIR}/${name}"
+            compare_assets "${type_id}:${name}" "$skill_dir" "$r_path" "false"
         done
         
         # Legacy flat skills
@@ -225,7 +274,7 @@ discover_skills() {
         name=$(basename "$skill_dir")
         local id="${type_id}:${name}"
         if [[ -z "${ASSET_MAP_STATUS[$id]:-}" ]]; then
-            compare_assets "$id" "/dev/null" "${skill_dir}SKILL.md" "false"
+            compare_assets "$id" "/dev/null" "$skill_dir" "false"
         fi
     done
 }
@@ -416,13 +465,25 @@ copy_asset() {
     fi
     
     if $is_dir; then
-        rsync -a --delete "$src/" "$dst/" 2>/dev/null
+        if command -v rsync >/dev/null 2>&1; then
+            rsync -a --delete --exclude "timestamps.json" "$src/" "$dst/"
+        else
+            log_warn "rsync not found. Falling back to cp/rm directory sync."
+            if [ -d "$dst" ]; then
+                find "$dst" -mindepth 1 -maxdepth 1 -not -name "timestamps.json" -exec rm -rf {} +
+            else
+                mkdir -p "$dst"
+            fi
+            cp -Rf "$src"/* "$dst/"
+            rm -f "$dst/timestamps.json"
+        fi
     else
         cp -f "$src" "$dst"
     fi
 }
 
 cmd_push() {
+    acquire_lock
     local count=0
     for id in "${!ASSET_MAP_STATUS[@]}"; do
         local st="${ASSET_MAP_STATUS[$id]}"
@@ -477,6 +538,7 @@ cmd_push() {
 }
 
 cmd_pull() {
+    acquire_lock
     local count=0
     for id in "${!ASSET_MAP_STATUS[@]}"; do
         local st="${ASSET_MAP_STATUS[$id]}"

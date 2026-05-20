@@ -19,3 +19,9 @@
 - **Structural Audit**: Verified zero orphan pages.
 - **Agent Audit**: Confirmed re_gent integrity.
 - **Policy Evolution**: Executed RL-informed evolution cycle (CURATION_POLICY v1.0.1 candidate generated).
+
+## [2026-05-20] - Concurrency Locking & Rsync Fallback Integration
+- **Locking Mechanism**: Added flock/mkdir cross-platform concurrency locking (`knowledge.lock`) to `sync_with_aros.sh` to prevent dual-write corruption.
+- **rsync Fallback**: Implemented copy/remove fallback directory sync logic to allow script functionality on platforms lacking `rsync` (e.g. Windows Git Bash).
+- **Cleanup**: Cleaned up the repository by deleting all staged files with literal backslashes in their names.
+
