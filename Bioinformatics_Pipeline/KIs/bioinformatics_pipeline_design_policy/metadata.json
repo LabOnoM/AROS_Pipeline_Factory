@@ -1,0 +1,22 @@
+{
+  "name": "Bioinformatics Pipeline Design Policy",
+  "description": "Updated policy for designing and implementing bioinformatics pipelines in AROS.",
+  "version": "1.0",
+  "tags": [
+    "bioinformatics",
+    "pipeline",
+    "policy",
+    "design",
+    "AROS",
+    "update"
+  ],
+  "summary": "Generated KI for bioinformatics_pipeline_design_policy.",
+  "domain_tags": [
+    "bioinformatics_pipeline_design_policy",
+    "policy",
+    "design",
+    "bioinformatics",
+    "generated",
+    "pipeline"
+  ]
+}

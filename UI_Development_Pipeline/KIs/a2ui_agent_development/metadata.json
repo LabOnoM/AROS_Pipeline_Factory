@@ -1,0 +1,60 @@
+{
+  "summary": "This Knowledge Item covers the A2UI (Agent to UI) protocol and the development of specialized scientific agents. It includes core architectural principles (Adjacency List model), automated server-side UI injection (Response Upgrading), and LLM-powered query routing and classification (Gemini 2.0 Flash). It details patterns for dynamic custom analysis via Python code execution (exec sandbox), UI state persistence (action context injection), and grounding agents in real analysis data (GSE261849 case study). It documents troubleshooting for rendering issues (slider visibility, table formatting, icon bugs), scientific data interpretation patterns (Guided Welcome Screen, AI Suggestions), and strategies for multi-turn conversation memory and MCP/Skills integration.",
+  "references": [
+    {
+      "type": "url",
+      "value": "https://a2ui.org/"
+    },
+    {
+      "type": "conversation_id",
+      "value": "adcabf6f-50b6-4670-88fa-6410468d94ad"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/A2UI/specification/v0_8/docs/a2ui_protocol.md"
+    },
+    {
+      "type": "file",
+      "value": "/home/owner03/.gemini/skills/a2ui-protocol/SKILL.md"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/A2UI/samples/agent/adk/gse261849_explorer/ui_builder.py"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/A2UI/samples/agent/adk/gse261849_explorer/agent_executor.py"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/A2UI/samples/agent/adk/gse261849_explorer/skills_tools.py"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/A2UI/samples/agent/adk/gse261849_explorer/agent.py"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/A2UI/samples/agent/adk/gse261849_explorer/prompt_builder.py"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/A2UI/samples/client/lit/shell/app.ts"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/A2UI/samples/client/lit/shell/client.ts"
+    }
+  ],
+  "ki_name": "A2UI Protocol and Agent Development",
+  "domain_tags": [
+    "documents",
+    "study",
+    "agent",
+    "welcome",
+    "action",
+    "screen",
+    "data",
+    "item"
+  ]
+}

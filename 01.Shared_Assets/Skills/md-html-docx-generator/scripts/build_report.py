@@ -1,4 +1,28 @@
+# ==============================================================================
+# AROS Pipeline Factory - Scientific Workflows
+#
+# This script is part of the AROS (Antigravity Research OS) ecosystem.
+# It is governed by the AROS Cross-Pipeline Compatibility Protocol (CPCP).
+# For details, refer to SPEC.md and 00.RawData/SHARED_ASSET_REGISTRY.md.
+# ==============================================================================
+
 #!/usr/bin/env python3
+"""
+AROS Skill — Markdown Report Generator (build_report.py)
+
+Converts markdown documents into polished HTML and DOCX formats.
+Integrates with the AROS Cloud Federation proxy for cost-optimal and monitored LLM routing.
+
+Key Functions/Classes:
+- resolve_api_key: Resolves credentials from AROS_CLOUD_KEY or fallbacks.
+- main: Initializes the google.generativeai SDK with proxy client_options.
+
+Integration Points:
+- Swarm Agents: Generates final deliverables in multiple formats.
+- AROS Proxy: Intercepts requests via AROS_CLOUD_URL when configured.
+
+Part of: md-html-docx-generator (Skill)
+"""
 import os
 import re
 import sys
@@ -10,10 +34,10 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 try:
-    import google.generativeai as genai
-    from google.generativeai.types import GenerationConfig
+    from google import genai
+    from google.genai import types
 except ImportError:
-    print("Error: google-generativeai is not installed. Please install it with 'pip install google-generativeai'.")
+    print("Error: google-genai is not installed. Please install it with 'pip install google-genai'.")
     sys.exit(1)
 
 
@@ -182,7 +206,7 @@ def parse_markdown(md_path: Path) -> tuple[dict, List[Section]]:
         
     return metadata, sections
 
-def render_section_html(section: Section, model_name: str) -> str:
+def render_section_html(section: Section, model_name: str, client: genai.Client) -> str:
     """Uses LLM to convert a markdown section to styled HTML."""
     prompt = f"""You are an expert web developer and technical writer. 
 Convert the following Markdown section into high-fidelity semantic HTML5.
@@ -206,10 +230,10 @@ MARKDOWN CONTENT TO CONVERT:
 {section.markdown_body}
 """
 
-    model = genai.GenerativeModel(model_name)
-    response = model.generate_content(
-        prompt,
-        generation_config=GenerationConfig(temperature=0.1)
+    response = client.models.generate_content(
+        model=model_name,
+        contents=prompt,
+        config=types.GenerateContentConfig(temperature=0.1)
     )
     
     html = response.text.strip()
@@ -220,10 +244,10 @@ MARKDOWN CONTENT TO CONVERT:
         
     return html.strip()
 
-def assemble_report(metadata: dict, sections: List[Section], templates_dir: Path, output_path: Path, template_path: Optional[Path] = None):
+def assemble_report(metadata: dict, sections: List[Section], templates_dir: Path, output_path: Path):
     """Combines CSS, Shell HTML, and generated sections into a single file."""
     css_path = templates_dir / "scientific_report.css"
-    shell_path = template_path if template_path else templates_dir / "report_shell.html"
+    shell_path = templates_dir / "report_shell.html"
     
     with open(css_path, "r", encoding="utf-8") as f:
         css = f.read()
@@ -289,7 +313,6 @@ def main():
     parser.add_argument("--docx", action="store_true", help="Also export a DOCX version via Pandoc")
     parser.add_argument("--api-key", type=str, help="Explicit API key (overrides env vars)")
     parser.add_argument("--model", type=str, default="gemini-2.5-flash", help="Gemini model to use")
-    parser.add_argument("--template", type=str, help="Optional path to a custom HTML template shell")
     
     args = parser.parse_args()
     
@@ -303,9 +326,20 @@ def main():
         
     # 1. Setup API
     try:
-        api_key = resolve_api_key(args.api_key)
-        genai.configure(api_key=api_key)
-    except EnvironmentError as e:
+        cloud_url = os.environ.get("AROS_CLOUD_URL", "").rstrip("/")
+        cloud_key = os.environ.get("AROS_CLOUD_KEY", "")
+        if cloud_url and cloud_key:
+            print(f"[build_report] Using AROS Cloud proxy: {cloud_url}")
+            client = genai.Client(
+                api_key=cloud_key,
+                http_options={"base_url": cloud_url},
+            )
+        else:
+            api_key = resolve_api_key(args.api_key)
+            if not api_key:
+                raise EnvironmentError("No API key found. Set GEMINI_API_KEY.")
+            client = genai.Client(api_key=api_key)
+    except Exception as e:
         print(f"❌ {e}")
         sys.exit(1)
         
@@ -319,14 +353,13 @@ def main():
     for i, section in enumerate(sections):
         print(f"  [{i+1}/{len(sections)}] Rendering section: '{section.title}'...")
         try:
-            section.html_content = render_section_html(section, args.model)
+            section.html_content = render_section_html(section, args.model, client)
         except Exception as e:
             print(f"❌ Error rendering section '{section.title}': {e}")
             sys.exit(1)
             
     # 4. Assemble HTML
-    template_path = Path(args.template) if args.template else None
-    assemble_report(metadata, sections, templates_dir, output_path, template_path=template_path)
+    assemble_report(metadata, sections, templates_dir, output_path)
     
     # 5. Optional DOCX Export
     if args.docx:

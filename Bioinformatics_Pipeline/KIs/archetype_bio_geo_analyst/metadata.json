@@ -1,0 +1,24 @@
+{
+  "type": "agent_archetype",
+  "version": "1.0",
+  "author": "AROS",
+  "tags": [
+    "archetype",
+    "bioinformatics",
+    "geospatial",
+    "spaceranger",
+    "geopandas"
+  ],
+  "ki_name": "archetype_bio_geo_analyst",
+  "summary": "An agent archetype specializing in bioinformatics and geospatial analysis, equipped with skills for processing spatial transcriptomics data and performing geospatial operations.",
+  "domain_tags": [
+    "specializing",
+    "agent",
+    "skills",
+    "geospatial",
+    "data",
+    "performing",
+    "analysis",
+    "equipped"
+  ]
+}

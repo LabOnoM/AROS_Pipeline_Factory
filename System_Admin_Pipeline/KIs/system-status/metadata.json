@@ -1,0 +1,18 @@
+{
+  "ki_name": "system-status",
+  "ki_title": "AROS System Status Monitoring",
+  "ki_description": "Provides a comprehensive overview of how to programmatically monitor the real-time status, metrics, and health of the Antigravity Research OS (AROS).",
+  "author": "AROS-mutation-sweeper",
+  "tags": [
+    "system-monitoring",
+    "dashboard",
+    "api",
+    "metrics"
+  ],
+  "summary": "ki_name: system-status",
+  "domain_tags": [
+    "ki_name",
+    "status",
+    "system"
+  ]
+}

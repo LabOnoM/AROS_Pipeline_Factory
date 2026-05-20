@@ -1,8 +1,8 @@
 ---
-cpcp_asset: true
 TITLE: "Sample Scientific Report"
 AUTHOR: "Antigravity AI"
 DATE: "2026-05-11"
+cpcp_asset: true
 ---
 
 ## Introduction

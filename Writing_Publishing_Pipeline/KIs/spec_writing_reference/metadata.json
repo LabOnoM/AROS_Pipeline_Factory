@@ -1,0 +1,36 @@
+{
+  "name": "spec_writing_reference",
+  "title": "SPEC.md Writing Reference & Patterns",
+  "summary": "Curated reference material for writing industry-grade technical specifications (SPEC.md) using RFC 2119 normative language. Contains structural patterns extracted from OpenAI Symphony's SPEC.md, the AROS Cloud Federation SPEC as a worked example, anti-patterns to avoid, and a quality checklist. Essential context for any agent tasked with creating or reviewing system specifications.",
+  "created_at": "2026-04-29T03:52:00+09:00",
+  "updated_at": "2026-04-29T03:52:00+09:00",
+  "references": [
+    {
+      "type": "url",
+      "value": "https://github.com/openai/symphony/blob/main/SPEC.md",
+      "label": "OpenAI Symphony SPEC.md (gold standard reference)"
+    },
+    {
+      "type": "url",
+      "value": "https://www.rfc-editor.org/rfc/rfc2119",
+      "label": "RFC 2119: Key words for use in RFCs"
+    },
+    {
+      "type": "file",
+      "value": "/home/ubuntu4/GitHub/AROS-Cloud-Federation/SPEC.md",
+      "label": "AROS Cloud Federation SPEC.md (worked example)"
+    },
+    {
+      "type": "skill",
+      "value": "technical-spec-writer",
+      "label": "Evolved SKILL.md for specification writing"
+    }
+  ],
+  "tags": [
+    "specification",
+    "documentation",
+    "architecture",
+    "rfc-2119",
+    "symphony"
+  ]
+}

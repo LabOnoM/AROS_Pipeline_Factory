@@ -1,0 +1,4 @@
+{
+  "name": "error-diagnostics-policy",
+  "description": "A policy that establishes the standard for generating and reporting detailed error diagnostics upon task failure."
+}

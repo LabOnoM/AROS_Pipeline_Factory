@@ -1,0 +1,38 @@
+{
+  "summary": "Hard-won operational lessons from debugging the Kosmos SuperScientist pipeline. Covers: model selection (must use gemini-2.5-pro), token limits (8192 minimum for JSON generation), ScholarEval threshold calibration for qualitative vs quantitative research, hypothesis field constraints, paper generation fallback, output directory conventions, Semantic Scholar rate-limit handling, and a pre-flight checklist for launching new research runs.",
+  "created_at": "2026-04-12T22:19:00+09:00",
+  "updated_at": "2026-04-12T22:19:00+09:00",
+  "references": [
+    {
+      "type": "file",
+      "path": "/home/owner03/.gemini/antigravity/mcp_servers/Kosmos/kosmos/workflow/super_scientist.py"
+    },
+    {
+      "type": "file",
+      "path": "/home/owner03/.gemini/antigravity/mcp_servers/Kosmos/kosmos/workflow/research_loop.py"
+    },
+    {
+      "type": "file",
+      "path": "/home/owner03/.gemini/antigravity/mcp_servers/Kosmos/kosmos/validation/scholar_eval.py"
+    },
+    {
+      "type": "file",
+      "path": "/home/owner03/.gemini/antigravity/mcp_servers/Kosmos/generate_paper.py"
+    },
+    {
+      "type": "workflow",
+      "path": "/home/owner03/.gemini/antigravity/global_workflows/research-discovery.md"
+    }
+  ],
+  "ki_name": "Kosmos SuperScientist Pipeline Operations",
+  "domain_tags": [
+    "rate",
+    "handling",
+    "scholar",
+    "selection",
+    "launching",
+    "gemini",
+    "model",
+    "json"
+  ]
+}

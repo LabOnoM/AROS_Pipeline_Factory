@@ -1,0 +1,28 @@
+{
+  "summary": "Generalized standard for generating interactive, standalone scientific HTML reports for functional enrichment (GSEA/ORA) using Python, Bootstrap 5, and DataTables.js. Includes critical fixes for gseapy visualization bugs.",
+  "timestamps": {
+    "created": "2026-04-08T21:50:00+09:00",
+    "last_updated": "2026-04-08T21:50:00+09:00"
+  },
+  "references": [
+    {
+      "source": "Emilio_TOFMS/scripts/generate_clickable_assets.py",
+      "description": "Python implementation of interactive enrichment reports with clickable term-to-plot modals."
+    },
+    {
+      "source": "BRAP/Comparison.rmd",
+      "description": "Legacy R-Markdown template providing the .tabset organizational structure."
+    }
+  ],
+  "ki_name": "interactive_scientific_enrichment_reporting",
+  "domain_tags": [
+    "gsea",
+    "using",
+    "html",
+    "interactive",
+    "standard",
+    "includes",
+    "standalone",
+    "bugs"
+  ]
+}

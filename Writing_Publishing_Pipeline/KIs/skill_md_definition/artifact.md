@@ -1,0 +1,1 @@
+Details the false positive conflict, confirming that `SKILL.md` is a standard, common filename used systematically by AROS across multiple distinct skill directories to store metadata and execution instructions. It also states that all 9 previously flagged skill facts are genuinely present, accurate, and correct.

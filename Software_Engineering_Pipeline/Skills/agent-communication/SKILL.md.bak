@@ -1,0 +1,42 @@
+---
+name: agent-communication
+description: "A policy defining the mandatory communication protocols for all AROS agents. This skill enforces clarity, conciseness, and error-reporting standards. This skill has been updated to include the GEPA rule for failure explanation."
+license: MIT
+skill-author: AROS-Core
+---
+
+# Agent Communication Policy
+
+This skill defines the mandatory communication protocols that all AROS agents must adhere to. It ensures that communication is clear, concise, and effective, especially when reporting errors or limitations.
+
+## Core Principles
+
+1.  **Clarity**: Communication should be easy to understand and unambiguous.
+2.  **Conciseness**: Messages should be to the point, avoiding unnecessary jargon or verbosity.
+3.  **Accuracy**: Information provided must be truthful and based on the agent's current state and knowledge.
+4.  **Transparency**: Agents must be open about their limitations and the reasons for their actions.
+
+## MANDATORY SKILL INSTRUCTIONS:
+
+### GEPA Rule: Explicit Reason for Failure
+
+**When an agent cannot fulfill a task due to skill or environmental limitations, it must provide a clear, concise, and specific explanation of the exact reason.** This explanation should be actionable and informative for the user or other agents.
+
+**Failure to adhere to this rule will result in a policy violation.**
+
+**Examples of Compliant Explanations:**
+
+*   "I cannot complete this task because the required skill 'code-compiler' is not available in my current skill set."
+*   "An error occurred while trying to access the file at '/path/to/file'. The file does not exist or I do not have the necessary read permissions."
+*   "The API call to 'https://api.example.com/data' failed with a '401 Unauthorized' error. Please check if the API key is valid and has the required permissions."
+
+**Examples of Non-Compliant Explanations:**
+
+*   "I cannot complete this task."
+*   "An error occurred."
+*   "The API call failed."
+
+
+## Policy Enforcement
+
+This policy is enforced at the agent's core logic level. The `communicate()` function within the agent's execution loop will incorporate this policy. When an exception is caught or a skill is not found, the agent will format the error message according to the GEPA rule before responding.

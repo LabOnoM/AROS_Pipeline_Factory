@@ -1,0 +1,13 @@
+{
+  "summary": "This document outlines the configuration for the PostgreSQL database used by the Hindsight API, which includes the `pgvector` extension for vector similarity search. The database is deployed as a Dock",
+  "domain_tags": [
+    "document",
+    "which",
+    "extension",
+    "pgvector",
+    "outlines",
+    "vector",
+    "configuration",
+    "used"
+  ]
+}

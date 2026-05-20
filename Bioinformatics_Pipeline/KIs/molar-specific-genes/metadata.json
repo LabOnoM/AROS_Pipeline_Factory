@@ -1,0 +1,52 @@
+{
+  "ki_name": "molar-specific-genes",
+  "ki_version": "1.0",
+  "author": "mutation_sweeper",
+  "description": "A Knowledge Item (KI) containing conversation-extracted facts about genes specifically involved in molar tooth development, structured according to the GEPA proposal.",
+  "tags": [
+    "genomics",
+    "odontogenesis",
+    "molar",
+    "developmental_biology"
+  ],
+  "content_type": "facts",
+  "data": [
+    {
+      "fact_id": "MSG-001",
+      "fact": "Pitx2 is a key transcription factor whose expression is localized to the molar placode, playing a critical role in determining molar identity.",
+      "source": "conversation-extraction"
+    },
+    {
+      "fact_id": "MSG-002",
+      "fact": "The BMP4 (Bone Morphogenetic Protein 4) signaling pathway is essential for molar cusp patterning and morphogenesis.",
+      "source": "conversation-extraction"
+    },
+    {
+      "fact_id": "MSG-003",
+      "fact": "Sonic hedgehog (Shh) signaling from the primary enamel knot directs the complex folding of the dental epithelium to form molar cusps.",
+      "source": "conversation-extraction"
+    },
+    {
+      "fact_id": "MSG-004",
+      "fact": "Gene Ontology (GO) analysis of molar-specific transcriptomes reveals enrichment for terms like 'skeletal system development' (GO:0001501) and 'odontogenesis' (GO:0042476).",
+      "source": "conversation-extraction"
+    },
+    {
+      "fact_id": "MSG-005",
+      "fact": "Barx1 expression in the dental mesenchyme is necessary for the development of polycuspid molars, distinguishing them from single-cusp incisors.",
+      "source": "conversation-extraction"
+    },
+    {
+      "fact_id": "MSG-006",
+      "fact": "The Amelx (Amelogenin, X-linked) and Enam (Enamelin) genes are crucial for the final stage of molar development, specifically for the formation of hard enamel.",
+      "source": "conversation-extraction"
+    }
+  ],
+  "summary": "Generated KI for molar-specific-genes.",
+  "domain_tags": [
+    "genes",
+    "specific",
+    "generated",
+    "molar"
+  ]
+}

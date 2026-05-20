@@ -2,7 +2,7 @@
 
 > **GOVERNANCE AUTHORITY**: This document is the single source of truth for all shared assets across the AROS Pipeline Factory. Any asset listed here exists in multiple pipeline folders and is subject to the **Cross-Pipeline Compatibility Protocol** (see below).
 >
-> **Last Updated**: 2026-05-12
+> **Last Updated**: 2026-05-20
 
 ---
 
@@ -139,5 +139,4 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-20 | `sync_with_aros.sh` | Upgraded | ALL | **Antigravity V2 split path support**: Updated sync scripts to resolve and handle dual-path Knowledge Item storage in the new V2 IDE layout (`antigravity-ide/knowledge/`) while preserving compatibility with standard AROS. |
 | 2026-05-20 | `SHARED_ASSETS` CPCP compliance | Audit Fixes | ALL | Applied CPCP frontmatter metadata and removed duplicate skill directories to satisfy SAMS compliance. |
 | 2026-05-20 | `sync_with_aros.sh` | Upgraded | ALL | **Concurrency Locking & Rsync Fallback**: Implemented flock/mkdir cross-platform concurrency locking (`knowledge.lock`) and fallback copy mechanism to handle environments without `rsync` tool (e.g. Windows Git Bash). |
-
-
+| 2026-05-20 | All `.py` and `.sh` scripts | Modified | ALL | Applied standardized AROS file header comments across all scripts globally to ensure proper documentation and CPCP awareness. |

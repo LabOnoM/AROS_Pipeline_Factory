@@ -1,0 +1,21 @@
+{
+  "name": "GEPA Output Capture and Availability Specification",
+  "version": "1.0",
+  "author": "mutation_sweeper",
+  "description": "Technical specification for implementing the GEPA 'OutputCaptureAndAvailability' policy, detailing agent output hooking, logging format, and access mechanisms.",
+  "tags": [
+    "GEPA",
+    "policy",
+    "logging",
+    "evaluation",
+    "technical-specification"
+  ],
+  "summary": "Generated KI for gepa-output-capture-spec.",
+  "domain_tags": [
+    "gepa",
+    "capture",
+    "generated",
+    "output",
+    "spec"
+  ]
+}

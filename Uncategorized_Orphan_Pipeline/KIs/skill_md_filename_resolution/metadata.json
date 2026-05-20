@@ -1,0 +1,21 @@
+{
+  "type": "factual_correction",
+  "tags": [
+    "hygiene",
+    "memory_resolution",
+    "skills",
+    "system_architecture"
+  ],
+  "ki_name": "skill_md_filename_resolution",
+  "summary": "Resolution of the memory contradiction regarding SKILL.md being overwritten. Clarifies that SKILL.md is a recurring template filename, not a global file.",
+  "domain_tags": [
+    "file",
+    "filename",
+    "resolution",
+    "global",
+    "memory",
+    "being",
+    "overwritten",
+    "recurring"
+  ]
+}

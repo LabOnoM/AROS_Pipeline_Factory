@@ -1,0 +1,15 @@
+{
+  "title": "AWS Agent Plugins Policy",
+  "summary": "Standardized architecture and guidelines for structuring AI agent plugins for AWS, specifically focusing on Bedrock AgentCore capabilities. Explains how to package skills, MCP servers, hooks, and references into a unified plugin structure.",
+  "tags": [
+    "aws",
+    "agentcore",
+    "plugins",
+    "bedrock",
+    "mcp"
+  ],
+  "source_urls": [
+    "https://github.com/awslabs/agent-plugins",
+    "https://github.com/awslabs/agentcore-samples"
+  ]
+}

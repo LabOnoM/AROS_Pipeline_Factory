@@ -1,0 +1,25 @@
+{
+  "ki_name": "metaproteomics_toolkit",
+  "display_name": "Metaproteomics Agent Technical Toolkit",
+  "author": "proteomics_analyst",
+  "version": "1.0",
+  "tags": [
+    "metaproteomics",
+    "proteomics",
+    "bioinformatics",
+    "mass-spectrometry",
+    "unipept",
+    "functional-annotation"
+  ],
+  "summary": "An outline of the essential software, databases, and workflows for conducting metaproteomics analysis, from mass spectrometry data processing to taxonomic and functional annotation.",
+  "domain_tags": [
+    "conducting",
+    "data",
+    "functional",
+    "outline",
+    "analysis",
+    "annotation",
+    "databases",
+    "toolkit"
+  ]
+}

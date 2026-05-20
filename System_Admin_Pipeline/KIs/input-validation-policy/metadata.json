@@ -1,0 +1,19 @@
+{
+  "name": "input-validation-policy",
+  "description": "AROS Policy: Mandatory Input Validation. This policy establishes the mandatory process for validating all external data and inputs received by AROS.",
+  "author": "AROS_code_generator",
+  "ki_type": "policy",
+  "version": "1.0",
+  "status": "Active",
+  "summary": "AROS Policy: Mandatory Input Validation. This policy establishes the mandatory process for validating all external data and inputs received by AROS.",
+  "domain_tags": [
+    "received",
+    "data",
+    "validation",
+    "external",
+    "policy",
+    "input",
+    "mandatory",
+    "inputs"
+  ]
+}

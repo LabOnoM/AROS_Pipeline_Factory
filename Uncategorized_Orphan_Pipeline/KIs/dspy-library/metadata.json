@@ -1,0 +1,5 @@
+{
+  "summary": "The dspy-library is a Python framework for programming with language models (LMs). It offers a structured approach to building and optimizing complex LM-based pipelines by separating program flow from specific prompts and model parameters.",
+  "created_at": "2026-05-13T18:38:53.563558",
+  "source": "gepa_proposal_reviewer"
+}

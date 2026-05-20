@@ -1,0 +1,25 @@
+{
+  "ki_name": "policy_skill_invocation_parameter_management",
+  "ki_type": "policy",
+  "author": "AROS Code Generator",
+  "version": "1.0",
+  "tags": [
+    "policy",
+    "skill_invocation",
+    "parameter_management",
+    "validation",
+    "bioinformatics",
+    "reproducibility"
+  ],
+  "summary": "Formal AROS policy governing the invocation of skills, mandating pre-flight schema-based validation for parameters, especially for bioinformatics skills.",
+  "domain_tags": [
+    "especially",
+    "schema",
+    "based",
+    "formal",
+    "skills",
+    "mandating",
+    "validation",
+    "policy"
+  ]
+}

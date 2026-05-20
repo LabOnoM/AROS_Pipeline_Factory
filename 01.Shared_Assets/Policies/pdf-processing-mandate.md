@@ -1,3 +1,6 @@
+---
+cpcp_asset: true
+---
 # Universal PDF Processing Mandate
 
 **ID**: `pdf-processing-mandate`

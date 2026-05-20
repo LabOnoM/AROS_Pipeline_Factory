@@ -1,0 +1,13 @@
+{
+  "tools": [
+    "gtb-validator",
+    "git",
+    "python",
+    "curl",
+    "jq",
+    "docker",
+    "uv",
+    "bash",
+    "test"
+  ]
+}

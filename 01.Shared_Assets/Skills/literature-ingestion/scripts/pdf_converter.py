@@ -1,3 +1,11 @@
+# ==============================================================================
+# AROS Pipeline Factory - Scientific Workflows
+#
+# This script is part of the AROS (Antigravity Research OS) ecosystem.
+# It is governed by the AROS Cross-Pipeline Compatibility Protocol (CPCP).
+# For details, refer to SPEC.md and 00.RawData/SHARED_ASSET_REGISTRY.md.
+# ==============================================================================
+
 #!/usr/bin/env python3
 """
 pdf_converter.py — opendataloader-pdf Batch Converter Wrapper
@@ -44,85 +52,6 @@ def load_config(config_path: str) -> dict:
         return json.load(f)
 
 
-def check_dependency_and_install():
-    """Check for opendataloader-pdf and try to install it if missing."""
-    import shutil
-    if shutil.which("opendataloader-pdf") is None:
-        print("[WARN] opendataloader-pdf not found in PATH. Attempting to install...")
-        try:
-            subprocess.run(["pip", "install", "opendataloader-pdf[hybrid]"], check=True)
-            print("[INFO] Successfully installed opendataloader-pdf.")
-        except subprocess.CalledProcessError:
-            print("[ERROR] Failed to install opendataloader-pdf. Will fallback to pdftotext.")
-            return False
-    return True
-
-def get_free_port() -> int:
-    import socket
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind(('', 0))
-        return s.getsockname()[1]
-
-def ensure_hybrid_server() -> int:
-    """Ensure the hybrid server is running before attempting conversion. Returns the active port."""
-    import urllib.request
-    import time
-    
-    # 1) Check if default server is already running
-    try:
-        urllib.request.urlopen("http://127.0.0.1:5002/docs", timeout=1)
-        print("[INFO] Default hybrid server is already running on port 5002.")
-        return 5002
-    except Exception:
-        pass
-
-    # 2) Spin up an ephemeral server on a free port
-    port = get_free_port()
-    print(f"[INFO] Hybrid server is not running on 5002. Starting ephemeral opendataloader-pdf-hybrid on port {port}...")
-    
-    subprocess.Popen(
-        ["opendataloader-pdf-hybrid", "--port", str(port)],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        start_new_session=True
-    )
-    
-    print(f"[INFO] Waiting for ephemeral hybrid server to initialize on port {port}...")
-    for _ in range(15):
-        try:
-            urllib.request.urlopen(f"http://127.0.0.1:{port}/docs", timeout=1)
-            print("[INFO] Ephemeral hybrid server is healthy.")
-            return port
-        except Exception:
-            time.sleep(1)
-            
-    print("[WARN] Ephemeral server didn't respond to health check in time, proceeding anyway...")
-    return port
-
-def fallback_convert_pdfs(pdfs_to_convert: list[str], md_dir: Path):
-    """Gracefully degrade to pdftotext if opendataloader-pdf is unavailable."""
-    print("[INFO] Executing fallback conversion via pdftotext...")
-    import shutil
-    has_pdftotext = shutil.which("pdftotext") is not None
-    
-    for pdf_file in pdfs_to_convert:
-        pdf_path = Path(pdf_file)
-        md_file = md_dir / f"{pdf_path.stem}.md"
-        
-        if has_pdftotext:
-            print(f"Fallback processing {pdf_path.name} via pdftotext...")
-            try:
-                # pdftotext outputs to stdout if '-' is passed
-                result = subprocess.run(["pdftotext", str(pdf_path), "-"], capture_output=True, text=True, check=True)
-                md_content = f"# {pdf_path.name}\n\n```text\n{result.stdout}\n```\n"
-                md_file.write_text(md_content)
-                print(f"Successfully generated basic fallback markdown for {pdf_path.name}.")
-            except subprocess.CalledProcessError as e:
-                print(f"[ERROR] pdftotext failed for {pdf_path.name}: {e}")
-        else:
-            print(f"[WARN] pdftotext is also unavailable. Creating placeholder for {pdf_path.name} to avoid dead-end loop.")
-            md_file.write_text(f"# {pdf_path.name}\n\n> [!WARNING]\n> Auto-conversion failed. Missing opendataloader-pdf and pdftotext.\n")
-
 # ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
@@ -130,41 +59,29 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Convert PDFs to Markdown using opendataloader-pdf."
     )
-    
-    # Calculate the default config path relative to this script
-    script_dir = Path(__file__).resolve().parent
-    default_config = script_dir.parent / "config.json"
-    
     parser.add_argument(
         "--config",
-        default=str(default_config),
+        default="01.Shared_Assets/Skills/literature-ingestion/config.json",
         help="Path to config file.",
-    )
-    parser.add_argument(
-        "--base-dir",
-        default=None,
-        help="Override the output_base directory (e.g. for project-specific locations).",
     )
     args = parser.parse_args()
 
     config = load_config(args.config)
-    output_base = Path(args.base_dir) if args.base_dir else Path(config["output_base"])
+    output_base = Path(config["output_base"])
     pdf_dir = output_base / "02_Raw_PDFs"
     md_dir = output_base / "03_Parsed_Markdown"
     json_dir = output_base / "04_Parsed_JSON"
-    meta_dir = output_base / "05_Metadata"
 
     md_dir.mkdir(parents=True, exist_ok=True)
     json_dir.mkdir(parents=True, exist_ok=True)
-    meta_dir.mkdir(parents=True, exist_ok=True)
 
     # Identify PDFs that have NOT yet been converted (idempotency guard)
     pdfs_to_convert: list[str] = []
     if pdf_dir.exists():
         for pdf_file in pdf_dir.glob("*.pdf"):
             md_file = md_dir / f"{pdf_file.stem}.md"
-            # Even if we only generate Markdown in fallback, we check for it
-            if not md_file.exists():
+            json_file = json_dir / f"{pdf_file.stem}.json"
+            if not md_file.exists() or not json_file.exists():
                 pdfs_to_convert.append(str(pdf_file))
 
     if not pdfs_to_convert:
@@ -173,66 +90,30 @@ def main() -> None:
 
     print(f"Found {len(pdfs_to_convert)} PDFs to convert.")
 
-    can_use_opendataloader = check_dependency_and_install()
+    # Build the opendataloader-pdf CLI command
+    formats = config.get("output_formats", ["markdown", "json"])
+    cmd = [
+        "opendataloader-pdf",
+        "--hybrid", "docling-fast",
+        "--hybrid-mode", config.get("hybrid_mode", "full"),
+        "-f", ",".join(formats),
+        "-o", str(md_dir),
+    ]
 
-    if can_use_opendataloader:
-        port = ensure_hybrid_server()
-        # Build the opendataloader-pdf CLI command
-        formats = config.get("output_formats", ["markdown", "json"])
-        cmd = [
-            "opendataloader-pdf",
-            "--hybrid", "docling-fast",
-            "--hybrid-mode", config.get("hybrid_mode", "full"),
-            "--hybrid-url", f"http://127.0.0.1:{port}",
-            "-f", ",".join(formats),
-            "--output-dir", str(md_dir),
-        ]
+    # Batch mode: pass all PDFs in a single invocation to avoid
+    # cold-starting the JVM per file.
+    cmd.extend(pdfs_to_convert)
 
-        # Batch mode: pass all PDFs in a single invocation
-        cmd.extend(pdfs_to_convert)
+    print("Running command:", " ".join(cmd))
 
-        print("Running command:", " ".join(cmd))
-
-        try:
-            # Execute the conversion.
-            subprocess.run(cmd, check=True)
-            print("Conversion batch complete.")
-            
-            import shutil
-            for pdf_file in pdfs_to_convert:
-                stem = Path(pdf_file).stem
-                generated_json = md_dir / f"{stem}.json"
-                if generated_json.exists():
-                    try:
-                        with open(generated_json, "r", encoding="utf-8") as f:
-                            data = json.load(f)
-                            meta = {
-                                "file name": data.get("file name"),
-                                "number of pages": data.get("number of pages"),
-                                "author": data.get("author"),
-                                "title": data.get("title"),
-                                "creation date": data.get("creation date"),
-                                "modification date": data.get("modification date")
-                            }
-                        meta_file = meta_dir / f"{stem}_metadata.json"
-                        with open(meta_file, "w", encoding="utf-8") as f:
-                            json.dump(meta, f, indent=2)
-                        print(f"Generated metadata for {stem}")
-                    except Exception as e:
-                        print(f"[WARN] Failed to extract metadata from {stem}.json: {e}")
-                    
-                    target_json = json_dir / f"{stem}.json"
-                    shutil.move(str(generated_json), str(target_json))
-                    print(f"Moved {stem}.json to {json_dir.name}/")
-                    
-        except subprocess.CalledProcessError as e:
-            print(f"[ERROR] opendataloader-pdf execution failed: {e}")
-            fallback_convert_pdfs(pdfs_to_convert, md_dir)
-        except FileNotFoundError:
-            print("[ERROR] opendataloader-pdf not found despite checks.")
-            fallback_convert_pdfs(pdfs_to_convert, md_dir)
-    else:
-        fallback_convert_pdfs(pdfs_to_convert, md_dir)
+    # Execute the conversion.
+    # In a deployment where opendataloader-pdf is installed, uncomment:
+    subprocess.run(cmd, check=True)
+    print(
+        "Note: In a full deployment, this triggers the Java-based parser. "
+        "Ensure opendataloader-pdf and Java 11+ are installed."
+    )
+    print("Conversion batch complete.")
 
 
 if __name__ == "__main__":

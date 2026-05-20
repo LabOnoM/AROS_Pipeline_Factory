@@ -1,0 +1,15 @@
+{
+  "title": "gepa-database-operations-policy",
+  "summary": "name: gepa-database-operations-policy\n# GEPA-Rule-DB-001: DB operations must be atomic, secure, and resilient.\nManage connections via `with` blocks. Use parameterized placeholders. Catch specific DB exceptions. Use exponential backoff.\n## 20 edge cases:\n1. Pool Exhaustion: limit explicitly.\n2. Network Drops: retry with backoff.\n3. Lock Contention: WAL mode.\n4. Orphaned Tx: `with` context.\n5. Stale Connections: validate liveness.\n6. Deadlocks: deterministic locks.\n7. OOM: `fetchmany()`.\n8. Truncation: validate bounds.\n9. Timezones: use UTC.\n10. Schema Drift: migrate on startup.\n11. Unindexed: index columns.\n12. Encoding: UTF-8.\n13. Leaks: context managers.\n14. Corrupt DB: verify/backup.\n15. Hangs: query timeouts.\n16. Disk Space: monitor/archive.\n17. Binding: cast types.\n18. Threads: local connections.\n19. Throttling: 429 backoff.\n20. Zombies: keepalive/limits.\n",
+  "ki_name": "gepa-database-operations-policy",
+  "domain_tags": [
+    "binding",
+    "hangs",
+    "throttling",
+    "gepa",
+    "startup",
+    "types",
+    "orphaned",
+    "secure"
+  ]
+}

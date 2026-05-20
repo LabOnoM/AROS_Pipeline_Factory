@@ -1,0 +1,26 @@
+{
+  "ki_name": "generated-content-completeness-heuristics",
+  "creator": "mutation_sweeper",
+  "tags": [
+    "gepa",
+    "quality-assurance",
+    "text-generation",
+    "heuristics",
+    "validation"
+  ],
+  "version": "1.0",
+  "artifacts": [
+    "heuristics.md"
+  ],
+  "summary": "Defines the technical heuristics and logic for detecting truncated or incomplete text deliverables, as part of the 'Generated Content Completeness' GEPA proposal.",
+  "domain_tags": [
+    "defines",
+    "text",
+    "truncated",
+    "gepa",
+    "completeness",
+    "heuristics",
+    "technical",
+    "detecting"
+  ]
+}

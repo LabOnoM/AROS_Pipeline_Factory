@@ -1,0 +1,13 @@
+{
+  "title": "Codebase Architecture & Deep Modules Policy",
+  "summary": "Core architectural principles based on John Ousterhout's 'A Philosophy of Software Design', emphasizing deep modules, tight locality, and testable seams.",
+  "tags": [
+    "architecture",
+    "design",
+    "deep-modules",
+    "refactoring"
+  ],
+  "source_urls": [
+    "mattpocock/skills/improve-codebase-architecture"
+  ]
+}

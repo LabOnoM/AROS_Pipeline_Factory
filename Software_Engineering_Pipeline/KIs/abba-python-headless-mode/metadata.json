@@ -1,0 +1,19 @@
+{
+  "title": "ABBA Python Headless Mode Operation",
+  "description": "Key facts regarding the support and operation of the ABBA Python package in headless mode, which is critical for scripted and automated brain image registration workflows.",
+  "artifact_type": "FACT_SHEET",
+  "key_value_pairs": {
+    "fact_1": "The ABBA Python package fully supports and operates correctly in headless mode.",
+    "fact_2": "Headless mode is enabled by passing the 'headless=True' argument during the instantiation of the Abba class.",
+    "fact_3": "Correct initialization and operation in headless mode are confirmed.",
+    "fact_4": "Headless operation is the standard method for using ABBA Python in automated scripts or on servers without a graphical user interface."
+  },
+  "summary": "Generated KI for abba-python-headless-mode.",
+  "domain_tags": [
+    "headless",
+    "python",
+    "generated",
+    "mode",
+    "abba"
+  ]
+}

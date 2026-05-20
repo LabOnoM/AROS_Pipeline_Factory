@@ -1,0 +1,22 @@
+{
+  "summary": "Templates and reference material for the /research-discovery workflow. Contains the full Phase 4 research plan markdown template, Phase 5 approval checklist, agent persona guidelines, brainstorm angle examples, and integration points table. Extracted from the workflow to keep it within character limits.",
+  "created_at": "2026-04-10T14:35:00Z",
+  "updated_at": "2026-04-10T14:35:00Z",
+  "references": [
+    {
+      "type": "workflow",
+      "path": "/home/owner03/.gemini/antigravity/global_workflows/research-discovery.md"
+    }
+  ],
+  "ki_name": "Research Discovery Plan Templates",
+  "domain_tags": [
+    "examples",
+    "agent",
+    "plan",
+    "within",
+    "material",
+    "full",
+    "approval",
+    "template"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "abba-python-facts",
+  "description": "Key facts about the ABBA Python tool for brain atlas registration.",
+  "domain": "neuroimaging",
+  "owner": "mutation_sweeper",
+  "version": "1.0",
+  "tags": [
+    "abba",
+    "python",
+    "fiji",
+    "neuroscience",
+    "registration"
+  ],
+  "summary": "Generated KI for abba-python-facts.",
+  "domain_tags": [
+    "facts",
+    "generated",
+    "abba",
+    "python"
+  ]
+}

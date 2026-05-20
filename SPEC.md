@@ -1,7 +1,8 @@
 # AROS Pipeline Factory Specification v2.0
 **Author**: Antigravity AI  
 **Status**: PRODUCTION  
-**Last Updated**: 2026-05-12  
+**Last Updated**: 2026-05-20  
+
 
 ## 1. Executive Summary
 The AROS Pipeline Factory is the canonical source-of-truth for the Antigravity Research OS (AROS) runtime environment. This specification defines the modular domain pipeline architecture, the Shared Asset Management System (SAMS), and the Cross-Pipeline Compatibility Protocol (CPCP).
@@ -36,9 +37,18 @@ The repository implements a SHE pattern using shell-based audits (`audit_shared_
 ### 4.5 AROS Runtime Directory Mapping (Antigravity V2)
 The canonical mapping between Factory structures and the live AROS runtime is:
 - **Skills**: `~/.gemini/skills/<skill-name>/SKILL.md` (exposed via `antigravity-brain` MCP server)
-- **Knowledge Items**: `~/.gemini/antigravity-ide/knowledge/<ki-name>/artifacts/` (primary V2 path) with dual-write synchronization to `~/.gemini/antigravity/knowledge/` (agent runtime path). Write operations to either directory MUST utilize cross-platform `flock`-based concurrency locks (`knowledge.lock`) to prevent concurrent write corruption.
+- **Knowledge Items**: `~/.gemini/antigravity-ide/knowledge/<ki-name>/artifacts/` (primary V2 path) with dual-write synchronization to `~/.gemini/antigravity/knowledge/` (agent runtime path). Write operations to either directory MUST utilize cross-platform concurrency locks (`knowledge.lock`) to prevent concurrent write corruption.
 - **Policies**: `~/.gemini/antigravity/policies/<policy-name>.md`
 - **Workflows**: `~/.gemini/antigravity/global_workflows/<workflow-name>.md`
 
+#### 4.5.1 Concurrency Lock & Copy Fallbacks
+To ensure cross-platform compatibility across Windows, macOS, and Linux:
+- **Lock Fallback**: If POSIX `flock` is unavailable on the target environment, the sync tool MUST fallback to atomic directory creation (`mkdir` lock) on `/tmp/aros_knowledge.lock.dir`. Lock release must be guaranteed under EXIT/INT/TERM shell traps.
+- **Copy Fallback**: If `rsync` is unavailable, the sync tool MUST fallback to a native directory cleaning and reproduction routine using `find` + `rm` + `cp -Rf`.
+
 ### 4.6 AROS V2 Plugin Integration
 In V2, AROS resources are registered with the IDE agent prompt using a native V2 plugin located at `~/.gemini/config/plugins/aros/` containing a `GEMINI.md`-style skill document that teaches the agent how to invoke all 16 AROS MCP tools.
+
+### 4.7 Cross-Platform Path Compatibility
+The AROS Pipeline Factory strictly prohibits the use of literal backslashes (`\`) in filenames and path representations in the Git index, as they cause checkout failures on macOS/Linux and tooling desyncs. All paths MUST use standard forward-slash (`/`) formatting. Redundant backslash-containing duplicates must be immediately purged.
+

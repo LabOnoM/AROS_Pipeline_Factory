@@ -1,0 +1,28 @@
+{
+  "summary": "Complete architectural guide to the AROS (Antigravity Research OS) module federation. Covers inter-component communication patterns, database schemas, import paths, Brain Federation merge protocol, and Knowledge Distiller feedback loop. Essential context for any agent modifying or extending AROS components.",
+  "created_at": "2026-04-13T04:58:00Z",
+  "last_updated": "2026-04-13T04:58:00Z",
+  "references": [
+    "artifacts/SPEC.md",
+    "artifacts/AGENTS.md",
+    "artifacts/db.py",
+    "artifacts/server.py",
+    "artifacts/sync.py",
+    "artifacts/orchestrator.py",
+    "artifacts/batch_evolver.py",
+    "artifacts/knowledge_distiller.py",
+    "artifacts/main.py"
+  ],
+  "version": "2.2",
+  "ki_name": "aros_system_architecture",
+  "domain_tags": [
+    "guide",
+    "agent",
+    "protocol",
+    "loop",
+    "import",
+    "context",
+    "complete",
+    "component"
+  ]
+}

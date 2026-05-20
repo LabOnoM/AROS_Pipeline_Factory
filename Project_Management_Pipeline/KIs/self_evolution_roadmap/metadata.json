@@ -1,0 +1,12 @@
+{
+  "name": "self_evolution_roadmap",
+  "summary": "Master roadmap for the 5-phase AROS Self-Evolution Integration: Phase 1 (Insight Memory Layer), Phase 2 (Full Skill Lifecycle), Phase 3 (Curator/Executor Decoupling), Phase 4 (RL-Trained Curation via GRPO), Phase 5 (Agentic Skill Retrieval). Derived from MTL (arXiv:2604.14004) and SkillOS (arXiv:2605.06614) gap analysis. Master tracking file lives at AROS_Pipeline_Factory/ROADMAP_SELF_EVOLUTION.md.",
+  "created_at": "2026-05-13T12:58:00+09:00",
+  "last_accessed": "2026-05-13T12:58:00+09:00",
+  "references": [
+    "conversation:68c22836-9b84-49e9-b05e-bcbe83121aba",
+    "file:///home/ubuntu4/GitHub/AROS_Pipeline_Factory/ROADMAP_SELF_EVOLUTION.md",
+    "file:///home/ubuntu4/GitHub/AROS_Pipeline_Factory/00.RawData/Literature/03_Parsed_Markdown/2604.14004.md",
+    "file:///home/ubuntu4/GitHub/AROS_Pipeline_Factory/00.RawData/Literature/03_Parsed_Markdown/2605.06614.md"
+  ]
+}

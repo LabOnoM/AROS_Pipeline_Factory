@@ -1,0 +1,67 @@
+{
+  "ki_id": "matlab-programming",
+  "title": "MATLAB Programming \u2014 Complete Reference",
+  "summary": "Comprehensive knowledge base for MATLAB programming, scraped from the official MathWorks documentation. Covers: language fundamentals (matrices, arrays, data types, operators, control flow), data import/export and analysis, mathematics (linear algebra, FFT, optimization, ODEs, interpolation), graphics and visualization (2D/3D plots, images, graphics objects), programming constructs (scripts, functions, Live Scripts, classes, error handling, parallel processing), external language interfaces (Python, C/C++, Java, .NET), and MATLAB-Python integration patterns. Also includes practical patterns for scientific computing workflows.",
+  "created_at": "2026-04-20T09:29:00Z",
+  "last_updated": "2026-04-20T09:29:00Z",
+  "tags": [
+    "matlab",
+    "programming",
+    "scientific-computing",
+    "image-processing",
+    "linear-algebra",
+    "python-interop",
+    "data-analysis"
+  ],
+  "references": [
+    {
+      "title": "MATLAB Documentation Index",
+      "url": "https://www.mathworks.com/help/matlab/index.html",
+      "scraped_at": "2026-04-20T09:28:38Z"
+    },
+    {
+      "title": "MATLAB Language Fundamentals",
+      "url": "https://www.mathworks.com/help/matlab/language-fundamentals.html",
+      "scraped_at": "2026-04-20T09:29:01Z"
+    },
+    {
+      "title": "MATLAB Mathematics",
+      "url": "https://www.mathworks.com/help/matlab/mathematics.html",
+      "scraped_at": "2026-04-20T09:29:02Z"
+    },
+    {
+      "title": "MATLAB Graphics",
+      "url": "https://www.mathworks.com/help/matlab/graphics.html",
+      "scraped_at": "2026-04-20T09:29:02Z"
+    },
+    {
+      "title": "MATLAB Programming (Scripts, Functions, Classes)",
+      "url": "https://www.mathworks.com/help/matlab/programming-and-data-types.html",
+      "scraped_at": "2026-04-20T09:29:01Z"
+    },
+    {
+      "title": "MATLAB Data Import and Analysis",
+      "url": "https://www.mathworks.com/help/matlab/data-import-and-analysis.html",
+      "scraped_at": "2026-04-20T09:29:03Z"
+    },
+    {
+      "title": "MATLAB External Language Interfaces",
+      "url": "https://www.mathworks.com/help/matlab/external-language-interfaces.html",
+      "scraped_at": "2026-04-20T09:29:04Z"
+    },
+    {
+      "title": "Using MATLAB with Python \u2014 MathWorks",
+      "url": "https://www.mathworks.com/products/matlab/getting-started/using-matlab-python.html",
+      "scraped_at": "2026-04-20T09:28:39Z"
+    }
+  ],
+  "artifacts": [
+    "01_language_fundamentals.md",
+    "02_programming_constructs.md",
+    "03_mathematics.md",
+    "04_graphics_visualization.md",
+    "05_data_import_analysis.md",
+    "06_external_interfaces_python.md",
+    "07_quick_reference_cheatsheet.md"
+  ]
+}

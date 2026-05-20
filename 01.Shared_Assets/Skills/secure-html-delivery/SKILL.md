@@ -1,3 +1,6 @@
+---
+cpcp_asset: true
+---
 # Secure HTML Delivery Skill
 
 Provides a standardized mechanism to generate AES-256 encrypted HTML reports (`build_secure_grant.py`) and generic interactive HTML reports (`generic_interactive_report.py`).

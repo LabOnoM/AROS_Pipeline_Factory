@@ -1,3 +1,11 @@
+# ==============================================================================
+# AROS Pipeline Factory - Scientific Workflows
+#
+# This script is part of the AROS (Antigravity Research OS) ecosystem.
+# It is governed by the AROS Cross-Pipeline Compatibility Protocol (CPCP).
+# For details, refer to SPEC.md and 00.RawData/SHARED_ASSET_REGISTRY.md.
+# ==============================================================================
+
 #!/usr/bin/env python3
 """
 fetch_and_convert.py — Literature Ingestion Orchestrator
@@ -59,24 +67,15 @@ def main() -> None:
         required=True,
         help="Path to input TXT file with one DOI per line.",
     )
-    # Calculate the default config path relative to this script
-    script_dir = Path(__file__).resolve().parent
-    default_config = script_dir.parent / "config.json"
-    
     parser.add_argument(
         "--config",
-        default=str(default_config),
+        default="01.Shared_Assets/Skills/literature-ingestion/config.json",
         help="Path to config file.",
-    )
-    parser.add_argument(
-        "--base-dir",
-        default=None,
-        help="Override the output_base directory (e.g. for project-specific locations).",
     )
     args = parser.parse_args()
 
     config = load_config(args.config)
-    output_base = Path(args.base_dir) if args.base_dir else Path(config["output_base"])
+    output_base = Path(config["output_base"])
     pdf_dir = output_base / "02_Raw_PDFs"
     meta_dir = output_base / "05_Metadata"
     failed_log = output_base / "failed_downloads.json"

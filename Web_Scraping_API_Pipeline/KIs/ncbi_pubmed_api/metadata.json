@@ -1,0 +1,53 @@
+{
+  "summary": "Comprehensive reference for the NCBI Entrez E-utilities REST API system covering PubMed, PMC, Gene, Protein, Nucleotide and 38+ databases. Documents all nine E-utility endpoints (ESearch, EFetch, EPost, ESummary, ELink, EInfo, EGQuery, ESpell, ECitMatch), the Entrez History Server pattern for large-scale retrieval, and the PMC-specific APIs (ID Converter, OA Web Service, BioC). Critical emphasis on traffic control: rate limits (3 req/s default, 10 req/s with API key), batch size strategies (retmax/retstart iteration, EPost+EFetch pipeline), exponential backoff for 429/502/503 errors, off-peak scheduling, and HTTP POST for >200 UIDs. Includes production-ready Python client with Biopython integration patterns.",
+  "created": "2026-04-09T02:07:00Z",
+  "last_accessed": "2026-04-09T02:07:00Z",
+  "references": [
+    {
+      "type": "url",
+      "value": "https://pmc.ncbi.nlm.nih.gov/tools/developers/"
+    },
+    {
+      "type": "url",
+      "value": "https://www.ncbi.nlm.nih.gov/books/NBK25497/"
+    },
+    {
+      "type": "url",
+      "value": "https://www.ncbi.nlm.nih.gov/books/NBK25499/"
+    },
+    {
+      "type": "url",
+      "value": "https://pmc.ncbi.nlm.nih.gov/tools/id-converter-api/"
+    },
+    {
+      "type": "url",
+      "value": "https://www.ncbi.nlm.nih.gov/books/NBK25501/"
+    }
+  ],
+  "tags": [
+    "ncbi",
+    "pubmed",
+    "pmc",
+    "e-utilities",
+    "entrez",
+    "rest-api",
+    "rate-limiting",
+    "batch-retrieval",
+    "traffic-control",
+    "literature-search",
+    "gene-database",
+    "efetch",
+    "esearch"
+  ],
+  "ki_name": "NCBI PubMed & E-utilities REST API \u2014 Rate Limiting, Batch Retrieval, and Traffic Control",
+  "domain_tags": [
+    "documents",
+    "rate",
+    "einfo",
+    "batch",
+    "default",
+    "nine",
+    "epost",
+    "specific"
+  ]
+}

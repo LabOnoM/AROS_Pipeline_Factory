@@ -1,0 +1,20 @@
+{
+  "summary": "Best practices and technical insights for analyzing scRNAseq data from the MGI DNBelab C4 system, specifically comparing bone marrow-derived MSCs with cultured counterparts. Includes strategies for doublet detection (Solo vs DoubletDecom), QC thresholds for cultured cells, and resolving technical issues with scanpy/harmonypy integration.",
+  "references": [
+    {
+      "type": "conversation_id",
+      "value": "6ac0bd4a-8d6d-4f50-9ed0-3f35e17ad59f"
+    }
+  ],
+  "ki_name": "MSC Comparative scRNAseq Analysis (MGI System)",
+  "domain_tags": [
+    "analyzing",
+    "data",
+    "cells",
+    "includes",
+    "detection",
+    "practices",
+    "derived",
+    "system"
+  ]
+}

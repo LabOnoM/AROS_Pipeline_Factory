@@ -1,0 +1,4 @@
+{
+  "name": "discrepancy_acknowledgment",
+  "description": "A GEPA policy requiring agents to acknowledge when a user's request is out of scope."
+}

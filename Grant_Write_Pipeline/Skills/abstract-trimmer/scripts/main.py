@@ -1,3 +1,11 @@
+# ==============================================================================
+# AROS Pipeline Factory - Scientific Workflows
+#
+# This script is part of the AROS (Antigravity Research OS) ecosystem.
+# It is governed by the AROS Cross-Pipeline Compatibility Protocol (CPCP).
+# For details, refer to SPEC.md and 00.RawData/SHARED_ASSET_REGISTRY.md.
+# ==============================================================================
+
 #!/usr/bin/env python3
 """Abstract Trimmer - Compresses abstracts to word limits while preserving key information."""
 
@@ -11,17 +19,17 @@ class AbstractTrimmer:
     """Trims abstracts to meet word limits."""
     
     def trim(self, abstract: str, target_words: int, strategy: str = "balanced") -> dict:
-        """Trim abstract to target character count (Excel LEN logic).
+        """Trim abstract to target word count.
         
         Args:
             abstract: Input abstract text
-            target_words: Target character count
+            target_words: Target word count
             strategy: Trimming strategy (conservative/balanced/aggressive)
             
         Returns:
             Dictionary with trimmed abstract and statistics
         """
-        original_words = len(abstract)
+        original_words = len(abstract.split())
         
         # Remove redundant phrases based on strategy
         trimmed = abstract
@@ -55,24 +63,22 @@ class AbstractTrimmer:
         # Clean up extra spaces
         trimmed = re.sub(r'\s+', ' ', trimmed).strip()
         
-        if len(trimmed) > target_words:
-            sep = '。' if '。' in trimmed else '. '
-            sentences = trimmed.split(sep)
-            
+        words = trimmed.split()
+        if len(words) > target_words:
+            # Keep first and last sentences, trim middle
+            sentences = trimmed.split('. ')
             if len(sentences) > 2:
-                head = sentences[0] + sep
-                tail = sentences[-1]
-                remaining_len = target_words - len(head) - len(tail) - 5
-                if remaining_len > 0:
-                    mid_start = len(head)
-                    mid = trimmed[mid_start:-len(tail) if len(tail) > 0 else None]
-                    trimmed = head + mid[:remaining_len] + "..." + tail
+                middle_start = target_words // 3
+                middle_end = target_words - len(sentences[0].split()) - len(sentences[-1].split()) - 5
+                if middle_end > middle_start:
+                    middle_words = words[middle_start:middle_end]
+                    trimmed = f"{sentences[0]}. {' '.join(middle_words)}... {sentences[-1]}"
                 else:
-                    trimmed = trimmed[:target_words]
+                    trimmed = ' '.join(words[:target_words])
             else:
-                trimmed = trimmed[:target_words]
+                trimmed = ' '.join(words[:target_words])
         
-        final_words = len(trimmed)
+        final_words = len(trimmed.split())
         
         return {
             "trimmed_abstract": trimmed,
@@ -82,8 +88,8 @@ class AbstractTrimmer:
         }
     
     def count_words(self, text: str) -> int:
-        """Count characters in text (Excel LEN logic)."""
-        return len(text)
+        """Count words in text."""
+        return len(text.split())
 
 
 def main():

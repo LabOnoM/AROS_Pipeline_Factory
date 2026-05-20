@@ -1,0 +1,12 @@
+{
+  "summary": "This Knowledge Item governs the execution of GEPA Proposals, ensuring that new capabilities are created in a structured, verifiable, and traceable manner, grounded in facts from the AROS Memory Bank.",
+  "ki_name": "gepa-proposal-implementation",
+  "domain_tags": [
+    "gepa",
+    "proposal",
+    "implementation",
+    "workflow",
+    "validation",
+    "knowledge"
+  ]
+}

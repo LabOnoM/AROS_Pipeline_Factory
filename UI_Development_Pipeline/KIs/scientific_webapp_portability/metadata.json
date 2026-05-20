@@ -1,0 +1,28 @@
+{
+  "summary": "Documentation for the 'Single-File Standalone' pattern for scientific web applications. Covers inlining CSS/JS assets and embedding JSON data into a single HTML file to bypass CORS restrictions on the file:// protocol and ensure portability of research results.",
+  "references": [
+    {
+      "type": "conversation_id",
+      "value": "27a24523-7cb8-43d9-ae8f-d255b6c58d8c"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/GSE261849_webapp/bundle.py"
+    },
+    {
+      "type": "file",
+      "value": "[WORKSPACE_ROOT]/AntigravityTesting/GSE261849_webapp/index_standalone.html"
+    }
+  ],
+  "ki_name": "Scientific Webapp Portability and Bundling",
+  "domain_tags": [
+    "data",
+    "protocol",
+    "html",
+    "results",
+    "json",
+    "bypass",
+    "into",
+    "webapp"
+  ]
+}

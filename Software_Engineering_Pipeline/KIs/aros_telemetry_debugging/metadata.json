@@ -1,0 +1,28 @@
+{
+  "summary": "Core guidelines and heuristic models for debugging the AROS UI Telemetry, database mapping desyncs, and JavaScript frontend state. Covers aggressive cache-busting, SQLite-Vec table inspection, and safe API failure boundaries during real-time OS monitoring.",
+  "created_at": "2026-04-13T13:00:00+09:00",
+  "updated_at": "2026-04-13T13:00:00+09:00",
+  "tags": [
+    "debugging",
+    "ui",
+    "sqlite",
+    "telemetry",
+    "aros",
+    "cache-busting",
+    "agentic-ui"
+  ],
+  "original_references": [
+    "Conversation: 4902c11d-44e2-4854-9ad8-da9fda0a20e9"
+  ],
+  "ki_name": "aros_telemetry_debugging",
+  "domain_tags": [
+    "cache",
+    "real",
+    "telemetry",
+    "safe",
+    "javascript",
+    "aggressive",
+    "sqlite",
+    "heuristic"
+  ]
+}

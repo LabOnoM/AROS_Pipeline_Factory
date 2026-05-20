@@ -40,20 +40,27 @@ The canonical synchronization tool is `01.Shared_Assets/Scripts/sync_with_aros.s
 3. Automatically routes pulled assets to their originating Pipeline directory in the Factory.
 4. Handles legacy formats (flat `*_SKILL.md` files) by warning the user during pulls, preventing structural corruption.
 
-## Path Enforcement Rules
+## Concurrency Protection & Copy Safety
+- **Exclusive Lock**: To prevent simultaneous execution of write commands (`push`/`pull`) that could corrupt runtime files, `sync_with_aros.sh` acquires an exclusive lock at `~/.gemini/knowledge.lock`.
+- **Lock Fallback**: On platforms without POSIX `flock` (e.g. Windows Git Bash), it falls back to atomic directory creation (`mkdir`) at `/tmp/aros_knowledge.lock.dir`. Clean lock release is enforced via shell traps (`EXIT`, `INT`, `TERM`).
+- **rsync Fallback**: The script copies assets using `rsync -a --delete` for efficiency. If `rsync` is missing, it falls back to a robust directory cleaning and copy sequence using native POSIX commands (`find` + `rm` + `cp -Rf`).
+
+## Path & Formatting Enforcement Rules
 
 Assets placed in wrong directories are **invisible** to AROS:
 
 - ❌ A skill in `~/.gemini/antigravity/knowledge/` → NOT found by `find_helpful_skills`
 - ❌ A KI in `~/.gemini/skills/` → NOT found by `find_helpful_ki`
 - ❌ A policy in `~/.gemini/antigravity/global_workflows/` → NOT eligible for GEPA mutation
-- ✅ Only assets in the canonical directories above are indexed
+- ❌ Path contains literal backslashes (`\`) → Breaks cross-platform checkouts and syntax. Must be purged immediately.
+- ✅ Only assets in the canonical directories above, using forward slashes (`/`), are indexed.
 
 ## Governance
 
 - **SPEC §4.5**: Defines the directory map and bidirectional sync architecture.
 - **AGENTS.md LAW 1**: Mandates use of `sync_with_aros.sh` for all deployments.
 - **CPCP (LAW 0)**: Shared assets must still follow the Cross-Pipeline Compatibility Protocol before modification.
+
 
 ## Related
 

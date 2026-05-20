@@ -1,0 +1,63 @@
+{
+  "ki_name": "knowledge-item-drafting-process",
+  "version": "1.0",
+  "synopsis": "The official AROS workflow for creating new Knowledge Items, from initial ideation and data consolidation to final validation.",
+  "description": "This Knowledge Item outlines the mandatory four-step process for drafting new KIs. It ensures that all KIs are well-researched, coherently structured, and validated against AROS quality standards before integration. The process begins with identifying the need for a new KI via knowledge distillation, followed by a mandatory information consolidation phase, the core synthesis of the draft, and a final, non-negotiable validation using the Golden Test Battery (GTB).",
+  "creator": "AROS-Code-Generator",
+  "tags": [
+    "process",
+    "knowledge_management",
+    "drafting",
+    "quality_assurance"
+  ],
+  "artifacts": [
+    {
+      "artifact_name": "drafting_process_workflow",
+      "artifact_type": "workflow_steps",
+      "description": "The mandatory, sequential workflow for drafting a new Knowledge Item.",
+      "content": [
+        {
+          "step": 1,
+          "name": "Ideation and Trigger",
+          "details": "The need for a new KI is often identified by the Knowledge Distillation cycle, which clusters conversation facts from brain.db and surfaces proposals for new knowledge artifacts. This can be triggered via the `aros-dashboard-control` skill.",
+          "associated_skills": [
+            "aros-dashboard-control"
+          ]
+        },
+        {
+          "step": 2,
+          "name": "Information Consolidation",
+          "details": "Before drafting, the `knowledge-consolidation` skill is mandatory. This preparatory step involves identifying all relevant information sources (e.g., brain.db, logs, existing KIs), extracting the key facts, and synthesizing them into a coherent structure.",
+          "associated_skills": [
+            "knowledge-consolidation"
+          ]
+        },
+        {
+          "step": 3,
+          "name": "KI Synthesis",
+          "details": "The `knowledge-synthesizer` skill is used to draft the KI from the consolidated facts. This process is governed by the GEPA rule for comprehensive fact extraction, ensuring all required data points are included in the initial draft.",
+          "associated_skills": [
+            "knowledge-synthesizer"
+          ]
+        },
+        {
+          "step": 4,
+          "name": "Mandatory Validation",
+          "details": "After the draft is written to a file, it must be submitted to the Golden Test Battery (GTB) using the `gtb-validator` skill. This automated QA gate is a non-negotiable step to ensure the KI meets AROS quality and regression standards.",
+          "associated_skills": [
+            "gtb-validator",
+            "code-generation-quality-assurance-process"
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": "Generated KI for knowledge-item-drafting-process.",
+  "domain_tags": [
+    "item",
+    "generated",
+    "knowledge",
+    "process",
+    "drafting"
+  ]
+}

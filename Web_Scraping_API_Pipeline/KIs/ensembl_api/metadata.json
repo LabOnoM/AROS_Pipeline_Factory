@@ -1,0 +1,64 @@
+{
+  "summary": "Comprehensive reference for the Ensembl genomic database ecosystem. Covers the REST API (v15.10, 15 endpoint categories), BioMart programmatic access for bulk ID mapping, FTP/rsync reference genome downloads (GRCh38/GRCm39), and integration patterns for Space Ranger, scanpy, and spatial transcriptomics workflows. Documents the user preference: always use the newest Ensembl reference genome for all mapping and alignment steps. Includes Python recipes for gene lookup, cross-reference mapping, sequence retrieval, assembly info queries, and building custom reference transcriptomes from Ensembl FASTA+GTF files.",
+  "created": "2026-04-09T02:02:00Z",
+  "last_accessed": "2026-04-09T02:02:00Z",
+  "references": [
+    {
+      "type": "url",
+      "value": "https://useast.ensembl.org/info/docs/index.html"
+    },
+    {
+      "type": "url",
+      "value": "https://rest.ensembl.org"
+    },
+    {
+      "type": "url",
+      "value": "https://ftp.ensembl.org/pub/"
+    },
+    {
+      "type": "url",
+      "value": "https://rest.ensembl.org/documentation/info/assembly_info"
+    },
+    {
+      "type": "url",
+      "value": "https://rest.ensembl.org/documentation/info/xref_external"
+    },
+    {
+      "type": "url",
+      "value": "https://rest.ensembl.org/documentation/info/sequence_id"
+    },
+    {
+      "type": "url",
+      "value": "https://rest.ensembl.org/documentation/info/lookup"
+    },
+    {
+      "type": "url",
+      "value": "https://rest.ensembl.org/documentation/info/species"
+    }
+  ],
+  "tags": [
+    "ensembl",
+    "reference-genome",
+    "rest-api",
+    "biomart",
+    "id-mapping",
+    "gene-annotation",
+    "GRCh38",
+    "GRCm39",
+    "transcriptome",
+    "alignment",
+    "space-ranger",
+    "user-preference"
+  ],
+  "ki_name": "Ensembl API System \u2014 Reference Genomes, REST API, BioMart, and ID Mapping",
+  "domain_tags": [
+    "documents",
+    "fasta",
+    "bulk",
+    "rest",
+    "includes",
+    "categories",
+    "retrieval",
+    "newest"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "summary": "Documents the expected JSON output structure from the 'batch_evolver.py' script. This KI enables other agents to reliably parse and utilize batch evolution results.",
+  "created_at": "2026-05-13T18:39:10.036946",
+  "source": "gepa_proposal_reviewer"
+}

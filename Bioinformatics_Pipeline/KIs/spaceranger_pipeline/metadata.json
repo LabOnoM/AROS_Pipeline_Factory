@@ -1,0 +1,56 @@
+{
+  "summary": "Comprehensive reference for Space Ranger v4.x pipelines (count, segment, annotate, aggr), covering Visium HD and Visium HD 3' spatial transcriptomics. Includes complete CLI argument maps, input requirements (FASTQ, CytAssist/microscope images, probe sets, references), output directory structures (pipestance, outs/, spatial/, binned_outputs/, segmented_outputs/), QC metrics interpretation (web_summary.html, metrics_summary.csv), and the built-in nucleus/cell segmentation introduced in v4.0. Synthesized from official 10x Genomics documentation.",
+  "created": "2026-04-09T01:38:00Z",
+  "last_accessed": "2026-04-09T01:38:00Z",
+  "references": [
+    {
+      "type": "url",
+      "value": "https://www.10xgenomics.com/support/software/space-ranger/latest"
+    },
+    {
+      "type": "url",
+      "value": "https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/running-pipelines/count-visium-hd"
+    },
+    {
+      "type": "url",
+      "value": "https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/running-pipelines/space-ranger-segment"
+    },
+    {
+      "type": "url",
+      "value": "https://www.10xgenomics.com/support/software/space-ranger/latest/getting-started/what-is-space-ranger"
+    },
+    {
+      "type": "url",
+      "value": "https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/output-overview"
+    },
+    {
+      "type": "url",
+      "value": "https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs"
+    },
+    {
+      "type": "url",
+      "value": "https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/space-ranger-web-summary"
+    }
+  ],
+  "tags": [
+    "space-ranger",
+    "visium-hd",
+    "10x-genomics",
+    "spatial-transcriptomics",
+    "pipeline",
+    "segmentation",
+    "count",
+    "aggr"
+  ],
+  "ki_name": "10x Genomics Space Ranger Pipeline Reference",
+  "domain_tags": [
+    "nucleus",
+    "visium",
+    "segment",
+    "aggr",
+    "binned_outputs",
+    "segmentation",
+    "html",
+    "cell"
+  ]
+}

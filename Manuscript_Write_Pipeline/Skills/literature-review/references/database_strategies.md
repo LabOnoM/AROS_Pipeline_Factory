@@ -189,12 +189,11 @@ Search at least 3 complementary databases:
 3. Identify duplicates by DOI (primary) or title (fallback)
 4. Keep the version with most complete metadata
 
-### Phase 4: Screening & Full-Text Ingestion (MANDATORY)
+### Phase 4: Screening
 1. **Title screening**: Review titles, exclude obviously irrelevant
 2. **Abstract screening**: Read abstracts, apply inclusion/exclusion criteria
-3. **Full-text ingestion (LAW 3 Mandate)**: For all selected papers, you MUST download the full-text PDF using the `literature-ingestion` shared skill (`fetch_and_convert.py --base-dir <PROJECT_ROOT>`). Do not rely on abstracts for your final review.
-4. **Full-text screening**: Review the generated Markdown artifacts for evidence extraction.
-5. Document reasons for exclusion at each stage.
+3. **Full-text screening**: Obtain and review full texts
+4. Document reasons for exclusion at each stage
 
 ### Phase 5: Quality Assessment
 1. Assess study quality using appropriate tools:
@@ -430,10 +429,6 @@ search_term = "CRISPR AND sickle cell disease"
 
 # 5. Aggregate and deduplicate results
 # python search_databases.py combined_results.json --deduplicate --format markdown --output review_papers.md
-
-# 5.5 Full-Text Ingestion (MANDATORY per LAW 3)
-# Write target DOIs/PMIDs to 01_Target_DOIs.txt and run:
-# python <PROJECT_ROOT>/01.Shared_Assets/Skills/literature-ingestion/scripts/fetch_and_convert.py --input <PROJECT_ROOT>/00.RawData/Literature/01_Target_DOIs.txt --base-dir <PROJECT_ROOT>
 
 # 6. Verify all citations
 # python verify_citations.py review_papers.md
