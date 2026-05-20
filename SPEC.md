@@ -33,9 +33,12 @@ All production deployments and synchronization operations MUST use `01.Shared_As
 ### 4.4 Self-Healing Environment (SHE)
 The repository implements a SHE pattern using shell-based audits (`audit_shared_assets.py`) to ensure metadata integrity and path consistency.
 
-### 4.5 AROS Runtime Directory Mapping
+### 4.5 AROS Runtime Directory Mapping (Antigravity V2)
 The canonical mapping between Factory structures and the live AROS runtime is:
-- **Skills**: `~/.gemini/skills/<skill-name>/SKILL.md`
-- **Knowledge Items**: `~/.gemini/antigravity/knowledge/<ki-name>/artifacts/`
+- **Skills**: `~/.gemini/skills/<skill-name>/SKILL.md` (exposed via `antigravity-brain` MCP server)
+- **Knowledge Items**: `~/.gemini/antigravity-ide/knowledge/<ki-name>/artifacts/` (primary V2 path) with dual-write synchronization to `~/.gemini/antigravity/knowledge/` (agent runtime path). Write operations to either directory MUST utilize cross-platform `flock`-based concurrency locks (`knowledge.lock`) to prevent concurrent write corruption.
 - **Policies**: `~/.gemini/antigravity/policies/<policy-name>.md`
 - **Workflows**: `~/.gemini/antigravity/global_workflows/<workflow-name>.md`
+
+### 4.6 AROS V2 Plugin Integration
+In V2, AROS resources are registered with the IDE agent prompt using a native V2 plugin located at `~/.gemini/config/plugins/aros/` containing a `GEMINI.md`-style skill document that teaches the agent how to invoke all 16 AROS MCP tools.

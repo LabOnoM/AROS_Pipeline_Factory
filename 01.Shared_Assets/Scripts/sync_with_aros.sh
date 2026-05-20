@@ -7,6 +7,14 @@
 #   Synchronizes Skills, KIs, Policies, and Workflows bidirectionally between 
 #   the Git-tracked Pipeline Factory and the live AROS runtime (~/.gemini/).
 #
+# V2 ARCHITECTURE COMPATIBILITY:
+#   Supports the dual-backend design of Google Antigravity v2:
+#     - IDE Workspace (Screener): ~/.gemini/antigravity-ide/knowledge/
+#     - Agent Workspace (Runtime): ~/.gemini/antigravity/knowledge/
+#   Legacy flat Policies and Workflows are automatically wrapped into valid V2
+#   Knowledge Item (KI) structured directories (metadata.json + artifacts/)
+#   upon push to satisfy ambient workspace policies.
+#
 # USAGE:
 #   ./sync_with_aros.sh status           # Show staleness report
 #   ./sync_with_aros.sh push             # Factory → Runtime
@@ -32,9 +40,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FACTORY_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 AROS_SKILLS_DIR="${HOME}/.gemini/skills"
-AROS_KI_DIR="${HOME}/.gemini/antigravity/knowledge"
-AROS_POLICY_DIR="${HOME}/.gemini/antigravity/policies"
-AROS_WORKFLOW_DIR="${HOME}/.gemini/antigravity/global_workflows"
+AROS_KI_DIR="${HOME}/.gemini/antigravity-ide/knowledge"
+AROS_KI_DIR_AGENT="${HOME}/.gemini/antigravity/knowledge"
 
 PIPELINE_DIRS=(
     "${FACTORY_ROOT}/01.Shared_Assets"
@@ -283,20 +290,21 @@ discover_policies() {
             [ -f "$p_file" ] || continue
             local name
             name=$(basename "$p_file")
-            local r_path="${AROS_POLICY_DIR}/${name}"
+            local bare_name="${name%.md}"
+            local r_path="${AROS_KI_DIR}/policy_${bare_name}/artifacts/${name}"
             compare_assets "${type_id}:${name}" "$p_file" "$r_path" "false"
         done
     done
     
     # Runtime
-    [ -d "$AROS_POLICY_DIR" ] || return
-    for p_file in "$AROS_POLICY_DIR"/*.md; do
-        [ -f "$p_file" ] || continue
-        local name
-        name=$(basename "$p_file")
+    [ -d "$AROS_KI_DIR" ] || return
+    for p_dir in "$AROS_KI_DIR"/policy_*; do
+        [ -d "$p_dir" ] || continue
+        local name="${p_dir##*/policy_}"
+        name="${name}.md"
         local id="${type_id}:${name}"
         if [[ -z "${ASSET_MAP_STATUS[$id]:-}" ]]; then
-            compare_assets "$id" "/dev/null" "$p_file" "false"
+            compare_assets "$id" "/dev/null" "${p_dir}/artifacts/${name}" "false"
         fi
     done
 }
@@ -311,20 +319,21 @@ discover_workflows() {
             [ -f "$w_file" ] || continue
             local name
             name=$(basename "$w_file")
-            local r_path="${AROS_WORKFLOW_DIR}/${name}"
+            local bare_name="${name%.md}"
+            local r_path="${AROS_KI_DIR}/workflow_${bare_name}/artifacts/${name}"
             compare_assets "${type_id}:${name}" "$w_file" "$r_path" "false"
         done
     done
     
     # Runtime
-    [ -d "$AROS_WORKFLOW_DIR" ] || return
-    for w_file in "$AROS_WORKFLOW_DIR"/*.md; do
-        [ -f "$w_file" ] || continue
-        local name
-        name=$(basename "$w_file")
+    [ -d "$AROS_KI_DIR" ] || return
+    for w_dir in "$AROS_KI_DIR"/workflow_*; do
+        [ -d "$w_dir" ] || continue
+        local name="${w_dir##*/workflow_}"
+        name="${name}.md"
         local id="${type_id}:${name}"
         if [[ -z "${ASSET_MAP_STATUS[$id]:-}" ]]; then
-            compare_assets "$id" "/dev/null" "$w_file" "false"
+            compare_assets "$id" "/dev/null" "${w_dir}/artifacts/${name}" "false"
         fi
     done
 }
@@ -432,7 +441,34 @@ cmd_push() {
                 fi
             fi
             
+            # If pushing a policy or workflow to runtime, we must wrap it in a KI
+            if [[ "$id" == POL:* || "$id" == WF:* ]]; then
+                mkdir -p "$(dirname "$r_path")"
+                local ki_dir="$(dirname "$(dirname "$r_path")")"
+                if [ ! -f "${ki_dir}/metadata.json" ]; then
+                    local display_name="${id#*:}"
+                    display_name="${display_name%.md}"
+                    echo "{\"summary\": \"Auto-wrapped KI for ${id}\", \"references\": []}" > "${ki_dir}/metadata.json"
+                fi
+            fi
+            
             copy_asset "$f_path" "$r_path"
+            
+            # For KI-based assets, we also sync to AROS_KI_DIR_AGENT
+            if [[ "$id" == KI:* || "$id" == POL:* || "$id" == WF:* ]]; then
+                local agent_r_path="${r_path/$AROS_KI_DIR/$AROS_KI_DIR_AGENT}"
+                if [[ "$id" == POL:* || "$id" == WF:* ]]; then
+                    local agent_ki_dir="$(dirname "$(dirname "$agent_r_path")")"
+                    mkdir -p "$(dirname "$agent_r_path")"
+                    if [ ! -f "${agent_ki_dir}/metadata.json" ]; then
+                        local display_name="${id#*:}"
+                        display_name="${display_name%.md}"
+                        echo "{\"summary\": \"Auto-wrapped KI for ${id}\", \"references\": []}" > "${agent_ki_dir}/metadata.json"
+                    fi
+                fi
+                copy_asset "$f_path" "$agent_r_path"
+            fi
+            
             log_ok "Pushed: $id"
             count=$((count + 1))
         fi

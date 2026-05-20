@@ -136,4 +136,5 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-13 | `pdf-processing-mandate.md` | Created | ALL | Defined LAW 3 canonical 4-artifact set and universal enforcement protocol. |
 | 2026-05-13 | `literature-ingestion` | Modified | ALL | Updated `pdf_converter.py` to auto-start `opendataloader-pdf-hybrid` daemon to fix timeout failures. |
 | 2026-05-13 | `literature-ingestion` | Modified | ALL | Updated `pdf_converter.py` to extract metadata and move structural JSON to `04_Parsed_JSON/` and `05_Metadata/` respectively to enforce LAW 3 canonical artifacts. |
-| 2026-05-13 | `literature-ingestion` | Modified | ALL | Updated `pdf_converter.py` and `fetch_and_convert.py` to calculate config path dynamically via `__file__` and added `--base-dir` argument for project-specific context injection. |
+| 2026-05-20 | `sync_with_aros.sh` | Upgraded | ALL | **Antigravity V2 split path support**: Updated sync scripts to resolve and handle dual-path Knowledge Item storage in the new V2 IDE layout (`antigravity-ide/knowledge/`) while preserving compatibility with standard AROS. |
+
