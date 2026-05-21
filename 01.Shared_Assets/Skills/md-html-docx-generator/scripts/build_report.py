@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # ==============================================================================
 # AROS Pipeline Factory - Scientific Workflows
 #
@@ -6,7 +7,6 @@
 # For details, refer to SPEC.md and 00.RawData/SHARED_ASSET_REGISTRY.md.
 # ==============================================================================
 
-#!/usr/bin/env python3
 """
 AROS Skill — Markdown Report Generator (build_report.py)
 
@@ -115,4 +115,4 @@ def encode_images_in_markdown(md_content: str, base_dir: Path) -> str:
             elif ext == "gif": mime_type = "image/gif"
             
             try:
-                with open(img_path,
+                with open(img_pa

@@ -2,7 +2,7 @@
 
 > **GOVERNANCE AUTHORITY**: This document is the single source of truth for all shared assets across the AROS Pipeline Factory. Any asset listed here exists in multiple pipeline folders and is subject to the **Cross-Pipeline Compatibility Protocol** (see below).
 >
-> **Last Updated**: 2026-05-20
+> **Last Updated**: 2026-05-21
 
 ---
 
@@ -141,3 +141,5 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-20 | `sync_with_aros.sh` | Upgraded | ALL | **Concurrency Locking & Rsync Fallback**: Implemented flock/mkdir cross-platform concurrency locking (`knowledge.lock`) and fallback copy mechanism to handle environments without `rsync` tool (e.g. Windows Git Bash). |
 | 2026-05-20 | All `.py` and `.sh` scripts | Modified | ALL | Applied standardized AROS file header comments across all scripts globally to ensure proper documentation and CPCP awareness. |
 | 2026-05-21 | All `.py` and `.sh` scripts | Verified & Finalized | ALL | Verified AROS local sync status and finalized comments across the factory. |
+| 2026-05-21 | AROS Ecosystem Sync | Pulled & Pushed | ALL | Synced factory with live AROS runtime: pulled 17 GEPA-mutated skills (including clinvar, ensembl, literature-close-read, pubmed, retraction-watcher, etc.) and pushed 1 factory update (agentic-data-scientist) to restore complete alignment. |
+

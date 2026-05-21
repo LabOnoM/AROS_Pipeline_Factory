@@ -25,3 +25,9 @@
 - **rsync Fallback**: Implemented copy/remove fallback directory sync logic to allow script functionality on platforms lacking `rsync` (e.g. Windows Git Bash).
 - **Cleanup**: Cleaned up the repository by deleting all staged files with literal backslashes in their names.
 
+## [2026-05-21] - AROS Ecosystem Sync & Alignment
+- **Ecosystem Alignment**: Executed bidirectional sync using `sync_with_aros.sh` to pull 17 GEPA-mutated skills from the live AROS runtime.
+- **Factory Update Push**: Pushed the updated `agentic-data-scientist` skill from the factory repository back to the AROS runtime, achieving 100% in-sync status across 888 tracking nodes.
+- **Documentation**: Documented changes and updated `SHARED_ASSET_REGISTRY.md` and `.wiki/log.md`.
+
+

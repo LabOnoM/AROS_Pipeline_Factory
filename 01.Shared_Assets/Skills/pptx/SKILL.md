@@ -5,8 +5,6 @@ description: Create, edit, and extract content from PowerPoint (.pptx) files; us
 license: MIT
 skill-author: AIPOCH
 original-source: benchflow-ai/skillsbench
-
-cpcp_asset: true
 ---
 
 ## When to Use
@@ -76,8 +74,4 @@ def create_presentation(output_path: str) -> None:
     # Ensure the image is in a format python-pptx can embed reliably
     img = Image.open(BytesIO(resp.content)).convert("RGBA")
     buf = BytesIO()
-    img.save(buf, format="PNG")
-    buf.seek(0)
-
-    slide = prs.
-```
+    img.save(buf, forma
