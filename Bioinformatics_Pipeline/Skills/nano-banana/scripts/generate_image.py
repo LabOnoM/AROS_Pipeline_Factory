@@ -1,11 +1,3 @@
-# ==============================================================================
-# AROS Pipeline Factory - Scientific Workflows
-#
-# This script is part of the AROS (Antigravity Research OS) ecosystem.
-# It is governed by the AROS Cross-Pipeline Compatibility Protocol (CPCP).
-# For details, refer to SPEC.md and 00.RawData/SHARED_ASSET_REGISTRY.md.
-# ==============================================================================
-
 #!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.10"
@@ -15,15 +7,8 @@
 # ]
 # ///
 """
-AROS Skill — Nano Banana Image Generation (generate_image.py)
-
-Generates or edits images with Google's Nano Banana 2 model (`gemini-3.1-flash-image-preview`).
-Integrates with the AROS Cloud Federation proxy for cost-optimal and monitored LLM routing.
-
-Key Functions/Classes:
-- get_proxy_aware_client: Constructs a google.genai.Client respecting AROS_CLOUD_URL.
-- create_image: Handles prompt-to-image generation.
-- edit_image: Handles image-to-image modification.
+Generate or edit images with Google's Nano Banana 2 model
+(`gemini-3.1-flash-image-preview`).
 
 Usage:
     uv run generate_image.py --prompt "your image description" \\
@@ -31,12 +16,6 @@ Usage:
 
     uv run generate_image.py --prompt "editing instruction" \\
         --filename "edited.png" --input-image "source.png"
-
-Integration Points:
-- Swarm Agents: Directly invokes this script for scientific or artistic visualization.
-- AROS Proxy: Intercepts requests via AROS_CLOUD_URL when configured.
-
-Part of: nano-banana (Skill)
 """
 
 from __future__ import annotations
@@ -51,37 +30,10 @@ DEFAULT_RESOLUTION = "1K"
 RESOLUTION_CHOICES = ("512", "1K", "2K", "4K")
 
 
-def get_proxy_aware_client(provided_key: str | None = None):
-    """Construct a genai.Client that respects AROS Cloud proxy env vars."""
-    from google import genai
-
-    cloud_url = os.environ.get("AROS_CLOUD_URL", "").rstrip("/")
-    cloud_key = os.environ.get("AROS_CLOUD_KEY", "")
-
-    if cloud_url and cloud_key:
-        print(f"[nano-banana] Using AROS Cloud proxy: {cloud_url}")
-        try:
-            client = genai.Client(
-                api_key=cloud_key,
-                http_options={"base_url": cloud_url},
-            )
-            return client
-        except Exception as e:
-            print(f"[nano-banana] Proxy failed ({e}). Falling back to direct API.")
-
-    # Fallback to direct API key
-    api_key = (
-        provided_key
-        or os.environ.get("GEMINI_API_KEY")
-        or os.environ.get("GOOGLE_API_KEY")
-        or os.environ.get("GOOGLE_AI_API_KEY")
-    )
-    if not api_key:
-        print("Error: No API key provided. Set GEMINI_API_KEY or pass --api-key.", file=sys.stderr)
-        sys.exit(1)
-
-    print("[nano-banana] Using direct Google AI Studio API")
-    return genai.Client(api_key=api_key)
+def get_api_key(provided_key: str | None) -> str | None:
+    if provided_key:
+        return provided_key
+    return os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
 
 
 def choose_resolution(width: int, height: int, requested: str) -> str:
@@ -132,12 +84,18 @@ def main() -> int:
 
     args = parser.parse_args()
 
+    api_key = get_api_key(args.api_key)
+    if not api_key:
+        print("Error: No API key provided.", file=sys.stderr)
+        print("  Set GEMINI_API_KEY or GOOGLE_API_KEY, or pass --api-key.", file=sys.stderr)
+        return 1
+
     # Lazy import so argparse errors are fast.
     from google import genai
     from google.genai import types
     from PIL import Image as PILImage
 
-    client = get_proxy_aware_client(args.api_key)
+    client = genai.Client(api_key=api_key)
 
     output_path = Path(args.filename)
     output_path.parent.mkdir(parents=True, exist_ok=True)

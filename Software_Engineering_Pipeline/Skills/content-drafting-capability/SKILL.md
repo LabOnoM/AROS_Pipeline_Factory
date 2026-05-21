@@ -55,36 +55,6 @@ To prevent monolithic, unorganized, or incomplete outputs, all agent-generated c
 Ensure agent personas maintain the capability to generate well-structured and relevant initial content drafts based on implicit or explicit task instructions.
 
 
----
-### GEPA Error Prevention Rule: Mandatory Proxy-Aware LLM Client Instantiation
-
-All new or modified Skills that make LLM API calls (via `genai.Client`, `genai.configure`, 
-`dspy.LM`, or any Google AI SDK) **MUST** respect the AROS Cloud Federation proxy
-environment variables (`AROS_CLOUD_URL`, `AROS_CLOUD_KEY`) before falling back to 
-direct API keys (`GEMINI_API_KEY`, `GOOGLE_AI_API_KEY`).
-
-**Prohibited Pattern:**
-```python
-# ❌ NEVER do this — bypasses AROS proxy routing
-client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-```
-
-**Required Pattern:**
-```python
-# ✅ Always check for AROS proxy first
-cloud_url = os.environ.get("AROS_CLOUD_URL", "").rstrip("/")
-cloud_key = os.environ.get("AROS_CLOUD_KEY", "")
-if cloud_url and cloud_key:
-    client = genai.Client(api_key=cloud_key, http_options={"base_url": cloud_url})
-else:
-    client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
-```
-
-- **Why:** Hardcoded direct API keys bypass token metering, cost attribution, and 
-  Vertex AI optimizations provided by the Cloud Federation proxy.
-- **Enforcement:** The `gtb-validator` SHOULD flag Skills containing `genai.Client(api_key=` 
-  without an adjacent `AROS_CLOUD_URL` check as a quality gate failure.
-
 ## Progressive Disclosure (Merged from Pocock)
 
 - Lead with the most common, critical paths.
