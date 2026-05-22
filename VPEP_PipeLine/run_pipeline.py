@@ -186,6 +186,14 @@ def main():
     run_stage(keyframe_script, stage2_args)
     
     # ----------------------------------------------------
+    # Stage 2.5: generate_tracking_video.py
+    # ----------------------------------------------------
+    stage2_5_args = [
+        "-o", output_dir
+    ]
+    run_stage("generate_tracking_video.py", stage2_5_args)
+    
+    # ----------------------------------------------------
     # Stage 3: generate_compared_notebook.py
     # ----------------------------------------------------
     stage3_args = [
@@ -227,8 +235,7 @@ def main():
     # Stage 6: generate_master_dashboard.py
     # ----------------------------------------------------
     stage6_args = [
-        "-o", output_dir,
-        "--video_filename", os.path.basename(video_path)
+        "-o", output_dir
     ]
     run_stage("generate_master_dashboard.py", stage6_args)
     
