@@ -20,7 +20,12 @@ import os
 from google import genai
 
 def load_api_client():
-    """Reads API key from environment variables or standard .env locations and returns Client."""
+    """Reads API key from environment variables or standard .env locations and returns Client.
+    
+    Includes a robust retry policy for all downstream pipeline stages to handle transient API issues.
+    """
+    from google.genai import types
+
     api_key = os.getenv("GOOGLE_AI_API_KEY")
     if not api_key:
         env_path = os.path.expanduser("~/.gemini/.env")
@@ -30,11 +35,25 @@ def load_api_client():
                     if line.startswith("GOOGLE_AI_API_KEY="):
                         api_key = line.strip().split("=", 1)[1].strip("'\"")
                         break
+
+    # Configure robust retry strategy for all pipeline stages (especially to handle transient 503/429)
+    retry_options = types.HttpRetryOptions(
+        initial_delay=2.0,         # Wait 2 seconds before first retry
+        attempts=5,                # Try up to 5 times
+        exp_base=2.0,              # Exponential backoff (2s, 4s, 8s, 16s)
+        max_delay=30.0,            # Max delay 30s
+        http_status_codes=[429, 500, 502, 503, 504]
+    )
+    http_options = types.HttpOptions(
+        retry_options=retry_options,
+        timeout=300 * 1000         # 5 minutes timeout in milliseconds for video/text generation
+    )
+
     if api_key:
-        return genai.Client(api_key=api_key)
+        return genai.Client(api_key=api_key, http_options=http_options)
     else:
         # Fallback to default client setup (which may use GEMINI_API_KEY or other mechanisms)
-        return genai.Client()
+        return genai.Client(http_options=http_options)
 
 def time_to_seconds(time_str):
     """Convert MM:SS or HH:MM:SS to seconds."""
