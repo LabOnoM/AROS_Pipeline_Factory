@@ -64,6 +64,88 @@ def time_to_seconds(time_str):
         return parts[0] * 3600 + parts[1] * 60 + parts[2]
     return 0
 
+def is_video_already_compressed(video_path, target_height=480, target_fps=15, bitrate_threshold_kbps=800):
+    """Detect whether a video is already sufficiently compressed for VPEP processing.
+
+    Uses ffprobe to inspect the video's codec, resolution, frame rate, and bitrate.
+    Returns True if the video meets or falls below the VPEP compression targets,
+    meaning re-compression would be wasteful or quality-degrading.
+
+    The VPEP compression target (from compress_video()) is:
+        - Resolution: 480p (height <= 480)
+        - Frame rate: <= 15 fps
+        - Codec: H.264 (libx264)
+        - CRF 30 (maps to roughly 300-800 kbps for 480p content)
+
+    Args:
+        video_path: Absolute path to the video file.
+        target_height: Maximum pixel height to consider "compressed" (default: 480).
+        target_fps: Maximum frames-per-second to consider "compressed" (default: 15).
+        bitrate_threshold_kbps: Maximum video bitrate in kbps (default: 800).
+
+    Returns:
+        True if the video is already compressed, False if it needs compression.
+    """
+    import subprocess
+    import json as _json
+
+    try:
+        cmd = [
+            "ffprobe", "-v", "error",
+            "-select_streams", "v:0",
+            "-show_entries", "stream=codec_name,width,height,r_frame_rate,bit_rate",
+            "-show_entries", "format=bit_rate",
+            "-of", "json",
+            video_path
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        if result.returncode != 0:
+            print(f"ffprobe failed (rc={result.returncode}). Assuming video needs compression.")
+            return False  # Can't probe → assume not compressed → compress it
+
+        data = _json.loads(result.stdout)
+        stream = data.get("streams", [{}])[0]
+        fmt = data.get("format", {})
+
+        # 1. Check codec — must be a standard lossy codec
+        codec = stream.get("codec_name", "")
+        if codec not in ("h264", "hevc", "vp9", "av1", "mpeg4"):
+            print(f"Codec '{codec}' is not a standard compressed codec. Compression needed.")
+            return False
+
+        # 2. Check resolution
+        height = int(stream.get("height", 9999))
+        if height > target_height:
+            print(f"Video height {height}px exceeds target {target_height}px. Compression needed.")
+            return False
+
+        # 3. Check frame rate (r_frame_rate is a fraction like "30/1" or "30000/1001")
+        fps_str = stream.get("r_frame_rate", "30/1")
+        num, den = map(int, fps_str.split("/"))
+        fps = num / den if den else 30
+        if fps > target_fps + 1:  # +1 tolerance for rounding
+            print(f"Video fps {fps:.1f} exceeds target {target_fps}fps. Compression needed.")
+            return False
+
+        # 4. Check bitrate (stream-level or format-level fallback)
+        bitrate_str = stream.get("bit_rate") or fmt.get("bit_rate")
+        if bitrate_str and bitrate_str != "N/A":
+            bitrate_kbps = int(bitrate_str) / 1000
+            if bitrate_kbps > bitrate_threshold_kbps:
+                print(f"Video bitrate {bitrate_kbps:.0f}kbps exceeds threshold {bitrate_threshold_kbps}kbps. Compression needed.")
+                return False
+            print(f"Video bitrate {bitrate_kbps:.0f}kbps is within threshold.")
+        else:
+            print("Bitrate not available in metadata. Relying on resolution/fps checks only.")
+
+        print(f"Video already compressed: codec={codec}, height={height}px, fps={fps:.1f}, bitrate={bitrate_str or 'N/A'}.")
+        return True  # Passes all thresholds → already compressed
+
+    except Exception as e:
+        print(f"Compression detection error: {e}. Defaulting to compress.")
+        return False  # On any error, default to compressing
+
+
 def compress_video(input_path, output_path):
     """Compress video using ffmpeg to a standard low-bitrate format (480p, 15fps, CRF 30)."""
     import subprocess

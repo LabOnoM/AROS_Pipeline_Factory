@@ -80,13 +80,18 @@ def main():
 
     os.makedirs(output_dir, exist_ok=True)
 
-    # 3. Check for compression and compress if needed
-    from utils import compress_video
+    # 3. Intelligent video compression detection using ffprobe metadata
+    from utils import compress_video, is_video_already_compressed
     basename = os.path.basename(video_path)
+
+    # Fast-path: if the file is already named with our convention, skip detection
     if basename.startswith("compressed_"):
-        print(f"Input video '{basename}' is already marked as compressed. Proceeding.")
+        print(f"Input video '{basename}' is already marked as compressed (prefix). Proceeding.")
+    elif is_video_already_compressed(video_path):
+        # ffprobe analysis shows video is already at or below VPEP targets
+        print(f"Input video '{basename}' is already compressed (ffprobe metadata check). Skipping re-compression.")
     else:
-        # Check if there is already a compressed video in the same directory
+        # Video needs compression — check for existing compressed file first (backward compat)
         dir_name = os.path.dirname(os.path.abspath(video_path))
         base_no_ext, ext = os.path.splitext(basename)
         compressed_name = f"compressed_{base_no_ext}.mp4"
@@ -96,13 +101,13 @@ def main():
             print(f"Found existing compressed video at: {candidate_compressed_path}")
             video_path = candidate_compressed_path
         else:
-            # We must compress it! Write to output_dir if input dir is not writable
+            # Compress the video. Write to output_dir if input dir is not writable.
             if os.access(dir_name, os.W_OK):
                 compressed_output_path = os.path.join(dir_name, compressed_name)
             else:
                 compressed_output_path = os.path.join(output_dir, compressed_name)
             
-            print(f"No compressed version of '{basename}' found.")
+            print(f"Video requires compression (high resolution/bitrate/fps detected).")
             try:
                 compress_video(video_path, compressed_output_path)
                 video_path = compressed_output_path
@@ -127,6 +132,10 @@ def main():
         archive_ref_notebook = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "02.Outputs", "SAM3_LabClaw_Analysis", "archive", "Compared_Experiment_Notebook.md")
         if os.path.exists(archive_ref_notebook):
             reference_notebook_path = archive_ref_notebook
+
+    # Fallback to reference_notebook_path if sop_template_path does not exist
+    if not os.path.exists(sop_template_path) and os.path.exists(reference_notebook_path):
+        sop_template_path = reference_notebook_path
 
     reference_html_path = args.reference_html_path or config.get("reference_html_path") or os.path.join(os.path.dirname(output_dir), "archive", "VPEP_Audit_Report.html")
     if not os.path.exists(reference_html_path):
