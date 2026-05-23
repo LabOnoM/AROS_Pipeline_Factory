@@ -54,22 +54,54 @@ def split_video(input_path, output_dir, segment_time=600):
     files = sorted([os.path.join(output_dir, f) for f in os.listdir(output_dir) if f.startswith(base_name + "_part") and f.endswith(".mp4")])
     return files
 
-def upload_and_wait(client, file_path: str, max_wait_s: int = 600):
-    print(f"Uploading {file_path}...")
-    myfile = client.files.upload(file=file_path)
-    waited = 0
-    while myfile.state.name == "PROCESSING" and waited < max_wait_s:
-        time.sleep(5)
-        waited += 5
-        myfile = client.files.get(name=myfile.name)
-
-    if myfile.state.name == "FAILED":
-        raise ValueError(f"Video processing failed: {myfile.state.name}")
-    if myfile.state.name == "PROCESSING":
-        raise TimeoutError(f"Processing timeout after {max_wait_s}s")
+def upload_and_wait(client, file_path: str, max_wait_s: int = 600, max_retries: int = 3):
+    """Upload a video file to Gemini File API and wait for processing to complete.
     
-    print(f"Uploaded {file_path} as {myfile.name}")
-    return myfile
+    Includes retry logic for transient FAILED states (Gemini file processing can
+    fail intermittently, especially with short or edge-case video segments).
+    
+    Args:
+        client: Google GenAI client instance.
+        file_path: Absolute path to the local video chunk.
+        max_wait_s: Maximum seconds to wait for processing per attempt.
+        max_retries: Number of upload attempts before raising.
+    
+    Returns:
+        The processed File object ready for use in generate_content().
+    
+    Raises:
+        ValueError: If all retry attempts fail.
+        TimeoutError: If processing doesn't complete within max_wait_s.
+    """
+    last_error = None
+    
+    for attempt in range(1, max_retries + 1):
+        print(f"Uploading {file_path} (attempt {attempt}/{max_retries})...")
+        myfile = client.files.upload(file=file_path)
+        waited = 0
+        while myfile.state.name == "PROCESSING" and waited < max_wait_s:
+            time.sleep(5)
+            waited += 5
+            myfile = client.files.get(name=myfile.name)
+
+        if myfile.state.name == "ACTIVE":
+            print(f"Uploaded {file_path} as {myfile.name}")
+            return myfile
+        
+        if myfile.state.name == "FAILED":
+            # Extract error details if available
+            error_detail = getattr(myfile, 'error', None) or getattr(myfile, 'status_details', None)
+            last_error = f"Video processing FAILED (attempt {attempt}): state={myfile.state.name}, error={error_detail}"
+            print(last_error, flush=True)
+            if attempt < max_retries:
+                print(f"Retrying in 10 seconds...")
+                time.sleep(10)
+                continue
+        
+        if myfile.state.name == "PROCESSING":
+            raise TimeoutError(f"Processing timeout after {max_wait_s}s on attempt {attempt}")
+    
+    raise ValueError(last_error or f"Video processing failed after {max_retries} attempts")
 
 prompt = """# Role & Domain Expertise
 You are an expert Computer Vision Protocol Parser and Laboratory Automation Analyst. Your objective is to audit first-person (egocentric) laboratory execution videos, decode the underlying scientific workflow, and generate a hyper-granular temporal map of physical actions alongside a precise material consumption log for inventory management.
