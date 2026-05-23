@@ -27,8 +27,14 @@ def extract_assets(reference_path):
     with open(reference_path, "r", encoding="utf-8") as f:
         content = f.read()
     
-    style_block = content.split("<style>")[1].split("</style>")[0]
-    script_block = content.split("<script>")[1].split("</script>")[0]
+    style_block = ""
+    if "<style>" in content and "</style>" in content:
+        style_block = content.split("<style>")[1].split("</style>")[0]
+        
+    script_block = ""
+    if "<script>" in content and "</script>" in content:
+        script_block = content.split("<script>")[1].split("</script>")[0]
+        
     return style_block, script_block
 
 def build_prompt(timeline_json, sop_text, lang="EN"):
