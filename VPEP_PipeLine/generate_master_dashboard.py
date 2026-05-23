@@ -131,12 +131,24 @@ def main():
     <title>VPEP インタラクティブ分析ダッシュボード</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #10b981;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-glow: rgba(16, 185, 129, 0.4);
+        }
+        
         __STYLE_BLOCK__
         
         /* Premium Dashboard UI Overrides & Improvements */
         body {
             font-family: 'Outfit', 'Noto Sans JP', sans-serif;
             transition: background-color 0.3s ease;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
         
         .title-gradient {
