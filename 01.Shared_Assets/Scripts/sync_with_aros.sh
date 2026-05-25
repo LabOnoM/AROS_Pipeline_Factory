@@ -58,6 +58,7 @@ PIPELINE_DIRS=(
     "${FACTORY_ROOT}/Writing_Publishing_Pipeline"
     "${FACTORY_ROOT}/Project_Management_Pipeline"
     "${FACTORY_ROOT}/Uncategorized_Orphan_Pipeline"
+    "${FACTORY_ROOT}/Multimedia_Generation_Pipeline"
 )
 
 # ── Colors ───────────────────────────────────────────────────────────────────

@@ -52,3 +52,20 @@ In V2, AROS resources are registered with the IDE agent prompt using a native V2
 ### 4.7 Cross-Platform Path Compatibility
 The AROS Pipeline Factory strictly prohibits the use of literal backslashes (`\`) in filenames and path representations in the Git index, as they cause checkout failures on macOS/Linux and tooling desyncs. All paths MUST use standard forward-slash (`/`) formatting. Redundant backslash-containing duplicates must be immediately purged.
 
+### 4.8 Unified Native CLI Sync (aros-sync)
+
+The sync and audit procedures are unified into a single cross-platform compiled Rust CLI utility named `aros-sync`. This replaces shell and python script wrappers.
+
+#### 4.8.1 CLI Interface
+The CLI binary MUST support the following execution interface:
+- `aros-sync push --target <path>`
+  - Computes source file checksum hashes (SHA-256) inside the Factory and copies updated assets to the destination path.
+- `aros-sync pull --source <path>`
+  - Retrieves changes from local runtime directories back to the Factory structure.
+- `aros-sync audit`
+  - Validates SAMS asset lists, cross-references imports, and flags broken symlinks or missing files.
+
+#### 4.8.2 Atomic Concurrency locks
+- `aros-sync` MUST enforce lock checks. Before any directory writes, the tool MUST check for `knowledge.lock`. If a lock collision is detected, `aros-sync` MUST wait and retry up to 5 times (using exponential backoff 50ms, 100ms, 200ms, etc.) before aborting with exit code 1.
+
+

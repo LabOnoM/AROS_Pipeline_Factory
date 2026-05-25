@@ -64,6 +64,7 @@
 | `regent-governance` | `workspace_management/Skills/` | **workspace_management** | Manages re_gent deployment health checks, `.regentignore` generation, and session exports. |
 | `md-html-docx-generator` | `workspace_management/Skills/` | **ALL PIPELINES** | Generates high-fidelity HTML/DOCX reports section-by-section to bypass LLM output token limits. Invoked in Phase 3 Step 7 (manuscript) and Phase 6 (grant). |
 | `visualize-data` | `~/.gemini/skills/` | **ALL PIPELINES** | Upgraded orchestrator for all scientific diagrams (Mermaid, fireworks-tech-graph, SVG+PNG via cairosvg). Replaces deprecated `grant-gantt-chart-gen` and `text-to-technical-roadmap`. |
+| `remotion-render-engine` | `Multimedia_Generation_Pipeline/Skills/` | **ALL PIPELINES** | Executes programmatic video rendering using the Remotion framework. |
 
 ---
 
@@ -142,4 +143,5 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-20 | All `.py` and `.sh` scripts | Modified | ALL | Applied standardized AROS file header comments across all scripts globally to ensure proper documentation and CPCP awareness. |
 | 2026-05-21 | All `.py` and `.sh` scripts | Verified & Finalized | ALL | Verified AROS local sync status and finalized comments across the factory. |
 | 2026-05-21 | AROS Ecosystem Sync | Pulled & Pushed | ALL | Synced factory with live AROS runtime: pulled 17 GEPA-mutated skills (including clinvar, ensembl, literature-close-read, pubmed, retraction-watcher, etc.) and pushed 1 factory update (agentic-data-scientist) to restore complete alignment. |
+| 2026-05-25 | `remotion-render-engine` & `Multimedia_Generation_Pipeline` | Created | ALL | **Multimedia Generation Pipeline Integration**: Created dedicated pipeline for programmatic video rendering via Remotion React framework. Developed the `remotion-render-engine` skill and added a simple HelloWorld template. |
 
