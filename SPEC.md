@@ -68,4 +68,16 @@ The CLI binary MUST support the following execution interface:
 #### 4.8.2 Atomic Concurrency locks
 - `aros-sync` MUST enforce lock checks. Before any directory writes, the tool MUST check for `knowledge.lock`. If a lock collision is detected, `aros-sync` MUST wait and retry up to 5 times (using exponential backoff 50ms, 100ms, 200ms, etc.) before aborting with exit code 1.
 
+## 5. Global Context Hub Integration
+The Pipeline Factory acts as the primary data source for the AROS Cloud Federation's **Global Context Hub**.
 
+### 5.1 Skill Publishing to the Hub
+All domain skills (e.g., `Bioinformatics_Pipeline`) are synchronized to the Cloud Federation via the `aros-sync` CLI tool. The Global Context Hub provides a Next.js-based frontend for users to browse these skills.
+
+### 5.2 Autonomous Categorization (BDD/TDD Stub)
+The `AROS-agent` deployed on the cloud automatically scans `SKILL.md` payloads and applies domain tags.
+*See Cloud Federation's `skill_categorization.feature` for BDD specifications.*
+
+### 5.3 Feedback Routing (BDD/TDD Stub)
+User comments generated in the Global Context Hub UI are automatically triaged by the `AROS-agent` and routed to the corresponding GitHub Issue Tracker for the `AROS_Pipeline_Factory`.
+*See Cloud Federation's `feedback_system.feature` for BDD specifications.*
