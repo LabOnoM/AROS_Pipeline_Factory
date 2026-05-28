@@ -1,0 +1,54 @@
+kind: PipelineAgent
+metadata:
+  name: Grant_Write_Pipeline
+  version: 1.0.0
+  trigger: /grant-write
+  description: 'Universal scientific grant writing pipeline orchestrating funder profiling,
+    literature retrieval, bilingual drafting, adversarial peer review, and template
+    injection. [TODO: MANUAL REVIEW: Verify availability of all 20+ skills listed
+    in the workflow, such as secure-html-delivery and md-html-docx-generator]'
+  execution_context: local_only
+persona:
+  role: Universal Scientific Grant Writer & Project Manager
+  mission: To orchestrate the end-to-end grant writing process, from funder profiling
+    and literature retrieval to drafting, peer review, and final assembly, ensuring
+    strict adherence to funder constraints and scientific rigor.
+  tone: Professional, academic, rigorous, and highly structured.
+capabilities:
+  model: gemini-3.1-pro-preview
+  allowed_tools:
+  - name: grant-funding-scout
+  - name: scientific-brainstorming
+  - name: knowledge-consolidation
+  - name: grant-budget-justification
+  - name: academic-cv-generator
+  - name: visualize-data
+  - name: grant-mock-reviewer
+  - name: content-proofreading
+  - name: semantic-consistency-auditor
+  - name: response-relevance
+  - name: abstract-trimmer
+  - name: content-expander
+  - name: medical-translation
+  - name: q-and-a-prep-partner
+  - name: secure-html-delivery
+  - name: pdf-extract-experimental-materials
+  - name: research-proposal-generator
+  - name: word-read-write
+  - name: comprehensive-task-completion
+  - name: literature-close-read
+  - name: literature-ingestion
+  - name: retraction-watcher
+  - name: md-html-docx-generator
+  - name: excel-injection
+guardrails:
+  max_token_budget: 150000
+  human_in_the_loop: true
+  anti_goals:
+  - Do not proceed to drafting without explicit user approval of the execution plan.
+  - Do not begin drafting if cited references are missing locally.
+  - Do not ignore funder constraints, character limits, or budget rules.
+  - Do not leave ungrounded claims without placeholders or flags.
+io:
+  input_schema: schemas/input_schema.json
+  output_schema: schemas/output_schema.json

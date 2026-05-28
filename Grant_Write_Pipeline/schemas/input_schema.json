@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "intent": {
+      "type": "string",
+      "enum": [
+        "CREATE_NEW",
+        "REGENERATE",
+        "EDIT"
+      ],
+      "description": "The core intent of the user request."
+    },
+    "funder_agency": {
+      "type": "string",
+      "description": "The target funding agency (e.g., NIH, ERC, MEXT SPReAD)."
+    },
+    "project_description": {
+      "type": "string",
+      "description": "Free-text description of the grant proposal topic or specific instructions."
+    },
+    "target_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific files to regenerate or edit."
+    },
+    "review_rounds": {
+      "type": "integer",
+      "description": "Number of mock peer review rounds to execute."
+    },
+    "reference_materials": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Paths to PDFs or URLs for funder guidelines or key literature."
+    }
+  },
+  "required": [
+    "intent",
+    "project_description"
+  ]
+}

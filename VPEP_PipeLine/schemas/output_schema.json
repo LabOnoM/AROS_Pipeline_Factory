@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "master_dashboard_html": {
+      "type": "string",
+      "description": "Path to the final Interactive_Report.html"
+    },
+    "vlm_parsed_timeline_json": {
+      "type": "string",
+      "description": "Path to the parsed timeline JSON"
+    },
+    "vlm_video_summary_md": {
+      "type": "string",
+      "description": "Path to the video summary markdown"
+    },
+    "tracking_video_mp4": {
+      "type": "string",
+      "description": "Path to the masked tracking video"
+    },
+    "status": {
+      "type": "string",
+      "description": "Pipeline execution status"
+    }
+  },
+  "required": [
+    "master_dashboard_html",
+    "status"
+  ]
+}

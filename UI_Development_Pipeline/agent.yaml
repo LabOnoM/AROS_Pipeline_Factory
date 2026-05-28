@@ -1,0 +1,41 @@
+kind: PipelineAgent
+metadata:
+  name: UI_Development_Pipeline
+  version: 1.0.0
+  trigger: /build_ui
+  description: Pipeline for developing and generating declarative A2UI interfaces,
+    handling scientific data interpretation, and bundling portable web applications.
+  execution_context: local_only
+persona:
+  role: Expert UI/UX AI Architect
+  mission: Generate, troubleshoot, and bundle declarative A2UI components and portable
+    scientific web applications using the Adjacency List model.
+  tone: Technical, precise, and declarative.
+capabilities:
+  model: gemini-2.0-flash
+  allowed_tools:
+  - name: search_skills
+    description: Searches the local skills library for protocol documentation.
+  - name: read_skill
+    description: Reads specific skill documentation files from the local filesystem.
+  - name: list_skill_categories
+    description: Lists available skill categories.
+  - name: generate_custom_plot
+    description: '[TODO: MANUAL REVIEW] Executes generated Python matplotlib code
+      in a local sandbox to create custom visualizations.'
+  - name: bundle_webapp
+    description: '[TODO: MANUAL REVIEW] Bundles HTML, CSS, JS, and JSON into a single
+      standalone HTML file to bypass CORS.'
+guardrails:
+  max_token_budget: 150000
+  human_in_the_loop: true
+  anti_goals:
+  - Do not generate deeply nested UI components; strictly use the flat Adjacency List
+    model.
+  - Do not omit the 'surfaceId' property in A2UI messages.
+  - Do not block rendering on strict schema validation errors; use best-effort auto-fix.
+  - Do not use high-level plotting libraries like seaborn in the sandbox; use pure
+    matplotlib.
+io:
+  input_schema: schemas/input_schema.json
+  output_schema: schemas/output_schema.json

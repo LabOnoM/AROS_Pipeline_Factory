@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "video_path": {
+      "type": "string",
+      "description": "Path to the input video file."
+    },
+    "output_dir": {
+      "type": "string",
+      "description": "Directory where all outputs should be written."
+    },
+    "config": {
+      "type": "string",
+      "description": "Path to the JSON configuration file."
+    },
+    "materials_dir": {
+      "type": "string",
+      "description": "Directory containing standard SOP/reference materials."
+    },
+    "sop_docx_path": {
+      "type": "string",
+      "description": "Path to the SOP DOCX file."
+    },
+    "sop_template_path": {
+      "type": "string",
+      "description": "Path to the SOP/notebook markdown template."
+    },
+    "reference_notebook_path": {
+      "type": "string",
+      "description": "Path to reference Compared_Experiment_Notebook.md."
+    },
+    "reference_html_path": {
+      "type": "string",
+      "description": "Path to reference VPEP_Audit_Report.html."
+    },
+    "segment_time": {
+      "type": "integer",
+      "default": 600,
+      "description": "Video segment time in seconds."
+    },
+    "model_flash": {
+      "type": "string",
+      "default": "gemini-3.5-flash",
+      "description": "Gemini model for analysis and JSON parsing."
+    },
+    "model_pro": {
+      "type": "string",
+      "default": "gemini-3.1-pro-preview",
+      "description": "Gemini model for report synthesis."
+    },
+    "use_test_extract": {
+      "type": "boolean",
+      "default": false,
+      "description": "If set, uses test_extract.py instead of extract_annotated_keyframes.py."
+    }
+  },
+  "required": [
+    "video_path",
+    "output_dir"
+  ]
+}

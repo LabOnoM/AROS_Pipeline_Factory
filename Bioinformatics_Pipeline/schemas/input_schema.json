@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Bioinformatics Pipeline Input Schema",
+  "type": "object",
+  "required": [
+    "pipeline_type",
+    "sample_id",
+    "input_files",
+    "reference_genome"
+  ],
+  "properties": {
+    "pipeline_type": {
+      "type": "string",
+      "enum": [
+        "scrnaseq",
+        "spatial_transcriptomics",
+        "bulk_rnaseq",
+        "metaproteomics"
+      ],
+      "description": "The type of bioinformatics pipeline to execute."
+    },
+    "sample_id": {
+      "type": "string",
+      "description": "Unique identifier for the biological sample."
+    },
+    "input_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of absolute local file paths to the input data (e.g., FASTQ, BAM, TIFF images)."
+    },
+    "reference_genome": {
+      "type": "string",
+      "description": "Absolute local path to the reference genome or transcriptome directory."
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Pipeline-specific parameters (e.g., QC thresholds, spaceranger arguments).",
+      "properties": {
+        "min_genes": {
+          "type": "integer",
+          "default": 500
+        },
+        "max_genes": {
+          "type": "integer",
+          "default": 7000
+        },
+        "pct_mito": {
+          "type": "number",
+          "default": 5.0
+        },
+        "doublet_detection_method": {
+          "type": "string",
+          "enum": [
+            "DoubletDecom",
+            "Solo"
+          ],
+          "default": "DoubletDecom"
+        },
+        "spaceranger_args": {
+          "type": "object",
+          "description": "[TODO: MANUAL REVIEW] Specific arguments for spaceranger count (e.g., slide, area)."
+        }
+      }
+    }
+  }
+}

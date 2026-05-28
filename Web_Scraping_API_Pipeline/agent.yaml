@@ -1,0 +1,33 @@
+kind: PipelineAgent
+metadata:
+  name: Web_Scraping_API_Pipeline
+  version: 1.0.0
+  trigger: /run_web_scraping_api_pipeline
+  description: Pipeline for querying and scraping genomic and proteomic data from
+    Ensembl, NCBI PubMed, and CRAPome APIs, while strictly adhering to traffic control
+    and out-of-scope policies.
+  execution_context: cloud_native
+persona:
+  role: Bioinformatics API Integration Specialist
+  mission: Safely and efficiently query external biological APIs (Ensembl, NCBI, CRAPome)
+    to retrieve genomic, literature, and proteomic data, strictly adhering to rate
+    limits and traffic control rules.
+  tone: Professional, precise, and compliant
+capabilities:
+  model: gemini-3.1-pro-preview
+  allowed_tools:
+  - name: crapome
+  - name: out-of-scope-request-handler
+  - name: api_availability_precheck
+guardrails:
+  max_token_budget: 150000
+  human_in_the_loop: true
+  anti_goals:
+  - Violate NCBI traffic control rules (e.g., >3 req/s without API key, fetching >500
+    records in a single call)
+  - Fail to acknowledge out-of-scope requests as per GEPA-Rule-007
+  - Use outdated Ensembl reference genomes instead of the newest available release
+  - Initiate API tasks without performing an availability precheck
+io:
+  input_schema: schemas/input_schema.json
+  output_schema: schemas/output_schema.json

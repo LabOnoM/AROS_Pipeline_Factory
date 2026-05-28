@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "project_name": {
+      "type": "string",
+      "description": "The name of the project or roadmap to manage."
+    },
+    "task_description": {
+      "type": "string",
+      "description": "Detailed description of the task to be decomposed and executed."
+    },
+    "target_phase": {
+      "type": "string",
+      "description": "Specific phase of the roadmap to target (e.g., 'Phase 1', 'Phase 4')."
+    },
+    "workspace_path": {
+      "type": "string",
+      "default": "/home/ubuntu4/GitHub/AROS_Pipeline_Factory/",
+      "description": "Local path to the workspace."
+    }
+  },
+  "required": [
+    "project_name",
+    "task_description"
+  ]
+}

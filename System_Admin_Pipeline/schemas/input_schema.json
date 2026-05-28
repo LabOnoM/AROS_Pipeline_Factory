@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "audit",
+        "start",
+        "stop",
+        "monitor"
+      ],
+      "description": "The EC2 orchestration action to perform."
+    },
+    "target_instances": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of target EC2 instance IDs."
+    },
+    "connection_threshold": {
+      "type": "integer",
+      "description": "The active connection threshold to trigger scaling."
+    },
+    "region": {
+      "type": "string",
+      "description": "The AWS region where the EC2 instances reside."
+    }
+  },
+  "required": [
+    "action",
+    "target_instances"
+  ]
+}

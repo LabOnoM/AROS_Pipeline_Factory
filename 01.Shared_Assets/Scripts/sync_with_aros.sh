@@ -59,6 +59,7 @@ PIPELINE_DIRS=(
     "${FACTORY_ROOT}/Project_Management_Pipeline"
     "${FACTORY_ROOT}/Uncategorized_Orphan_Pipeline"
     "${FACTORY_ROOT}/Multimedia_Generation_Pipeline"
+    "${FACTORY_ROOT}/VPEP_PipeLine"
 )
 
 # ── Colors ───────────────────────────────────────────────────────────────────

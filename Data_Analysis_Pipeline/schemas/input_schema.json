@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "dataset_path": {
+      "type": "string",
+      "description": "Local path to the dataset file or directory."
+    },
+    "analysis_type": {
+      "type": "string",
+      "enum": [
+        "bioinformatics",
+        "geospatial",
+        "statistical",
+        "general",
+        "image_processing"
+      ],
+      "description": "The domain of the analysis."
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Specific parameters for the analysis tools."
+    },
+    "output_directory": {
+      "type": "string",
+      "description": "Local path where artifacts should be saved."
+    }
+  },
+  "required": [
+    "dataset_path",
+    "analysis_type",
+    "output_directory"
+  ]
+}

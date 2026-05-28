@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "document_type": {
+      "type": "string",
+      "enum": [
+        "knowledge_item",
+        "technical_spec",
+        "research_paper",
+        "study_notes"
+      ],
+      "description": "The type of document to be drafted or published."
+    },
+    "topic_or_title": {
+      "type": "string",
+      "description": "The main topic, title, or objective of the document."
+    },
+    "source_materials": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of source materials, local file paths, or URLs to base the document on."
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of authors contributing to the document."
+    },
+    "proposed_reviewers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of proposed reviewers for conflict of interest checking."
+    }
+  },
+  "required": [
+    "document_type",
+    "topic_or_title"
+  ]
+}

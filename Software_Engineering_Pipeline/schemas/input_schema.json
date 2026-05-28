@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "repository_path": {
+      "type": "string",
+      "description": "Absolute path to the local repository."
+    },
+    "task_description": {
+      "type": "string",
+      "description": "Detailed description of the software engineering task to perform."
+    },
+    "enable_tdd": {
+      "type": "boolean",
+      "description": "Flag to enforce Test-Driven Development workflow.",
+      "default": true
+    },
+    "run_ci_pipeline": {
+      "type": "boolean",
+      "description": "Flag to run the CI/CD pipeline after changes.",
+      "default": true
+    }
+  },
+  "required": [
+    "repository_path",
+    "task_description"
+  ]
+}

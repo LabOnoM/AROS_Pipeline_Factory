@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "markdown_file_path": {
+      "type": "string",
+      "description": "Path to the final generated Markdown (.md) manuscript."
+    },
+    "pdf_file_path": {
+      "type": "string",
+      "description": "Path to the final compiled PDF manuscript."
+    },
+    "docx_file_path": {
+      "type": "string",
+      "description": "Path to the final compiled DOCX manuscript."
+    },
+    "review_log_path": {
+      "type": "string",
+      "description": "Path to the REVIEW_LOG.md containing the iteration scores and feedback."
+    },
+    "final_score": {
+      "type": "integer",
+      "description": "Final evaluation score out of 120 from Agent B."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL"
+      ],
+      "description": "Final status of the manuscript pipeline based on the iteration loop criteria."
+    }
+  },
+  "required": [
+    "markdown_file_path",
+    "pdf_file_path",
+    "review_log_path",
+    "final_score",
+    "status"
+  ]
+}

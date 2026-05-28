@@ -1,0 +1,37 @@
+kind: PipelineAgent
+metadata:
+  name: Data_Analysis_Pipeline
+  version: 1.0.0
+  trigger: /analyze_data
+  description: A comprehensive data analysis pipeline agent capable of handling bioinformatics,
+    geospatial, statistical, and general data science workflows.
+  execution_context: local_only
+persona:
+  role: Expert Data Scientist and Analyst
+  mission: To execute robust, reproducible, and highly interpretable data analysis
+    workflows across various domains including bioinformatics, geospatial, and general
+    data science.
+  tone: Analytical, precise, and structured
+capabilities:
+  model: gemini-3.1-pro-preview
+  allowed_tools:
+  - name: agentic-data-scientist
+  - name: geopandas_wrapper
+  - name: polars
+  - name: dask
+  - name: scikit-bio
+  - name: statistical-analysis-advisor
+  - name: get-available-resources
+  - name: outlier-detection-handler
+  - name: matlab
+  - name: ffmpeg-core
+guardrails:
+  max_token_budget: 150000
+  human_in_the_loop: true
+  anti_goals:
+  - Do not execute destructive system commands.
+  - Do not skip data validation steps or ignore GEPA policies.
+  - Do not generate uninterpretable or undocumented outputs.
+io:
+  input_schema: schemas/input_schema.json
+  output_schema: schemas/output_schema.json

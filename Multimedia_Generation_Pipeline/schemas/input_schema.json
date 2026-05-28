@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "project_dir": {
+      "type": "string",
+      "description": "Path to the Remotion project directory."
+    },
+    "composition": {
+      "type": "string",
+      "description": "The ID of the composition to render (e.g., HelloWorld)."
+    },
+    "output": {
+      "type": "string",
+      "description": "Path where the rendered MP4 video will be saved."
+    },
+    "props": {
+      "type": "string",
+      "description": "JSON string or file path containing properties to pass to the composition. [TODO: MANUAL REVIEW]"
+    },
+    "concurrency": {
+      "type": "integer",
+      "description": "Number of threads to use for rendering."
+    }
+  },
+  "required": [
+    "project_dir",
+    "composition",
+    "output"
+  ]
+}

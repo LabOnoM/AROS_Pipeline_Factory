@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failure",
+        "partial_success"
+      ]
+    },
+    "files_modified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of files modified during the task."
+    },
+    "pre_flight_checks_passed": {
+      "type": "boolean",
+      "description": "Indicates if all tool pre-verification checks passed."
+    },
+    "ci_cd_results": {
+      "type": "object",
+      "properties": {
+        "lint_passed": {
+          "type": "boolean"
+        },
+        "tests_passed": {
+          "type": "boolean"
+        },
+        "build_passed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Detailed summary of the execution and any architectural improvements made."
+    }
+  },
+  "required": [
+    "status",
+    "files_modified",
+    "pre_flight_checks_passed",
+    "summary"
+  ]
+}

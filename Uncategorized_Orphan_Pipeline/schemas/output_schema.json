@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "processed_files_count": {
+      "type": "integer",
+      "description": "Total number of orphaned files processed."
+    },
+    "categorized_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string"
+          },
+          "assigned_category": {
+            "type": "string",
+            "description": "The category assigned to the asset (e.g., Skill, KI, Policy, Workflow)."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "integrated",
+              "pending_review",
+              "rejected"
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "description": "[TODO: MANUAL REVIEW] Any specific notes or warnings regarding the categorization."
+          }
+        },
+        "required": [
+          "file_path",
+          "assigned_category",
+          "status"
+        ]
+      }
+    },
+    "system_report_path": {
+      "type": "string",
+      "description": "Path to the generated pipeline diagnostic report."
+    }
+  },
+  "required": [
+    "processed_files_count",
+    "categorized_assets",
+    "system_report_path"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failure",
+        "out_of_scope"
+      ],
+      "description": "The execution status of the pipeline."
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "The retrieved data records from the requested API."
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "api_used": {
+          "type": "string"
+        },
+        "records_fetched": {
+          "type": "integer"
+        },
+        "rate_limit_status": {
+          "type": "string"
+        },
+        "reference_genome_version": {
+          "type": "string",
+          "description": "The version of the Ensembl reference genome used, if applicable."
+        }
+      }
+    },
+    "message": {
+      "type": "string",
+      "description": "Additional information, error messages, or out-of-scope acknowledgments."
+    }
+  },
+  "required": [
+    "status",
+    "data",
+    "metadata"
+  ]
+}

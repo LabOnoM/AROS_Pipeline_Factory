@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Bioinformatics Pipeline Output Schema",
+  "type": "object",
+  "required": [
+    "status",
+    "processed_files",
+    "provenance_log"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failure",
+        "aborted_by_qc_gate"
+      ],
+      "description": "The final execution status of the pipeline."
+    },
+    "processed_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of absolute local file paths to the generated output files (e.g., feature-barcode matrices, .h5ad files, BAMs)."
+    },
+    "qc_metrics": {
+      "type": "object",
+      "description": "Extracted quality control metrics from the pipeline execution.",
+      "additionalProperties": true
+    },
+    "visualizations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of absolute local file paths to generated plots (e.g., UMAPs, spatial expression plots, QC histograms)."
+    },
+    "provenance_log": {
+      "type": "string",
+      "description": "Absolute local path to the data provenance and execution log file."
+    },
+    "biological_insights": {
+      "type": "string",
+      "description": "Markdown formatted summary of biological interpretations, cell type compositions, and generated hypotheses."
+    },
+    "error_details": {
+      "type": "string",
+      "description": "Detailed error message if the pipeline failed or was aborted."
+    }
+  }
+}

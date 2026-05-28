@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "generate_ui",
+        "custom_plot",
+        "bundle_webapp"
+      ],
+      "description": "The type of UI development task to perform."
+    },
+    "query": {
+      "type": "string",
+      "description": "The user's request for a UI component, visualization, or bundling task."
+    },
+    "dataset_context": {
+      "type": "object",
+      "description": "Metadata about the scientific dataset being analyzed (e.g., GSE261849).",
+      "properties": {
+        "dataset_id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "sample_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "target_surface": {
+      "type": "string",
+      "default": "default",
+      "description": "The surfaceId to target for A2UI messages."
+    },
+    "source_directory": {
+      "type": "string",
+      "description": "[TODO: MANUAL REVIEW] The local directory containing webapp files to bundle, if action_type is bundle_webapp."
+    }
+  },
+  "required": [
+    "action_type",
+    "query"
+  ]
+}

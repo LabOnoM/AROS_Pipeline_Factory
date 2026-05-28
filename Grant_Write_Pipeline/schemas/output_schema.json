@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "halted_for_approval",
+        "halted_missing_citations",
+        "escalated_to_pi"
+      ],
+      "description": "Final execution status of the pipeline."
+    },
+    "execution_plan": {
+      "type": "string",
+      "description": "The approved Markdown execution plan."
+    },
+    "draft_directory": {
+      "type": "string",
+      "description": "Path to the generated draft elements (e.g., ./GrantDraftElements/)."
+    },
+    "final_deliverable_path": {
+      "type": "string",
+      "description": "Path to the assembled final grant document."
+    },
+    "review_log_path": {
+      "type": "string",
+      "description": "Path to the peer review log."
+    },
+    "ungrounded_claims_present": {
+      "type": "boolean",
+      "description": "True if any claims could not be grounded with citations."
+    },
+    "retracted_citations_flagged": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of any retracted citations detected."
+    }
+  },
+  "required": [
+    "status",
+    "draft_directory"
+  ]
+}

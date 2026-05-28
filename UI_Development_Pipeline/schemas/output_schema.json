@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "error"
+      ],
+      "description": "The execution status of the pipeline."
+    },
+    "a2ui_messages": {
+      "type": "array",
+      "description": "A list of generated A2UI JSON messages (e.g., surfaceUpdate, dataModelUpdate, beginRendering).",
+      "items": {
+        "type": "object",
+        "required": [
+          "surfaceId"
+        ]
+      }
+    },
+    "generated_code": {
+      "type": "string",
+      "description": "The Python matplotlib code generated for custom plot execution, if applicable."
+    },
+    "bundled_file_path": {
+      "type": "string",
+      "description": "The local file path to the standalone HTML bundle, if applicable."
+    },
+    "interpretation_text": {
+      "type": "string",
+      "description": "Scientific interpretation or AI suggestions generated alongside the UI."
+    },
+    "error_details": {
+      "type": "string",
+      "description": "Details of any validation or execution errors encountered."
+    }
+  },
+  "required": [
+    "status"
+  ]
+}

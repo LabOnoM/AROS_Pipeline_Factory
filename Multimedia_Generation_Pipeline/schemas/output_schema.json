@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "video_file": {
+      "type": "string",
+      "description": "Rendered MP4 at the designated output path."
+    },
+    "log_trace": {
+      "type": "string",
+      "description": "Log messages matching the standard AROS logging format."
+    }
+  },
+  "required": [
+    "video_file",
+    "log_trace"
+  ]
+}

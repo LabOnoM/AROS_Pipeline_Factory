@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed",
+        "pending_human_approval"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "description": "Summary of the operation result."
+    },
+    "files_moved": {
+      "type": "integer",
+      "description": "Number of files reorganized."
+    },
+    "audit_issues_found": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of structural or compliance issues found during audit."
+    },
+    "commit_hash": {
+      "type": "string",
+      "description": "The git commit hash if a commit was successfully created."
+    }
+  },
+  "required": [
+    "status",
+    "message"
+  ]
+}

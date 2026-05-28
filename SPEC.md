@@ -81,3 +81,6 @@ The `AROS-agent` deployed on the cloud automatically scans `SKILL.md` payloads a
 ### 5.3 Feedback Routing (BDD/TDD Stub)
 User comments generated in the Global Context Hub UI are automatically triaged by the `AROS-agent` and routed to the corresponding GitHub Issue Tracker for the `AROS_Pipeline_Factory`.
 *See Cloud Federation's `feedback_system.feature` for BDD specifications.*
+
+### 5.4 AI Agent Package Synthesis
+The `agent_package_builder.py` script automatically synthesizes structured agent definitions (`agent.yaml`, `input_schema.json`, `output_schema.json`, and `system.md`) for all pipelines using the `gemini-3.1-pro-preview` model. This process ensures scalable deployment to the AROS Cloud Federation with full cross-platform compatibility by safely generating and distributing agent context payloads without exposing raw scripts directly.

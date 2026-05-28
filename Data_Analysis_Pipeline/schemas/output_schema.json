@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failure",
+        "partial_success"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Textual interpretation of the analysis results."
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of local file paths to generated visualizations and structured data objects."
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Key performance or statistical metrics extracted from the analysis."
+    }
+  },
+  "required": [
+    "status",
+    "summary",
+    "artifacts"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "partial_success",
+        "failure"
+      ],
+      "description": "Overall execution status of the project management task."
+    },
+    "execution_summary": {
+      "type": "string",
+      "description": "Summary of the actions taken, including roadmap updates and task orchestration."
+    },
+    "sub_tasks_generated": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of sub-tasks created via modular-task-breakdown."
+    },
+    "errors_and_fallbacks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Details of any errors intercepted and fallbacks triggered."
+    },
+    "next_phase_readiness": {
+      "type": "boolean",
+      "description": "Indicates if the project is ready to move to the next phase."
+    }
+  },
+  "required": [
+    "status",
+    "execution_summary",
+    "sub_tasks_generated"
+  ]
+}

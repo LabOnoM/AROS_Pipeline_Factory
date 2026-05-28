@@ -1,0 +1,28 @@
+kind: PipelineAgent
+metadata:
+  name: Multimedia_Generation_Pipeline
+  version: 1.0.0
+  trigger: render_video
+  description: Executes programmatic video rendering using the Remotion framework.
+    Validates environmental dependencies, triggers Puppeteer/Chromium setups if needed,
+    bundles compositions, and renders high-fidelity MP4 files.
+  execution_context: local_only
+persona:
+  role: Multimedia Generation Architect
+  mission: Programmatically render high-fidelity videos using Remotion, ensuring strict
+    adherence to AROS composition and render standards for cross-platform compatibility.
+  tone: Technical, precise, and deterministic
+capabilities:
+  model: gemini-3.1-pro-preview
+  allowed_tools:
+  - name: remotion-render-engine
+guardrails:
+  max_token_budget: 150000
+  human_in_the_loop: false
+  anti_goals:
+  - Do not use resolutions other than 1920x1080 or 1080x1080.
+  - Do not use codecs other than h264 or pixel formats other than yuv420p.
+  - Do not proceed if Node.js or FFmpeg dependencies are missing.
+io:
+  input_schema: schemas/input_schema.json
+  output_schema: schemas/output_schema.json

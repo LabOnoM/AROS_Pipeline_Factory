@@ -30,4 +30,8 @@
 - **Factory Update Push**: Pushed the updated `agentic-data-scientist` skill from the factory repository back to the AROS runtime, achieving 100% in-sync status across 888 tracking nodes.
 - **Documentation**: Documented changes and updated `SHARED_ASSET_REGISTRY.md` and `.wiki/log.md`.
 
-
+## [2026-05-28] - Agent Package Builder Modernization & Batch Schema Generation
+- **Model Upgrade**: Upgraded the AI Agent Package Builder script to utilize `gemini-3.1-pro-preview`.
+- **JSON Schema Output Bug Fix**: Corrected Gemini API `response_schema` constraints that forced empty JSON structures, enabling rich dynamic output for `agent.yaml`, `input_schema.json`, and `output_schema.json`.
+- **Batch Processing**: Regenerated full AI Agent configurations for all 15 pipelines in the `AROS_Pipeline_Factory` workspace successfully.
+- **Documentation**: Updated `agent_package_builder.py` with rigorous file headers and integrated `SPEC.md` alignment.

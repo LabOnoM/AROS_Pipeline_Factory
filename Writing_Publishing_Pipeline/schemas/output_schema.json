@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "draft_ready_for_review",
+        "validation_failed",
+        "conflict_of_interest_detected"
+      ],
+      "description": "The final status of the writing and publishing pipeline."
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string"
+          },
+          "artifact_type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "file_path",
+          "artifact_type"
+        ]
+      },
+      "description": "List of generated files, including the main markdown document and metadata.json."
+    },
+    "validation_report": {
+      "type": "object",
+      "properties": {
+        "passed_checks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Report detailing the results of the mandatory validation and integrity checks."
+    },
+    "conflicts_detected": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Details of any institutional or co-authorship conflicts detected."
+    }
+  },
+  "required": [
+    "status",
+    "artifacts",
+    "validation_report"
+  ]
+}

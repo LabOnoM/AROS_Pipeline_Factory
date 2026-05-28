@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "requires_human_intervention",
+        "failed"
+      ],
+      "description": "Final status of the pipeline execution"
+    },
+    "generated_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of generated report drafts and final PDFs (e.g., F-6, F-7, F-19-1)"
+    },
+    "review_log_path": {
+      "type": "string",
+      "description": "Path to the Dual-Agent Review Rounds Log"
+    },
+    "figure_audit_log_path": {
+      "type": "string",
+      "description": "Path to the visual asset verification audit log (required for F-19-1)"
+    },
+    "carryover_funds_justified": {
+      "type": "boolean",
+      "description": "Indicates if the '\u6b21\u5e74\u5ea6\u4f7f\u7528\u984d\u304c\u751f\u3058\u305f\u7406\u7531\u3068\u4f7f\u7528\u8a08\u753b' section was generated"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Any non-fatal warnings encountered during execution (e.g., byte limit warnings)"
+    }
+  },
+  "required": [
+    "status",
+    "generated_files",
+    "review_log_path"
+  ]
+}

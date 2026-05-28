@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "manuscript_root": {
+      "type": "string",
+      "description": "Absolute path to the root directory of the manuscript project."
+    },
+    "manuscript_name": {
+      "type": "string",
+      "description": "Base filename for the manuscript (e.g., 'main_manuscript')."
+    },
+    "target_journal": {
+      "type": "string",
+      "description": "[TODO: MANUAL REVIEW] Target journal name to guide formatting and style requirements."
+    },
+    "generate_graphical_abstract": {
+      "type": "boolean",
+      "description": "Flag to determine if Phase A1.5 (Graphical Abstract generation) should be executed.",
+      "default": false
+    }
+  },
+  "required": [
+    "manuscript_root",
+    "manuscript_name"
+  ]
+}

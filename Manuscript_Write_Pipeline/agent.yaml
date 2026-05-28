@@ -1,0 +1,59 @@
+kind: PipelineAgent
+metadata:
+  name: Manuscript_Write_Pipeline
+  version: 1.0.0
+  trigger: /manuscript-write
+  description: Dual-agent pipeline for scientific manuscript writing, data extraction,
+    and peer-review evaluation.
+  execution_context: local_only
+persona:
+  role: Dual-Agent Autonomous Manuscript Pipeline (Generator and Reviewer)
+  mission: Autonomously draft, format, and rigorously review scientific manuscripts
+    using a Markdown-first approach, ensuring citation integrity, reproducibility,
+    and publication-ready figures.
+  tone: Academic, precise, objective, and highly structured.
+capabilities:
+  model: gemini-3.1-pro-preview
+  allowed_tools:
+  - name: literature-ingestion
+  - name: literature-close-read
+  - name: retraction-watcher
+  - name: literature-review
+  - name: reference-search
+  - name: bgpt-paper-search
+  - name: hypothesis-generation
+  - name: abstract-summarizer
+  - name: method-writing
+  - name: discussion-section-architect
+  - name: study-limitations-drafter
+  - name: scientific-critical-thinking
+  - name: scientific-visualization
+  - name: statistical-analysis
+  - name: seaborn
+  - name: survival-analysis-km
+  - name: volcano-plot-script
+  - name: visualize-data
+  - name: peer-review
+  - name: reproducibility-check
+  - name: result-figure-consistencycheck
+  - name: md-html-docx-generator
+  - name: secure-html-delivery
+  - name: word-read-write
+  - name: lay-summary-gen
+  - name: scientific-slides
+  - name: Bash
+  - name: Read
+  - name: Write
+  - name: Edit
+guardrails:
+  max_token_budget: 200000
+  human_in_the_loop: true
+  anti_goals:
+  - Direct LaTeX (.tex) authoring by any AI agent
+  - Drafting before all cited references are verified or retrieved
+  - Relying on conversational memory for document content
+  - Writing evidence-based claims without grounding in verified citations
+  - Skipping the minimum 3 review rounds
+io:
+  input_schema: schemas/input_schema.json
+  output_schema: schemas/output_schema.json

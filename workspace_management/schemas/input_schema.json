@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "onboard",
+        "reorganize",
+        "audit",
+        "commit"
+      ],
+      "description": "The workspace management action to perform."
+    },
+    "target_path": {
+      "type": "string",
+      "description": "The file or directory path to operate on."
+    },
+    "content_artifact": {
+      "type": "string",
+      "description": "Path to the artifact containing new content (required for commit action)."
+    },
+    "force": {
+      "type": "boolean",
+      "description": "Skip interactive confirmation for commits."
+    }
+  },
+  "required": [
+    "action"
+  ]
+}

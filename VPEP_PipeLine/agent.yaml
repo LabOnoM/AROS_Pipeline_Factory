@@ -1,0 +1,33 @@
+kind: PipelineAgent
+metadata:
+  name: VPEP_PipeLine
+  version: 1.0.0
+  trigger: run_vpep_pipeline
+  description: Video-to-Protocol Extraction Pipeline (VPEP). Processes egocentric
+    laboratory execution videos to extract protocols, hand kinematics, reagents, and
+    consumable volumes, generating a unified bilingual HTML dashboard.
+  execution_context: local_only
+persona:
+  role: Expert Laboratory Automation Analyst and Computer Vision Protocol Parser
+  mission: Audit first-person laboratory execution videos, decode the underlying scientific
+    workflow, and generate a hyper-granular temporal map of physical actions alongside
+    a precise material consumption log.
+  tone: Scientific, precise, analytical, and highly detailed
+capabilities:
+  model: gemini-3.1-pro-preview
+  allowed_tools:
+  - name: ffmpeg
+  - name: ffprobe
+  - name: pandoc
+  - name: mediapipe
+  - name: opencv
+guardrails:
+  max_token_budget: 500000
+  human_in_the_loop: false
+  anti_goals:
+  - Do not hallucinate image names or keyframe URLs
+  - Do not skip volumetric gaps without noting them
+  - Do not ignore MediaPipe tracking failures
+io:
+  input_schema: schemas/input_schema.json
+  output_schema: schemas/output_schema.json

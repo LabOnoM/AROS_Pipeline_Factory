@@ -17,3 +17,5 @@ This file serves as the canonical registry for all pipelines maintained within t
 | `Writing_Publishing_Pipeline` | Scholarly publication formats, posters, and citation engines | Active | `/research-discovery` |
 | `Project_Management_Pipeline` | Tasks breakdown, schedules, and roadmap planning | Active | - |
 | `Uncategorized_Orphan_Pipeline` | Catch-all directory for untracked or unsorted system assets | Active | - |
+| `Multimedia_Generation_Pipeline` | Programmatic video rendering and multimedia generation via Remotion | Active | - |
+| `VPEP_PipeLine` | Video-to-Protocol Extraction Pipeline for automated SOP synthesis from experimental videos | Active | - |
