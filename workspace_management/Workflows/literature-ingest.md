@@ -16,7 +16,7 @@ Collect the target DOIs or PMIDs.
 Execute the Shared Skill `literature-ingestion`:
 
 ```bash
-python 01.Shared_Assets/Skills/literature-ingestion/scripts/fetch_and_convert.py --input 00.RawData/Literature/01_Target_DOIs.txt
+python ~/.gemini/skills/literature-ingestion/scripts/fetch_and_convert.py --input 00.RawData/Literature/01_Target_DOIs.txt
 ```
 
 This skill automatically:

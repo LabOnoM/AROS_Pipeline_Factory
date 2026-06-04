@@ -12,6 +12,8 @@ The AROS Pipeline Factory uses a **source-of-truth → runtime deployment** mode
 | **KIs** | `<Pipeline>/KIs/<name>/` | `~/.gemini/antigravity/knowledge/<name>/` | `ki_workflow_index.py` |
 | **Policies** | `<Pipeline>/Policies/<name>.md` | `~/.gemini/antigravity/policies/<name>.md` | `batch_evolver.py` |
 | **Workflows** | `<Pipeline>/Workflows/<name>.md` | `~/.gemini/antigravity/global_workflows/<name>.md` | `ki_workflow_index.py` |
+| **Scripts** | `01.Shared_Assets/Scripts/` | `~/.gemini/scripts/` | Shell invocation |
+| **Environments** | `01.Shared_Assets/Environments/` | `~/.gemini/environments/` | Conda package manager |
 
 ## Deployment Mechanism
 
@@ -39,6 +41,7 @@ The canonical synchronization tool is `01.Shared_Assets/Scripts/sync_with_aros.s
 2. Uses content-based SHA-256 checksums (not mtime) to detect staleness and divergence.
 3. Automatically routes pulled assets to their originating Pipeline directory in the Factory.
 4. Handles legacy formats (flat `*_SKILL.md` files) by warning the user during pulls, preventing structural corruption.
+5. Recursively bidirectionally synchronizes `Scripts/` and `Environments/` to `~/.gemini/` for global workspace execution independence.
 
 ## Concurrency Protection & Copy Safety
 - **Exclusive Lock**: To prevent simultaneous execution of write commands (`push`/`pull`) that could corrupt runtime files, `sync_with_aros.sh` acquires an exclusive lock at `~/.gemini/knowledge.lock`.

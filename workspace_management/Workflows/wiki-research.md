@@ -17,7 +17,7 @@ Example API Endpoint: `https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmco
 
 Prefer the `literature-ingestion` shared skill for paper retrieval:
 1. Add the target DOI/PMID to `00.RawData/Literature/01_Target_DOIs.txt`.
-2. Run: `python 01.Shared_Assets/Skills/literature-ingestion/scripts/fetch_and_convert.py --input 00.RawData/Literature/01_Target_DOIs.txt`
+2. Run: `python ~/.gemini/skills/literature-ingestion/scripts/fetch_and_convert.py --input 00.RawData/Literature/01_Target_DOIs.txt`
 3. The skill handles tiered OA+fallback retrieval and PDF-to-Markdown conversion automatically.
 4. If the skill reports the paper in `failed_downloads.json`, fall back to manual `curl -L`.
 

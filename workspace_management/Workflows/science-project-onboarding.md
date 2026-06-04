@@ -51,7 +51,7 @@ Use this workflow the first time you encounter a new or inherited scientific pro
    3. Run the conversion script (which handles its own dependency installation and self-healing):
       ```bash
       # // turbo
-      python3 01.Shared_Assets/Skills/literature-ingestion/scripts/pdf_converter.py
+      python3 ~/.gemini/skills/literature-ingestion/scripts/pdf_converter.py
       ```
 
 ## Phase 2: Documentation
@@ -122,7 +122,8 @@ Use this workflow the first time you encounter a new or inherited scientific pro
         eval "$(conda shell.bash hook)"
         if ! conda activate aros-base 2>/dev/null; then
             CMD=$(command -v mamba &>/dev/null && echo "mamba" || echo "conda")
-            AROS_YML="01.Shared_Assets/Environments/aros-base.yml"
+            AROS_YML="$HOME/.gemini/environments/aros-base.yml"
+            [ ! -f "$AROS_YML" ] && AROS_YML="01.Shared_Assets/Environments/aros-base.yml"
             [ ! -f "$AROS_YML" ] && AROS_YML="$(find ~ -maxdepth 4 -name 'aros-base.yml' -print -quit 2>/dev/null)"
             if [ -n "$AROS_YML" ]; then
                 $CMD env create -f "$AROS_YML" -y && conda activate aros-base

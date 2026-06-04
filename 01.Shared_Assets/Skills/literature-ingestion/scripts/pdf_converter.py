@@ -61,7 +61,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--config",
-        default="01.Shared_Assets/Skills/literature-ingestion/config.json",
+        default=str(Path(__file__).resolve().parent.parent / "config.json"),
         help="Path to config file.",
     )
     args = parser.parse_args()

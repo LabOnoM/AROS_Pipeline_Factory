@@ -17,7 +17,7 @@ Run this workflow periodically (e.g., once a week, or after a massive batch of `
 3. Run the canonical ingestion parser (which auto-installs missing dependencies):
    ```bash
    # // turbo
-   python3 01.Shared_Assets/Skills/literature-ingestion/scripts/pdf_converter.py
+   python3 ~/.gemini/skills/literature-ingestion/scripts/pdf_converter.py
    ```
 4. For all newly parsed PDFs in `03_Parsed_Markdown/`, trigger the `/wiki-ingest` Step 1.5 logic to ensure they are added to the Wiki.
 
@@ -66,7 +66,8 @@ if command -v conda &> /dev/null; then
     eval "$(conda shell.bash hook)"
     if ! conda activate aros-base 2>/dev/null; then
         CMD=$(command -v mamba &>/dev/null && echo "mamba" || echo "conda")
-        AROS_YML="01.Shared_Assets/Environments/aros-base.yml"
+        AROS_YML="$HOME/.gemini/environments/aros-base.yml"
+        [ ! -f "$AROS_YML" ] && AROS_YML="01.Shared_Assets/Environments/aros-base.yml"
         [ ! -f "$AROS_YML" ] && AROS_YML="$(find ~ -maxdepth 4 -name 'aros-base.yml' -print -quit 2>/dev/null)"
         if [ -n "$AROS_YML" ]; then
             $CMD env create -f "$AROS_YML" -y && conda activate aros-base

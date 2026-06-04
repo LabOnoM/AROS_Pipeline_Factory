@@ -6,6 +6,8 @@
 # PURPOSE:
 #   Synchronizes Skills, KIs, Policies, and Workflows bidirectionally between 
 #   the Git-tracked Pipeline Factory and the live AROS runtime (~/.gemini/).
+#   Additionally, bidirectionally synchronizes Scripts/ and Environments/ to 
+#   support global workspace execution independence.
 #
 # V2 ARCHITECTURE COMPATIBILITY:
 #   Supports the dual-backend design of Google Antigravity v2:
@@ -536,6 +538,17 @@ cmd_push() {
             count=$((count + 1))
         fi
     done
+
+    # Push Environments directory to ~/.gemini/environments
+    if [ -d "${FACTORY_ROOT}/01.Shared_Assets/Environments" ]; then
+        copy_asset "${FACTORY_ROOT}/01.Shared_Assets/Environments" "${HOME}/.gemini/environments"
+    fi
+
+    # Push Scripts directory to ~/.gemini/scripts
+    if [ -d "${FACTORY_ROOT}/01.Shared_Assets/Scripts" ]; then
+        copy_asset "${FACTORY_ROOT}/01.Shared_Assets/Scripts" "${HOME}/.gemini/scripts"
+    fi
+
     echo "Pushed $count assets."
 }
 
@@ -587,6 +600,17 @@ cmd_pull() {
             count=$((count + 1))
         fi
     done
+
+    # Pull Scripts from ~/.gemini/scripts back to 01.Shared_Assets/Scripts
+    if [ -d "${HOME}/.gemini/scripts" ]; then
+        copy_asset "${HOME}/.gemini/scripts" "${FACTORY_ROOT}/01.Shared_Assets/Scripts"
+    fi
+
+    # Pull Environments from ~/.gemini/environments back to 01.Shared_Assets/Environments
+    if [ -d "${HOME}/.gemini/environments" ]; then
+        copy_asset "${HOME}/.gemini/environments" "${FACTORY_ROOT}/01.Shared_Assets/Environments"
+    fi
+
     echo "Pulled $count assets."
 }
 

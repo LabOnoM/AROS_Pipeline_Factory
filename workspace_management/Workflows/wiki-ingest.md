@@ -21,7 +21,7 @@ find Articles 00.RawData -type f -mtime -7
 If the identified target files include `.pdf` files, invoke the `literature-ingestion` shared skill to convert them to Markdown before proceeding:
 
 1. Copy new PDFs to `00.RawData/Literature/02_Raw_PDFs/`.
-2. Run `python 01.Shared_Assets/Skills/literature-ingestion/scripts/pdf_converter.py`.
+2. Run `python ~/.gemini/skills/literature-ingestion/scripts/pdf_converter.py`.
 3. The resulting `.md` files in `03_Parsed_Markdown/` become the ingestion targets for Step 2.
 
 ## Step 2: Extract Content (Human-in-the-Loop)

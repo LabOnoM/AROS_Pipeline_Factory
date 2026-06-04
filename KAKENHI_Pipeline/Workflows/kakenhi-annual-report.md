@@ -48,7 +48,7 @@ Is this the FINAL year of the grant?
 3. Route them through the canonical parser:
    ```bash
    # // turbo
-   python3 01.Shared_Assets/Skills/literature-ingestion/scripts/pdf_converter.py
+   python3 ~/.gemini/skills/literature-ingestion/scripts/pdf_converter.py
    ```
 4. Proceed to Step 2, reading from the parsed files in `03_Parsed_Markdown/`.
 
