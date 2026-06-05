@@ -35,3 +35,9 @@
 - **JSON Schema Output Bug Fix**: Corrected Gemini API `response_schema` constraints that forced empty JSON structures, enabling rich dynamic output for `agent.yaml`, `input_schema.json`, and `output_schema.json`.
 - **Batch Processing**: Regenerated full AI Agent configurations for all 15 pipelines in the `AROS_Pipeline_Factory` workspace successfully.
 - **Documentation**: Updated `agent_package_builder.py` with rigorous file headers and integrated `SPEC.md` alignment.
+
+## [2026-06-05] - Workspace Integrity Restoration & Concurrency Bug Fix
+- **Restore Truncated Assets**: Detected and resolved a massive truncation anomaly affecting 149 files (skills and KIs) in both the factory working tree and the active AROS runtime. Restored all assets to their healthy Git HEAD versions.
+- **Push Restore**: Executed bidirectional sync push to restore 111 healthy, complete assets back to the live AROS runtime (`~/.gemini/`), overwriting the corrupted files.
+- **Concurrency Bug Fix**: Fixed a `set -e` exit bug in `sync_with_aros.sh` that caused status checks to crash when specific conditional filters returned false.
+- **Clean Submodule**: Restored and cleaned the nested `agentic-data-scientist` submodule's working tree.

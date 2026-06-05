@@ -392,10 +392,10 @@ discover_workflows() {
 }
 
 populate_asset_maps() {
-    $FILTER_SKILLS && discover_skills
-    $FILTER_KIS && discover_kis
-    $FILTER_POLICIES && discover_policies
-    $FILTER_WORKFLOWS && discover_workflows
+    $FILTER_SKILLS && discover_skills || true
+    $FILTER_KIS && discover_kis || true
+    $FILTER_POLICIES && discover_policies || true
+    $FILTER_WORKFLOWS && discover_workflows || true
 }
 
 # ── Commands ─────────────────────────────────────────────────────────────────
