@@ -86,3 +86,10 @@ User comments generated in the Global Context Hub UI are automatically triaged b
 
 ### 5.4 AI Agent Package Synthesis
 The `agent_package_builder.py` script automatically synthesizes structured agent definitions (`agent.yaml`, `input_schema.json`, `output_schema.json`, and `system.md`) for all pipelines using the `gemini-3.1-pro-preview` model. This process ensures scalable deployment to the AROS Cloud Federation with full cross-platform compatibility by safely generating and distributing agent context payloads without exposing raw scripts directly.
+
+## 6. SkillOpt Evolution Alignment
+
+All cognitive assets (Skills, KIs, Policies, Workflows) forged within the Pipeline Factory are designed to serve as the baseline states for the **SkillOpt (arXiv:2605.23904)** optimization loop.
+1. **Promoted Mutation Synchronization**: Mutations accepted by the local validation gate MUST be periodically pulled back to the Factory source tree using the `aros-sync pull` command to preserve optimization updates.
+2. **Version Control Integration**: Pulled changes MUST be checked in under dedicated evolution branches (`evolution/skillopt-*`) for review before merge into main repository branches.
+

@@ -326,3 +326,5 @@ This repository is a **Factory for forging AROS assets**. Before modifying any S
 | `/visualize-data` | Data_Analysis_Pipeline | Autonomous diagram generation |
 | `/research-discovery` | workspace_management | Research planning & brainstorm |
 | `/qa-system-audit` | workspace_management | AROS QA health checks |
+| `/skillopt-trigger` | workspace_management | Trigger SkillOpt training on-demand |
+
