@@ -41,3 +41,8 @@
 - **Push Restore**: Executed bidirectional sync push to restore 111 healthy, complete assets back to the live AROS runtime (`~/.gemini/`), overwriting the corrupted files.
 - **Concurrency Bug Fix**: Fixed a `set -e` exit bug in `sync_with_aros.sh` that caused status checks to crash when specific conditional filters returned false.
 - **Clean Submodule**: Restored and cleaned the nested `agentic-data-scientist` submodule's working tree.
+
+## [2026-06-08] - Dynamic Data Folder Detection
+- **Onboarding Workflow**: Updated `/science-project-onboarding` workflow to dynamically detect and use existing data repositories (e.g., `data/`, `raw_data/`) instead of strictly creating `00.RawData/`.
+- **Policy Adaptation**: Updated `AGENTS.md` LAW 3 to allow Canonical Storage of PDFs under the detected `<DATA_DIR>/Literature/` path.
+- **Documentation**: Updated walkthroughs and the LLM-Wiki to reflect these workflow adjustments.

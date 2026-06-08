@@ -11,6 +11,7 @@ Use this workflow the first time you encounter a new or inherited scientific pro
 **Do NOT move, rename, or delete anything during this phase.**
 
 1. **Map the folder structure.** List every directory and subdirectory recursively. Note any gaps in numbering (e.g., missing `06.*` folder), empty directories, and unexpected files.
+   - **Data Directory Auto-Detection**: Search the workspace for any existing folder serving as the primary repository for data files, datasets, or literature (e.g., `data/`, `raw/`, `raw_data/`, `01_Data/`, `00.RawData/`). If such a directory exists, designate it as the project's primary data folder (`<DATA_DIR>`). If none exists, default to using/creating `00.RawData/` as `<DATA_DIR>`.
    ```bash
    find . -type d -not -name '.*' | sort
    ```
@@ -47,8 +48,9 @@ Use this workflow the first time you encounter a new or inherited scientific pro
 
 7. **Index and Parse all PDFs**:
    1. Scan the entire workspace for all `.pdf` files.
-   2. For each PDF, check if a corresponding `.md` exists in `00.RawData/Literature/03_Parsed_Markdown/`. If not, copy the raw PDF to `02_Raw_PDFs/`.
-   3. Run the conversion script (which handles its own dependency installation and self-healing):
+   2. For each PDF, check if a corresponding `.md` exists in `<DATA_DIR>/Literature/03_Parsed_Markdown/`. If not, copy the raw PDF to `<DATA_DIR>/Literature/02_Raw_PDFs/`.
+   3. **Configuration Check**: Before running the parser, check the `literature-ingestion` skill's config (typically at `~/.gemini/skills/literature-ingestion/config.json` or within the skill folder). Ensure `"output_base"` is configured to point to `<DATA_DIR>/Literature` (e.g., `"data/Literature"` or `"00.RawData/Literature"`) so the parser writes to the correct location.
+   4. Run the conversion script (which handles its own dependency installation and self-healing):
       ```bash
       # // turbo
       python3 ~/.gemini/skills/literature-ingestion/scripts/pdf_converter.py
@@ -65,12 +67,12 @@ Use this workflow the first time you encounter a new or inherited scientific pro
    - Critical notes and caveats (data integrity observations)
    - Methods and tools inventory
 
-8. **Create a Project Registry** — a machine-readable tracking mechanism in `00.RawData/`. 
-   - For standard laboratory projects, create `00.RawData/INDEX.csv`:
+8. **Create a Project Registry** — a machine-readable tracking mechanism in `<DATA_DIR>/`. 
+   - For standard laboratory projects, create `<DATA_DIR>/INDEX.csv`:
      ```csv
      Folder,Date,Phase,Assay,Conditions,CellLine,Status,Notes
      ```
-   - For computational or factory-level projects, create `00.RawData/PIPELINE_REGISTRY.md` with appropriate Markdown table headers (e.g., Pipeline, Description, Target Workflows).
+   - For computational or factory-level projects, create `<DATA_DIR>/PIPELINE_REGISTRY.md` with appropriate Markdown table headers (e.g., Pipeline, Description, Target Workflows).
 
 ## Phase 3: Version Control Setup
 

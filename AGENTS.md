@@ -83,7 +83,7 @@ This protocol activates automatically whenever an agent:
 
 ### Rules
 1. **No Raw PDF Reading**: Agents MUST NOT use `pdftotext` directly. All PDFs must first be processed into the canonical 4-artifact set via `literature-ingestion`.
-2. **Canonical Storage**: All processed PDFs reside in `<PROJECT_ROOT>/00.RawData/Literature/`.
+2. **Canonical Storage**: All processed PDFs reside in `<PROJECT_ROOT>/<DATA_DIR>/Literature/` (where `<DATA_DIR>` is the project's primary data folder, such as `data/`, `raw/`, or `00.RawData/`, auto-detected during onboarding).
 3. **Universal Ingestion**: ALL PDFs are treated as knowledge assets and ingested into the Wiki.
 4. **Idempotency**: If a PDF's `.md` already exists, skip re-processing.
 
