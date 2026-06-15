@@ -19,10 +19,7 @@ import os
 import json
 import shutil
 import re
-
-DATA_FILE = "/home/ubuntu4/.gemini/antigravity-ide/brain/170d5d4b-cf55-4689-a8a3-0754a702696f/scratch/skills_comparison.json"
-SOURCE_ROOT = "/home/ubuntu4/.gemini/antigravity-ide/brain/170d5d4b-cf55-4689-a8a3-0754a702696f/scratch/skills_repos"
-DEST_ROOT = "/home/ubuntu4/GitHub/AROS_Pipeline_Factory"
+import argparse
 
 # Pipeline mapping assigns imported repos to their respective Pipeline directories
 PIPELINE_MAP = {
@@ -58,11 +55,19 @@ def sanitize_description(desc):
     return desc
 
 def main():
-    if not os.path.exists(DATA_FILE):
-        print(f"Data file {DATA_FILE} not found. Skipping integration.")
+    parser = argparse.ArgumentParser(description="Ingest and categorize external AROS skills.")
+    parser.add_argument("--data-file", required=True, help="Path to the JSON metadata file containing new skills.")
+    parser.add_argument("--source-root", required=True, help="Root directory containing the cloned skill repositories.")
+    parser.add_argument("--dest-root", default=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")),
+                        help="Root directory of the AROS Pipeline Factory (defaults to repository root).")
+    
+    args = parser.parse_args()
+
+    if not os.path.exists(args.data_file):
+        print(f"Data file {args.data_file} not found. Skipping integration.")
         return
 
-    with open(DATA_FILE, "r") as f:
+    with open(args.data_file, "r") as f:
         data = json.load(f)
 
     new_files = data.get("new_skills_files", {})
@@ -73,7 +78,7 @@ def main():
         repo = parts[0]
         
         # Path relative to scratch/skills_repos
-        source_md_path = os.path.join(SOURCE_ROOT, filepath)
+        source_md_path = os.path.join(args.source_root, filepath)
         source_parent_dir = os.path.dirname(source_md_path)
         folder_name = os.path.basename(source_parent_dir)
         
@@ -91,7 +96,7 @@ def main():
             
         # Determine the destination pipeline
         dest_pipeline = PIPELINE_MAP.get(repo, "Uncategorized_Orphan_Pipeline/Skills")
-        dest_pipeline_path = os.path.join(DEST_ROOT, dest_pipeline)
+        dest_pipeline_path = os.path.join(args.dest_root, dest_pipeline)
         
         # Determine target folder name, sanitizing spaces/underscores
         target_folder_name = folder_name if folder_name != repo else skill_name
