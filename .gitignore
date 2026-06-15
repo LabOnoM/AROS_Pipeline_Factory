@@ -19,4 +19,17 @@ Thumbs.db
 __pycache__/
 *.pyc
 .regent/
-.regent/
+
+# AI Agent Scratch Files
+scratch.ts
+scratch.js
+scratch.py
+task.md
+.claude/
+
+# Node & Build Outputs
+node_modules/
+dist/
+build/
+coverage/
+.env
