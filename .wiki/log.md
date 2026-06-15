@@ -46,3 +46,9 @@
 - **Onboarding Workflow**: Updated `/science-project-onboarding` workflow to dynamically detect and use existing data repositories (e.g., `data/`, `raw_data/`) instead of strictly creating `00.RawData/`.
 - **Policy Adaptation**: Updated `AGENTS.md` LAW 3 to allow Canonical Storage of PDFs under the detected `<DATA_DIR>/Literature/` path.
 - **Documentation**: Updated walkthroughs and the LLM-Wiki to reflect these workflow adjustments.
+
+## [2026-06-15] - Mass External Skill Integration
+- **Skill Ingestion**: Processed 457 external capabilities from 15 GitHub repositories (including nature-skills, claudedesignskills, scipilot).
+- **CPCP Normalization**: Deployed `integrate_external_skills.py` to rename `README.md` to `SKILL.md`, inject compliant YAML frontmatter, and safely resolve namespace collisions (e.g., `claudedesign-skill-creator`).
+- **Runtime Sync**: Successfully pushed 241 normalized unique skill directories to the live AROS runtime (`~/.gemini/skills/`) using the SAMS deployment protocol.
+- **Documentation**: Updated `README.md`, `SPEC.md`, and `lessons-learned.md` to document the mass ingestion methodology.

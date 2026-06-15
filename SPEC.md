@@ -40,7 +40,7 @@ The canonical mapping between Factory structures and the live AROS runtime is:
 - **Knowledge Items**: `~/.gemini/antigravity-ide/knowledge/<ki-name>/artifacts/` (primary V2 path) with dual-write synchronization to `~/.gemini/antigravity/knowledge/` (agent runtime path). Write operations to either directory MUST utilize cross-platform concurrency locks (`knowledge.lock`) to prevent concurrent write corruption.
 - **Policies**: `~/.gemini/antigravity/policies/<policy-name>.md`
 - **Workflows**: `~/.gemini/antigravity/global_workflows/<workflow-name>.md`
-- **Scripts**: `~/.gemini/scripts/` (Global AROS scripts)
+- **Scripts**: `~/.gemini/scripts/` (Global AROS scripts). Includes specialized python tools such as `integrate_external_skills.py` for batch-normalizing external capabilities into CPCP compliance.
 - **Environments**: `~/.gemini/environments/` (Global AROS Conda definitions)
 
 #### 4.5.1 Concurrency Lock & Copy Fallbacks

@@ -147,4 +147,4 @@ Legend: ✅ = Direct consumer  ◐ = Implicit/indirect consumer  - = Not consume
 | 2026-05-28 | `agent_package_builder.py` | Upgraded | ALL | Upgraded AI Agent Package builder to `gemini-3.1-pro-preview`, fixed restrictive JSON schemas blocking object generation, and added standardized cross-project file header comments. |
 | 2026-06-04 | Global Path Migration | Resolved | ALL | Resolved hardcoded `01.Shared_Assets/` paths across Workflows and Skills. Added bidirectional sync for `Scripts/` and `Environments/` to support global AROS synced compatibility. |
 | 2026-06-05 | `sync_with_aros.sh` | Modified | ALL | **Concurrency Bug Fix**: Added `|| true` to prevent `set -e` exit on false conditionals, restoring selective filter status checks. |
-
+| 2026-06-15 | `integrate_external_skills.py` | Created | ALL | **Mass External Skill Integration**: Developed script to batch ingest 457 external GitHub skills (e.g. nature-skills, claudedesignskills). Normalizes YAML frontmatter to CPCP specs (<250 char descriptions), renames `README.md` to `SKILL.md`, and safely resolves namespace collisions. |

@@ -29,7 +29,7 @@ Think of it as an **assembly line for scientific intelligence**: raw cognitive w
 | Metric | Count |
 |--------|-------|
 | 🔬 Domain Pipelines | **12** |
-| 🛠️ Agent Skills | **61+** |
+| 🛠️ Agent Skills | **302+** |
 | 📋 Workflows | **15** |
 | 📚 Knowledge Items (KIs) | **49+** |
 | 🖥️ Platform Support | Linux · macOS · Windows |
@@ -292,6 +292,7 @@ This repository is a **Factory for forging AROS assets**. Before modifying any S
 | 2026-05-12 00:00 | 12-domain pipeline restructuring completed; SPEC v2.0 published |
 | 2026-05-13 00:00 | Repository made public; MIT license added; multi-language READMEs created |
 | 2026-05-13 12:50 | Finalized Email Draft #3 to Dr. Takano; integrated 'Freemium-to-Federation' business model & Cognitive Decomposition ideology into core docs |
+| 2026-06-15 01:00 | Mass Integration of 241+ external capabilities (e.g. claudedesignskills, scipilot, nature-skills) via `integrate_external_skills.py` across all functional pipelines. |
 
 ### 🔬 Hypothesis Evolution Table
 
