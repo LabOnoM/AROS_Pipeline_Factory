@@ -15,3 +15,7 @@
 - This project utilizes a strict LLM-Wiki for grounded truth (`.wiki/`).
 - **Drift Prevention**: Whenever you modify core architecture, you MUST update the corresponding section in `.wiki/system/` or `.wiki/concepts/` to prevent knowledge rot.
 - Run `/wiki-update` to synthesize new information into the Wiki after major changes.
+
+## Design Grounding
+
+If any pipeline produces user-facing UI or styled HTML output, follow the AROS family design guideline: `../DESIGN.md` locally, or https://github.com/LabOnoM/AROS/blob/main/DESIGN.md. Use its color/typography/radius tokens — do not invent palettes.
