@@ -1,5 +1,7 @@
 <div align="center">
 
+**战略更新（2026年10月5日）：** AROS业务尚未正式发布。技术发布不等于商业验证。首先验证外部团队的结果质量、重复使用、付费续用，以及可持续的交付和贡献者回报。[当前战略](docs/AROS_STRATEGY.md)优先于早期商业设想。
+
 <img src="assets/banner.png" alt="AROS Pipeline Factory 横幅" width="100%"/>
 
 # AROS Pipeline Factory

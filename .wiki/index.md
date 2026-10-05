@@ -23,3 +23,7 @@ This index categorizes and links to every file within the `.wiki/` directory.
 - [[Manuscript_Write_Pipeline]]
 - [[overview]]
 - [[lessons-learned]]
+
+
+## Ecosystem direction
+- [[ecosystem-strategy]] — current mission, business stage, contribution and education boundaries (5 October 2026).
