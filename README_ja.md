@@ -1,5 +1,7 @@
 <div align="center">
 
+**戦略更新（2026年10月5日）:** AROSの事業は正式開始前です。技術的なリリースと商業的な検証を区別します。まず外部チームによる品質確認、反復利用、有償継続と持続可能な提供コストを検証します。[現在の戦略](docs/AROS_STRATEGY.md)を参照してください。
+
 <img src="assets/banner.png" alt="AROS Pipeline Factory バナー" width="100%"/>
 
 # AROS Pipeline Factory

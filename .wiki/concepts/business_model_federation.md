@@ -1,33 +1,7 @@
-# AROS Cloud Federation: Freemium-to-Federation Business Model
+# Business model and federation
 
-The AROS ecosystem transitions from a local research tool to a commercial platform through the **Cloud Federation** hub at https://aros.bs-gou.com/.
+Current strategy: [[ecosystem-strategy]] and [HQ business plan](https://github.com/LabOnoM/AROS-Ecosystem/blob/main/BUSINESS_PLAN.md). The earlier open-core/ARR and automatic federation narrative is superseded.
 
-## The Core Strategy
-We employ a **"Freemium-to-Federation"** model, designed to maximize adoption while capturing value through high-fidelity orchestration services.
+The Factory supplies reusable methods under existing licenses and CPCP governance. A source asset is not automatically a public package. Publication requires source provenance, validation, rights, sanitization and a human curator; private organization synchronization is a separate path.
 
-### 1. The Free Layer (The Wedge)
-- **Local AROS Core**: Free and open-source.
-- **Pipeline Factory**: 500+ free workflows and skills.
-- **BeesGo-Agent**: Free local execution runtime.
-*Goal: Eliminate all friction for lab-level adoption.*
-
-### 2. The Monetized Hub (The Value)
-- **LLM Gateway Proxy**: Metered access to enterprise-grade LLMs (Google Vertex AI) with a transparent margin (~$0.002 per 1K tokens).
-- **Brain Federation Sync**: Subscription SaaS (Pro/Enterprise) for multi-site lab knowledge synchronization and backup.
-- **Benchmark Marketplace**: A "Hugging Face for Autonomous Biology" where creators sell validated skills and pipelines (70/30 revenue split).
-- **Pipeline Studio**: Pay-per-run execution for users without local compute.
-
-## Market Positioning
-| Feature | AROS | Competitors (ChatGPT/Galaxy) |
-|---|---|---|
-| **Autonomous Swarm** | ✅ Yes | ❌ No |
-| **Persistent Memory** | ✅ MTL/brain.db | ❌ No |
-| **Data Sovereignty** | ✅ Edge Execution | ⚠️ Cloud Reliant |
-
-## Implementation Roadmap (MVP)
-1. **Simplified AI IDE**: Removing code features to focus on natural language workflow capture.
-2. **Gateway Billing**: Integration with Stripe for metered LLM usage.
-3. **Marketplace Beta**: Launching the first 10 validated bioinformatics pipelines.
-
----
-*See also: [[dell-direct-model]]*
+Business is prelaunch. Validate one paid repeatable workflow before scaling a marketplace. Contribution is voluntary, with private, shared and commercial choices. No creator payout or universal resale right is implied. Runtime synchronization continues through the existing supported script and is not performed by this documentation revision.
