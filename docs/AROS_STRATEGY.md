@@ -1,6 +1,6 @@
 # AROS_Pipeline_Factory: ecosystem strategy alignment
 
-Edition 2026-10-05.2. Role: **Reusable methods and shared-asset governance**.
+Edition 2026-10-05.3. Role: **Reusable methods and shared-asset governance**.
 
 ## Shared mission
 
@@ -19,6 +19,10 @@ Supply reviewed methods, explained failures and compatibility checks. Source-lib
 - Contributors choose private management, authorized sharing or a proposed commercial package. Preserve existing grants and third-party licenses; there is no automatic right to resell purchased or institution-controlled work.
 - Student-created skills and selected logs can support formative portfolios. Independent explanation, error diagnosis and transfer are needed to assess understanding; AROS is not a validated grading system.
 - Earlier ARR forecasts, automatic marketplace claims, completion percentages and blanket compliance promises are not current strategy. Runtime entitlements and billing configuration are not changed by this policy.
+
+## First-party participation
+
+The AROS team develops and maintains its own capabilities as well as the platform. Current Nexitia tools and skills are first-party examples; independent creators and partner teams contribute alongside this role.
 
 ## Canonical routes
 
