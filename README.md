@@ -213,6 +213,13 @@ find_helpful_ki("KAKENHI")
 
 ---
 
+## 🎨 Design
+
+Pipelines that produce something a person sees follow the **LabOnoM Design Guide** (`LabOnoM/design`, version in
+`DESIGN_VERSION`): one token source, both themes, English and Japanese, reserved status hues, and words and states from
+its glossary and catalogue. `DESIGN.md` at this repository's root is the pinned family file "AROS Deep Space";
+`scripts/design-pin-check.sh` verifies it. See `.wiki/design-guide.md`.
+
 ## 🛡️ Governance & Shared Asset Management
 
 This repository uses a two-layer governance system to ensure all pipelines remain compatible as assets evolve.
