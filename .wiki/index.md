@@ -6,6 +6,7 @@ This index categorizes and links to every file within the `.wiki/` directory.
 - [[index]]
 - [[log]]
 - [[SCHEMA]]
+- [[design-guide]]
 
 ## Generated Pages
 - [[aros_asset_deployment]]
