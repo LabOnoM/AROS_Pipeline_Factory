@@ -19,3 +19,16 @@
 ## Design Grounding
 
 If any pipeline produces user-facing UI or styled HTML output: Before writing or changing anything a person sees, read the **LabOnoM Design Guide** (private repository `LabOnoM/design`, pinned here as version `2026.10.0` in `DESIGN_VERSION`): `DESIGN.md` at this repository's root is its family file "AROS Deep Space", verified by `scripts/design-pin-check.sh`; the family file itself is this product's profile (web and AROS surfaces); the guide's `GLOSSARY.md` holds every word on screen in English and Japanese, `STATES.md` every state a surface can be in, and `CONFORMANCE.md` the measured tests this repository keeps green. Design the change with the `ux-foundations` skill's P1 brief, audit the result with P2 and P3 in both themes, and record findings as clauses with tests. Tokens come from the guide, never pasted hex; status hues are reserved; no state is colour alone; words come from the glossary; every string ships in English and Japanese. Do not invent palettes; the "Modern Web Guidance" of the UI pipeline yields to the guide where they differ. Details: `.wiki/design-guide.md`.
+
+## CI/CD is manual: no GitHub Actions (owner's decision, 2026-10-13)
+
+LabOnoM does not use GitHub Actions: there is no budget for it. Never add a file under `.github/workflows/`, never
+rely on or wait for a GitHub status check, and never describe a change as "green on CI". Instead:
+
+- **Before every merge**, run this repository's checks locally (the commands in the "Checks and deploys" section of
+  the README) and write the pass, fail and skip counts in the pull request.
+- **Deploys and releases** are run by hand from a machine that holds the owner's credentials, with the scripts in
+  `scripts/` (or the documented commands), never by a hosted runner; record what ran and its result (revision,
+  version, digest) in the pull request or the session receipt.
+- Steps that need a platform this machine is not (macOS or Windows builds, signing) are run on such a machine by
+  the owner, or are recorded as not run; they are never claimed.
