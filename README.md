@@ -240,6 +240,17 @@ This script verifies structural integrity, detects orphaned assets, and flags cr
 
 ---
 
+## Checks and deploys
+
+LabOnoM does not use GitHub Actions; every step runs by hand on the owner's machine (see `CLAUDE.md`).
+
+- **Checks**: `bash scripts/design-pin-check.sh` (the pinned design file) and the audit tool above
+  (`python3 01.Shared_Assets/Scripts/audit_shared_assets.py`). No check ran in GitHub Actions.
+- **Wiki**: `scripts/publish-wiki.sh` publishes `.wiki/` to the GitHub wiki, with `.wiki/index.md` as its Home page.
+  Run it from an up-to-date `master` after merging a change under `.wiki/`; it needs `gh auth login`.
+
+---
+
 ## 🤝 Contributing
 
 We welcome contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR.
